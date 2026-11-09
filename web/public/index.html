@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Byte by Byte · N04·N08 웹 클라이언트</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Byte by Byte <span class="muted">· N04·N08 웹 클라이언트</span></h1>
+    <p class="banner" id="practice-banner">연습용 명세(<code>practice/n06</code>) · 연습 결과이며 본 실험 점수가 아닙니다.</p>
+    <div id="server-status" class="status" role="status">서버 상태를 확인하는 중…</div>
+  </header>
+
+  <main>
+    <section class="card" aria-labelledby="send-title">
+      <h2 id="send-title">1. 명령 하나 보내기</h2>
+      <form id="send-form" autocomplete="off">
+        <label for="numbers">숫자 (1~32개, 각 0~65535, 공백이나 쉼표로 구분)</label>
+        <div class="row">
+          <input id="numbers" name="numbers" type="text" value="1 2 3" inputmode="numeric" spellcheck="false">
+          <button type="submit" id="send-button">전송</button>
+        </div>
+        <p class="hint" id="input-error" role="alert" hidden></p>
+      </form>
+      <div class="examples">
+        <span class="muted">README 예시 (눌러서 입력칸에 채우기, 실제 서버 응답이 아니라 README 표에서 옮긴 값):</span>
+        <div id="example-list" class="chips"></div>
+      </div>
+
+      <div id="result" hidden>
+        <h3>결과</h3>
+        <div class="outcome" id="outcome"></div>
+        <div class="big" id="interpretation"></div>
+        <dl class="facts" id="facts"></dl>
+        <h4>요청 (hex)</h4>
+        <div class="bytes" id="request-bytes"></div>
+        <h4>응답 (hex)</h4>
+        <div class="bytes" id="response-bytes"></div>
+        <p class="hint" id="example-check"></p>
+        <ul class="notes" id="notes"></ul>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="eval-title">
+      <h2 id="eval-title">2. N07 평가 결과</h2>
+      <p>위 화면이 쓰는 <strong>같은 서버</strong>를 N07 평가기(<code>--target 127.0.0.1:19006</code>)로 평가합니다. 케이스는 <code>practice/n06/cases.json</code>(21개)입니다.</p>
+      <div class="row">
+        <button type="button" id="eval-button">평가 실행 (21개 케이스)</button>
+        <span class="muted" id="eval-progress"></span>
+      </div>
+      <div id="eval-result" hidden>
+        <p class="banner" id="eval-banner"></p>
+        <div class="chips" id="eval-summary"></div>
+        <p class="hint">JSON의 <code>success: true</code>는 평가 절차가 끝났다는 뜻일 뿐입니다. 통과 여부는 <code>summary.all_pass</code>와 케이스별 <code>verdict</code>로 판단합니다.</p>
+        <dl class="facts" id="eval-facts"></dl>
+        <label class="inline"><input type="checkbox" id="only-bad"> 불일치(fail/error)만 보기</label>
+        <div class="table-wrap">
+          <table id="eval-table">
+            <thead>
+              <tr><th>케이스</th><th>verdict</th><th>소요(ms)</th><th>기대 hex</th><th>실제 hex</th><th>첫 차이</th><th>오류</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="muted">
+    접속 대상은 컨테이너 안 연습 서버(127.0.0.1)로 고정돼 있고 화면에서 바꿀 수 없습니다.
+    호스팅과 공개 URL은 N20 범위입니다. 현재 주소는 로컬 전용입니다.
+  </footer>
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

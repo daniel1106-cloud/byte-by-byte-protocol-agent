@@ -1,0 +1,25 @@
+services:
+  n08:
+    # N05와 같은 이미지(Ubuntu 24.04, Node 24, Python 3, GCC). 이 이미지가 없으면 compose가 빌드한다.
+    image: byte-by-byte-n05:rea6.8.0
+    build:
+      context: ./infra/n05
+    init: true
+    working_dir: /work
+    volumes:
+      - .:/work:ro
+      - ./runs:/work/runs
+    environment:
+      N08_HOST: 0.0.0.0   # 컨테이너 안에서는 모든 인터페이스. 호스트에는 아래 ports로 127.0.0.1에만 공개한다.
+      N08_PORT: "8080"
+    ports:
+      - "127.0.0.1:8080:8080"
+    # 연습 서버(127.0.0.1:19006)는 이 컨테이너 안에서 web/server.mjs가 자식 프로세스로 실행한다.
+    command: ["node", "web/server.mjs"]
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8080/api/health').then(r=>r.json()).then(b=>process.exit(b.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 4s
+      retries: 6
+      start_period: 5s
+    stop_grace_period: 10s
