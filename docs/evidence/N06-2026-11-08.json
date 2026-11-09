@@ -5,7 +5,7 @@
   "experiment_score": false,
   "recorded_kst": "2026-11-08",
   "run_tag": "20261108-204702",
-  "status": "practice material implemented and auto-verified; owner confirmation pending",
+  "status": "practice material implemented and auto-verified; owner ran server and client once (2026-11-09)",
   "code_commit": "00de702c0f870a4a8df43a070c20b355bdf8ef48",
   "code_dirty": false,
   "commits": {
@@ -288,10 +288,22 @@
   },
   "docker_leftovers": "none",
   "owner_check": {
-    "status": "pending",
-    "note": "김태형 본인 확인 대기 (AI 실행은 본인 확인이 아님)"
+    "date_kst": "2026-11-09",
+    "by": "김태형",
+    "command": "docker compose -f compose.n05.yaml run --rm n05 sh -c 'runs/n06/practice-server 19006 & sleep 1; runs/n06/practice-client 19006 1 2 3; kill $!'",
+    "observed": [
+      "N06 practice TCP service listening on 127.0.0.1:19006",
+      "sum=6"
+    ],
+    "scope": "server and original client, one exchange; capture, evaluator and REA results remain AI-run"
   },
-  "cross_machine_hash_check": "not done (다른 PC 미확인; 클린 clone 1회는 done)",
+  "cross_machine_hash_check": {
+    "date_kst": "2026-11-09",
+    "host": "Windows x86-64, Docker Linux container, GCC 13.3.0",
+    "result": "server and client SHA-256 match",
+    "run_by": "AI (Codex) at 정의종's request",
+    "record": "docs/evidence/N05-N07-integration-2026-11-09.md"
+  },
   "local_raw": {
     "runs/n06/capture-20261108-204702-a.json": "b92a3367031fc6447152e18374c2300d6a0024cd90a2b0820d9995903e31b8a0",
     "runs/n06/capture-20261108-204702-b.json": "33c52c136d789c18bd3ec881b39d8962f4092976996084d96773c0f6b98fde59",

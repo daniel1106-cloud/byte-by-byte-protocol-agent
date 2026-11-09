@@ -109,7 +109,7 @@ sha256sum runs/n06/practice-server runs/n06/practice-client
 | `runs/n06/practice-server` | `d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067` | 16,928 |
 | `runs/n06/practice-client` | `0ad87f81537ee489e4bb0cc80eb6878e3353f6b4d6f6fab073e4581cd23588cf` | 16,792 |
 
-다른 호스트(x86-64 Windows/WSL 등)에서 같은 해시가 나오는지는 아직 확인하지 않았다.
+2026-11-09 정의종의 Windows x86-64 호스트 Docker에서 AI가 다시 빌드해 두 바이너리 해시가 일치했다([통합 재현 기록](../../docs/evidence/N05-N07-integration-2026-11-09.md)). 정의종 본인 확인은 아니다.
 
 ## 실행
 
@@ -192,5 +192,5 @@ PCAP에는 정상 세션만 있다. 오류 응답 케이스는 PCAP에 없다.
 
 - 서버에는 요청 수신 중 유휴 시간 제한이 없다. 헤더나 payload를 덜 보내고 멈춘 클라이언트가 있으면 서버가 그 연결을 계속 기다려 다른 연결이 처리되지 않는다(응답 뒤 drain만 읽기당 1초, 최대 16회). 동시 접속과 부하는 측정하지 않았다.
 - 루프백에서만 실행했다. PCAP의 타임스탬프와 포트는 그 실행의 값이다.
-- Mac arm64 호스트에서 amd64 에뮬레이션으로 빌드·실행했다. 다른 호스트에서의 바이너리 해시 일치는 확인하지 않았다.
+- Mac arm64 호스트에서 amd64 에뮬레이션으로 빌드·실행했다. 2026-11-09 Windows x86-64 호스트에서 AI가 다시 빌드한 바이너리 해시가 일치했다([통합 재현 기록](../../docs/evidence/N05-N07-integration-2026-11-09.md)). 정의종 본인 확인은 아니다.
 - 실행 증거와 AI 검증 범위는 [docs/evidence/N06-2026-11-08.md](../../docs/evidence/N06-2026-11-08.md)에 있다. AI 검증은 본인 확인이 아니다.
