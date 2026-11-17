@@ -76,10 +76,11 @@ jobs:
       - name: Tracked Gemini launcher without model requests
         run: |
           node scripts/gemini-pilot.mjs --execution dry-run --phase smoke
+          sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE/runs/gemini"
           node -e "const fs=require('node:fs'); const dirs=fs.readdirSync('runs/gemini'); if(!dirs.length)process.exit(1); for(const dir of dirs){const r=JSON.parse(fs.readFileSync('runs/gemini/'+dir+'/summary.json'));if(!r.success||r.execution!=='dry-run'||r.model_requests!==0)process.exit(1)}"
       - name: Give the uploader ownership of generated evidence
         if: always()
-        run: sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE/runs/n09"
+        run: sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE/runs"
       - name: Retain real REA preparation evidence
         if: always()
         uses: actions/upload-artifact@v4
