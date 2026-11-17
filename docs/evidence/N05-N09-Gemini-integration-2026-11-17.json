@@ -3,6 +3,15 @@
   "recorded_at": "2026-11-17T06:53:34.767Z",
   "classification": "AI-executed public practice integration; not blind experimental scores",
   "human_confirmation": "pending",
+  "user_record_approval": {
+    "date_kst": "2026-11-17",
+    "source": "user message in this conversation",
+    "statement": "갱신까지 하고 푸쉬하자",
+    "scope": "User received the AI execution results and limitations, then requested the record update and push",
+    "manual_test_rerun_attested": false,
+    "manual_raw_evidence_reading_attested": false,
+    "execution_and_evidence_review_actor": "AI"
+  },
   "course_model_confirmation": "pending",
   "hidden_answers_read": false,
   "automatic_retries": 0,
