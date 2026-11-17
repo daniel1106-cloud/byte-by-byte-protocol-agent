@@ -7,6 +7,7 @@ import { once } from 'node:events';
 import path from 'node:path';
 import { BUDGET, PROMPT } from './n09-contract.mjs';
 import { runLive, parseArgs } from './n09-live.mjs';
+import { fingerprintSources } from './n09-source-state.mjs';
 
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const root=path.resolve('runs/n09-live-tests');
@@ -97,6 +98,16 @@ test('B supplies the same packet plus independently hash-bound Ghidra evidence',
   const evidence=JSON.parse(f.requests[0].payload.messages[1].content).evidence;
   assert.deepEqual(evidence.map(e=>e.source),['packet','binary']);
   assert.equal(evidence[0].text,packet);
+});
+
+test('source changes after preparation are rejected before any model request',async()=>{
+  const f=await fixture();
+  f.prepared.runtime={code_dirty:true,source_fingerprint:await fingerprintSources()};
+  f.prepared.runtime.source_fingerprint.files[0].sha256='0'.repeat(64);
+  await f.persist();
+  const result=await f.run();
+  assert.equal(result.success,false);assert.equal(result.error.code,'SOURCE_CHANGED');
+  assert.equal(f.requests.length,0);assert.equal(result.usage.api_requests,0);
 });
 test('existing result and selected preparation cannot be overwritten',async()=>{
   const f=await fixture();

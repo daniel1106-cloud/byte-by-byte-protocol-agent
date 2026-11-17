@@ -80,6 +80,23 @@ REA의 `binary_overview`는 전체 역공학이 아니다. 실제 프로토콜 �
 
 본인 확인: 의종이 위 명령으로 A/B 실제 준비 결과와 해시를 확인한 뒤 `docs/ai-usage.md`를 갱신한다.
 
+## 미커밋 변경이 있는 로컬 연습
+
+쌍 검증기는 기본적으로 `code_dirty:false`인 실행만 허용한다. 미커밋 문서가 있어도
+`Uncommitted changes`로 중단될 수 있다. CI와 기준 실행에서는 변경을 커밋한 상태를 사용한다.
+
+로컬 공개 연습은 새 A/B 준비 결과를 만든 뒤 다음처럼 명시적으로 허용할 수 있다.
+
+```powershell
+node scripts/n09-check-pair.mjs runs/n09/A.json runs/n09/B.json runs/n09/new-pair.json --allow-dirty
+```
+
+이 옵션은 `experiment:practice`에만 적용되며 `code_dirty:true`를 그대로 남긴다.
+양쪽의 커밋·작업 상태·실제 실행 코드 파일 SHA-256이 같아야 하고 현재 코드와도 일치해야 한다.
+실행 도중 또는 준비 이후 코드가 바뀌면 다시 준비해야 한다. 과거 결과에 코드 해시가 없으면
+dirty 허용 대상으로 사용할 수 없다. 키·분석 바이너리·정답은 코드 해시 수집 대상이 아니다.
+요약의 `reference_run_eligible:false`는 이 실행을 깨끗한 체크아웃의 기준 실행으로 사용하지 않는다는 뜻이다.
+
 ## 이번 실행과 직접 확인
 
 [2026-11-13 증거](evidence/N09-2026-11-13.md)와 [최종 CI](https://github.com/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/runs/43405177497)에 실제 A/B·REA, 회귀와 TCP 실행 결과를 남겼다.

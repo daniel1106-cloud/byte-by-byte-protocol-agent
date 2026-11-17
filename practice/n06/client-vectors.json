@@ -1,0 +1,11 @@
+{
+  "classification": "public-practice-oracle-not-model-input",
+  "source": "Public N06 specification; independent application inputs for the recovered client",
+  "cases": [
+    {"id":"new-values","numbers":[2,4,8],"expected_result":14},
+    {"id":"zero-items","numbers":[],"expected_result":0},
+    {"id":"mixed-boundary","numbers":[0,65535,17],"expected_result":65552},
+    {"id":"single-value","numbers":[12345],"expected_result":12345},
+    {"id":"maximum-count","numbers":[65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535,65535],"expected_result":2097120}
+  ]
+}

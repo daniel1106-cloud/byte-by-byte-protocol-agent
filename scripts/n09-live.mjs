@@ -7,6 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { isDeepStrictEqual } from 'node:util';
 import { BUDGET, makeRequest, validateOutput, validateSelection } from './n09-contract.mjs';
+import { fingerprintSources } from './n09-source-state.mjs';
 
 const MAX_FILE_BYTES = 16 * 1024 * 1024;
 const MAX_RESPONSE_BYTES = 2 * 1024 * 1024;
@@ -36,6 +37,8 @@ async function loadPreparation(filename) {
   if (p.condition === 'A' && (Object.hasOwn(p.input || {}, 'binary') || p.runtime?.rea_result_file))
     throw fault('A_BINARY_FORBIDDEN', 'Condition A must have no binary or REA preparation metadata');
   validateSelection({condition:p.condition, binaryPath:p.input?.binary?.path});
+  if (p.runtime?.source_fingerprint && !isDeepStrictEqual(p.runtime.source_fingerprint, await fingerprintSources()))
+    throw fault('SOURCE_CHANGED', 'Runner sources differ from preparation; start a new prepare run');
   const expectedSources = p.condition === 'A' ? ['packet'] : ['packet', 'binary'];
   if (!Array.isArray(p.evidence) || p.evidence.length !== expectedSources.length)
     throw fault('EVIDENCE_SELECTION', 'Evidence count differs from the selected A/B condition');
@@ -171,6 +174,8 @@ export async function runLive({preparedPath,resultPath,execution='dry-run',env=p
   };
   try {
     const prepared = await stage('preparation',()=>loadPreparation(preparedPath));
+    result.runtime.source_fingerprint = await fingerprintSources();
+    result.runtime.preparation_code_dirty = prepared.preparation.runtime?.code_dirty ?? null;
     result.preparation_run_id = prepared.preparation.run_id;
     result.condition = prepared.preparation.condition;
     result.experiment = prepared.preparation.experiment;

@@ -3,10 +3,14 @@
 import assert from 'node:assert/strict';
 import { readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
-const [aPath, bPath, outPath] = process.argv.slice(2);
-assert.ok(aPath && bPath && outPath && process.argv.length === 5, 'Usage: A.json B.json new-summary.json');
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { fingerprintSources } from './n09-source-state.mjs';
 const read = async filename => JSON.parse(await readFile(filename, 'utf8'));
 const hash = value => createHash('sha256').update(value).digest('hex');
+
+export async function checkPair({aPath, bPath, outPath, allowDirty = false}) {
+assert.ok(aPath && bPath && outPath, 'A, B and a new summary path are required');
 const [a, b] = await Promise.all([read(aPath), read(bPath)]);
 for (const result of [a, b]) {
   assert.equal(result.success, true);
@@ -19,7 +23,9 @@ for (const result of [a, b]) {
   assert.equal(result.experiment_score, false);
   assert.equal(result.n09_complete, false);
   assert.equal(result.spec, null);
-  assert.equal(result.runtime.code_dirty, false);
+  assert.equal(typeof result.runtime.code_dirty, 'boolean', 'Missing working-tree status');
+  if (!allowDirty) assert.equal(result.runtime.code_dirty, false,
+    'Uncommitted changes: use --allow-dirty only for a local practice pilot, or commit changes first');
   assert.match(result.runtime.code_commit, /^[0-9a-f]{40}$/);
   assert.ok(result.stages.every(stage => stage.status === 'success'));
 }
@@ -34,6 +40,13 @@ assert.deepEqual(a.evidence[0].text, b.evidence[0].text);
 assert.equal(a.evidence[0].raw_sha256, b.evidence[0].raw_sha256);
 assert.deepEqual(a.budget, b.budget);
 assert.equal(a.runtime.code_commit, b.runtime.code_commit);
+assert.equal(a.runtime.code_dirty, b.runtime.code_dirty, 'A/B working-tree status differs');
+const sourceFingerprint = a.runtime.source_fingerprint || null;
+if (a.runtime.code_dirty || a.runtime.source_fingerprint || b.runtime.source_fingerprint) {
+  assert.ok(sourceFingerprint, 'Dirty practice runs require a recorded source fingerprint; prepare again');
+  assert.deepEqual(sourceFingerprint, b.runtime.source_fingerprint, 'A/B runner sources differ');
+  assert.deepEqual(sourceFingerprint, await fingerprintSources(), 'Runner sources changed since preparation');
+}
 const [aRequest, bRequest, rea] = await Promise.all([read(a.request_file), read(b.request_file), read(b.runtime.rea_result_file)]);
 assert.deepEqual(aRequest.messages[0], bRequest.messages[0]);
 assert.equal(rea.success, true);
@@ -47,6 +60,11 @@ const summary = {
   task: 'N09', classification: 'real-local-tools-key-free-preparation',
   recorded_at: new Date().toISOString(),
   execution_code_commit: a.runtime.code_commit, code_dirty: a.runtime.code_dirty,
+  source_fingerprint: sourceFingerprint,
+  reproducibility: { clean_checkout: !a.runtime.code_dirty,
+    sources_verified: Boolean(sourceFingerprint),
+    reference_run_eligible: !a.runtime.code_dirty,
+    local_practice_dirty_allowed: allowDirty },
   input: { pcap: a.input.pcap, binary: b.input.binary },
   same_packet_sha256: a.evidence[0].raw_sha256,
   same_system_prompt_sha256: hash(aRequest.messages[0].content),
@@ -62,4 +80,19 @@ const summary = {
   semantic_review: 'pending', human_execution_check: 'pending'
 };
 await writeFile(outPath, JSON.stringify(summary, null, 2) + '\n', { flag: 'wx', mode: 0o600 });
-console.log('N09_PAIR_SUMMARY ' + JSON.stringify(summary));
+return summary;
+}
+
+export async function main(argv = process.argv.slice(2)) {
+  const [aPath, bPath, outPath, flag] = argv;
+  assert.ok(argv.length === 3 || (argv.length === 4 && flag === '--allow-dirty'),
+    'Usage: A.json B.json new-summary.json [--allow-dirty]');
+  const summary = await checkPair({aPath, bPath, outPath, allowDirty: flag === '--allow-dirty'});
+  console.log('N09_PAIR_SUMMARY ' + JSON.stringify(summary));
+  return 0;
+}
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().then(code => {process.exitCode = code;}).catch(error => {
+    console.error('N09-pair: ' + error.message); process.exitCode = 1;
+  });
+}

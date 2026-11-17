@@ -80,6 +80,7 @@ docker compose -f compose.n05.yaml run --rm -e LLM_MAX_TOKENS_PARAM -e LLM_JSON_
 - usage.prompt_tokens/completion_tokens/total_tokens: API가 보고한 값. 누락되면 null이고 임의 추정치를 채우지 않는다.
 - usage.provider: 캐시·추론 토큰 등을 포함한 원본 usage 구조. 학교 크레딧으로 자동 환산하지 않는다.
 - artifacts: 요청 JSON, 원본 API 응답, SHA-256과 단계별 성공/실패. API 키는 저장 내용에서 치환한다.
+- runtime.source_fingerprint: 실제 실행 코드 파일들의 SHA-256. 새 준비 결과에 코드 해시가 있으면 호출 전에 현재 코드와 대조한다. 다르면 SOURCE_CHANGED로 요청 없이 중단하고 새 prepare 실행이 필요하다.
 - spec/observations/unknowns: 후보 결과. 형식과 실제 근거 인용의 일치를 검증한다. 의미상 정답 여부는 N11에서 평가한다.
 
 실행기가 보존하는 결과는 후보 명세다. experiment_score, n05_complete, n09_complete는 false다.
@@ -110,11 +111,15 @@ N09-live는 선택한 근거를 미리 준비해 모델에게 주는 경로다. 
 ## 테스트와 남은 확인
 
 ```powershell
-node --test scripts/rea-smoke.test.mjs scripts/n09-contract.test.mjs scripts/n09-prepare.test.mjs scripts/n09-live.test.mjs
+node --test scripts/rea-smoke.test.mjs scripts/n09-contract.test.mjs scripts/n09-prepare.test.mjs scripts/n09-live.test.mjs scripts/n09-check-pair.test.mjs
 ```
 
 기존55개+신규19개, 합계74개. 실제 루프백 HTTP fixture를 포함한다.
 이 fixture는 실제 LLM이 아니며 model_called false와 injected-api-protocol-test로 표시한다.
+
+2026-11-17 로컬 연습 재실행 보완: 기존74개에 코드 변경 감지1개와 쌍 검증 회귀8개를 더해
+현재 총83개다. 쌍 검증 기본값은 clean checkout을 요구하며 로컬 공개 연습에서만
+`--allow-dirty`로 실제 소스 해시를 대조하며 실행할 수 있다. CI 기본값은 유지한다.
 
 리뷰 대상: 권세현(A/B 조건·토큰/실패·실행ID), 유현석(후보 명세·N12 호환).
 남은 확인: 계정 API 사용 가능 여부, 실제 모델·URL·한도, 연습 A/B 각1회 실제 호출과 usage/명세 의미 검토.
