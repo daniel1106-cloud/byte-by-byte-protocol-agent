@@ -1,0 +1,326 @@
+{
+  "schema_version": 1,
+  "task": "N09",
+  "owner": "정의종",
+  "recorded_date_kst": "2026-11-17",
+  "classification": "public-practice-only",
+  "run_tag": "2026-11-17T06-11-38-645Z",
+  "execution": {
+    "actor": "Codex",
+    "human_execution_check": "pending",
+    "recorded_parent_commit": "76c1de9a5d4feadb80957fe1d55bb0462f607d38",
+    "code_dirty": true,
+    "reference_run_eligible": false,
+    "source_snapshot_commit": "3232231e58f85978f06edaa3353fcda5a5579258",
+    "source_snapshot_sha256": "806519b67b0178c07f19afb4ac17ae383e08a65b8757023bfb32c770444530bb",
+    "source_snapshot_verified_against_run": true,
+    "source_fingerprint": {
+      "algorithm": "sha256",
+      "files": [
+        {
+          "path": "scripts/rea-smoke.mjs",
+          "bytes": 20421,
+          "sha256": "b055fc274d1ec4bbbc4a6444ee210d99245881bb15924d12330b9665735f11e2"
+        },
+        {
+          "path": "scripts/n09-contract.mjs",
+          "bytes": 4434,
+          "sha256": "c535853965996b3446f2b40a01ac41dc4a3a1f259ab33ebd186b7f99160145af"
+        },
+        {
+          "path": "scripts/n09-prepare.mjs",
+          "bytes": 10781,
+          "sha256": "2d522d75e6a5200e13d8e58821b0322933fa29bf1242d61501faed1b99d5bcfb"
+        },
+        {
+          "path": "scripts/n09-live.mjs",
+          "bytes": 16784,
+          "sha256": "441d0300b56cab2ea18f1a98ebfba61d9c51bdce1c7f60f6d235dc1994718db7"
+        },
+        {
+          "path": "scripts/n09-check-pair.mjs",
+          "bytes": 5404,
+          "sha256": "99fc83c336d54a3d2dc1df4ea89abdaa33fbb1bc8dd1b1806893ed0c5a2faec2"
+        },
+        {
+          "path": "scripts/n09-source-state.mjs",
+          "bytes": 759,
+          "sha256": "28f84c5c7135e8622a34c06bd5992edaeccaedc76d3bdaad8b4ef8ad05795043"
+        }
+      ],
+      "sha256": "806519b67b0178c07f19afb4ac17ae383e08a65b8757023bfb32c770444530bb"
+    }
+  },
+  "practice_inputs": {
+    "pcap_sha256": "e9b5650cd8aab5f0480a1b99740af67e7713f5083f5a58c0acaa5535207bd698",
+    "binary_sha256": "d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067",
+    "packet_evidence_sha256": "d539a6e15a6103f5eaa8ca17a44181832219fa83221117a0f9ae03e4d3c5ab35",
+    "system_prompt_sha256": "3ebb74f35e14074e28916d5695da4165e20cf4ab954387cd42a1744e6aacb8a8",
+    "same_inputs_prompt_budget_checks": {
+      "a_packet_only": true,
+      "b_real_rea": true,
+      "same_pcap": true,
+      "same_packet_text": true,
+      "same_prompt": true,
+      "same_budget": true,
+      "binary_hash_match": true
+    },
+    "private_answer_used": false,
+    "hidden_cases_used": false
+  },
+  "earlier_attempts": [
+    {
+      "time_kst": "15:03",
+      "actor": "Codex",
+      "condition_a_http_status": 503,
+      "condition_b_requests": 0,
+      "usage_tokens": null
+    },
+    {
+      "time_kst": "15:07",
+      "actor": "정의종",
+      "stage": "pair_validation",
+      "failure": "dirty checkout without opt-in",
+      "model_requests": 0
+    }
+  ],
+  "model_results": [
+    {
+      "condition": "A",
+      "run_id": "e3e900e2-2cff-494c-b062-3162025c7ca7",
+      "requested_model": "gemini-3.5-flash-lite",
+      "returned_model": "gemini-3.5-flash-lite",
+      "http_status": 200,
+      "usage": {
+        "api_requests": 1,
+        "reported": true,
+        "prompt_tokens": 17794,
+        "completion_tokens": 351,
+        "total_tokens": 18145,
+        "provider": {
+          "completion_tokens": 351,
+          "prompt_tokens": 17794,
+          "total_tokens": 18145
+        }
+      },
+      "candidate_validation_passed": true,
+      "spec": {
+        "protocol": "TCP",
+        "transport": "TCP",
+        "port": 39455
+      },
+      "raw_candidate": {
+        "spec": {
+          "protocol": "TCP",
+          "transport": "TCP",
+          "port": 39455
+        },
+        "observations": [
+          {
+            "claim": "Client initiates connections to port 39455 using TCP SYN packets.",
+            "evidence_id": "packet-1",
+            "quote": "1794138427.992301 IP 127.0.0.1.47780 > 127.0.0.1.39455: Flags [S]"
+          },
+          {
+            "claim": "The application payload starts with the ASCII bytes 'BB' (0x4242).",
+            "evidence_id": "packet-1",
+            "quote": "4242 0101 0006 0001 0002 0003"
+          },
+          {
+            "claim": "Server responds with a packet starting with 'BB' (0x4242).",
+            "evidence_id": "packet-1",
+            "quote": "4242 0181 0004 0000 0006"
+          }
+        ],
+        "unknowns": [
+          "Exact semantic meaning of the fields following the 'BB' magic header in requests and responses.",
+          "Complete list of message types or opcodes supported by the server."
+        ]
+      },
+      "error": null,
+      "response_sha256": "23e04fd6bd8b9ce616f9e253e190c407743e6f4d93ff11ee7c00cedb21af0320",
+      "request_hash_matches": true,
+      "usage_matches_raw_response": true,
+      "raw_candidate_matches_raw_response": true,
+      "quote_checks": [
+        {
+          "source": "packet-1",
+          "exact_match": true
+        },
+        {
+          "source": "packet-1",
+          "exact_match": true
+        },
+        {
+          "source": "packet-1",
+          "exact_match": true
+        }
+      ],
+      "semantic_review": "pending",
+      "application_protocol_reconstruction_confirmed": false
+    },
+    {
+      "condition": "B",
+      "run_id": "8b3bd978-facb-4194-9f43-b62a99e128ba",
+      "requested_model": "gemini-3.5-flash-lite",
+      "returned_model": "gemini-3.5-flash-lite",
+      "http_status": 200,
+      "usage": {
+        "api_requests": 1,
+        "reported": true,
+        "prompt_tokens": 21103,
+        "completion_tokens": 420,
+        "total_tokens": 21523,
+        "provider": {
+          "completion_tokens": 420,
+          "prompt_tokens": 21103,
+          "total_tokens": 21523
+        }
+      },
+      "candidate_validation_passed": false,
+      "spec": null,
+      "raw_candidate": {
+        "spec": {},
+        "observations": [
+          {
+            "claim": "The server listens on TCP port 39455 and multiple client connections are established to this port from ephemeral ports such as 47780, 47794, 47806, 47814, and 47826.",
+            "evidence_id": "packet-1",
+            "quote": "1794138427.992301 IP 127.0.0.1.47780 > 127.0.0.1.39455: Flags [S]"
+          },
+          {
+            "claim": "Client 47780 sends an initial packet containing ASCII/binary markers starting with 'BB' and version/command bytes.",
+            "evidence_id": "packet-1",
+            "quote": "1794138427.992348 IP 127.0.0.1.47780 > 127.0.0.1.39455: Flags [P.], seq 1:13, ack 1, win 64, options [nop,nop,TS val 2369507662 ecr 2874544994], length 12\n\t0x0040:  1362 4242 0101 0006 0001 0002 0003"
+          }
+        ],
+        "unknowns": [
+          "Exact application layer message framing and semantics for all command types",
+          "Complete binary specification of request and response structures beyond observed packet captures"
+        ]
+      },
+      "error": {
+        "stage": "candidate_validation",
+        "code": "QUOTE_MISMATCH",
+        "message": "A quote is absent from the named evidence actually supplied to the model"
+      },
+      "response_sha256": "d2e2c9298db460a90caacb07efb121d8bf8919d52213627c4cdc0503271e6523",
+      "request_hash_matches": true,
+      "usage_matches_raw_response": true,
+      "raw_candidate_matches_raw_response": true,
+      "quote_checks": [
+        {
+          "source": "packet-1",
+          "exact_match": true
+        },
+        {
+          "source": "packet-1",
+          "exact_match": false
+        }
+      ],
+      "semantic_review": "pending",
+      "application_protocol_reconstruction_confirmed": false
+    }
+  ],
+  "total_usage": {
+    "api_requests": 2,
+    "prompt_tokens": 38897,
+    "completion_tokens": 771,
+    "total_tokens": 39668
+  },
+  "baseline_evaluation": {
+    "target": "existing public N06 reference cases, not an LLM-recovered client",
+    "summary": {
+      "total": 21,
+      "pass": 21,
+      "fail": 0,
+      "error": 0,
+      "pass_rate": 1,
+      "all_pass": true
+    },
+    "server_stopped": true
+  },
+  "later_local_implementation": {
+    "source_local_commit": "62b4be94173c8fea0fa8647ee074fb38940cea5e",
+    "source_fingerprint": {
+      "algorithm": "sha256",
+      "files": [
+        {
+          "path": "scripts/rea-smoke.mjs",
+          "bytes": 21603,
+          "sha256": "7dc620eea987479df9f5886991769b64a8dfee75a46a8a7306b8d3c3695b0ec1"
+        },
+        {
+          "path": "scripts/n09-contract.mjs",
+          "bytes": 4510,
+          "sha256": "db9238e1bab4a44a68a743d26cb321a8ab5c4ca99d2f83a70603b9deca66dc44"
+        },
+        {
+          "path": "scripts/n09-prepare.mjs",
+          "bytes": 10781,
+          "sha256": "2d522d75e6a5200e13d8e58821b0322933fa29bf1242d61501faed1b99d5bcfb"
+        },
+        {
+          "path": "scripts/n09-live.mjs",
+          "bytes": 16784,
+          "sha256": "441d0300b56cab2ea18f1a98ebfba61d9c51bdce1c7f60f6d235dc1994718db7"
+        },
+        {
+          "path": "scripts/n09-check-pair.mjs",
+          "bytes": 5404,
+          "sha256": "99fc83c336d54a3d2dc1df4ea89abdaa33fbb1bc8dd1b1806893ed0c5a2faec2"
+        },
+        {
+          "path": "scripts/n09-source-state.mjs",
+          "bytes": 848,
+          "sha256": "c21ff3f17966249f7edbf97519b1b9f16233241d1d28d4d35068fa9c4c274eab"
+        },
+        {
+          "path": "scripts/wire-spec.mjs",
+          "bytes": 7541,
+          "sha256": "2b6216238b119baf03c3524f0c555ec61249fe1b245fd6e56c77a78985ed11c6"
+        },
+        {
+          "path": "scripts/n12-practice-bridge.mjs",
+          "bytes": 5623,
+          "sha256": "28bc8078bad3dba67e8af118aeb2dad22270874030890505fa0ccf9215966a6a"
+        },
+        {
+          "path": "scripts/gemini-practice.mjs",
+          "bytes": 4870,
+          "sha256": "afbdd1e72c06f99fa0b1962960d1f9d10d7d008fba8a19bd47b74e3921468237"
+        },
+        {
+          "path": "scripts/gemini-pilot.mjs",
+          "bytes": 1985,
+          "sha256": "6f1113af571cd7055bfd21dc611c0f3b43fd39a0f89b53d6683d849644cf1e7a"
+        }
+      ],
+      "sha256": "cc0339990a026f9f2b9112a3d76e5bbffe70d5fe51dec9c3c2361f82fdf7d875"
+    },
+    "independent_node_regression": {
+      "tests": 92,
+      "passed": 92,
+      "failed": 0,
+      "runtime": "Node v24.18.0 Windows",
+      "model_requests": 0
+    },
+    "changes": [
+      "N05 provider tool-call fields and per-round usage",
+      "shared application-layer wire-spec guidance",
+      "declarative practice codec and N12 reference bridge",
+      "tracked Gemini pilot launcher"
+    ],
+    "same_source_as_1511_pilot": false,
+    "actual_n05_tool_loop_verified": false,
+    "actual_recovered_n12_client_verified": false
+  },
+  "completion": {
+    "experiment_score": false,
+    "n05_complete": false,
+    "n09_complete": false,
+    "n12_complete": false,
+    "human_semantic_review": "pending",
+    "web_integration": "pending"
+  },
+  "school_credit_to_token_conversion": "unverified"
+}
