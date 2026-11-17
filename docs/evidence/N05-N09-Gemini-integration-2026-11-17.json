@@ -2,7 +2,7 @@
   "schema_version": 1,
   "recorded_at": "2026-11-17T06:53:34.767Z",
   "classification": "AI-executed public practice integration; not blind experimental scores",
-  "human_confirmation": "pending",
+  "human_confirmation": "confirmed-for-N09-manual-regression-public-client-rerun-and-output-inspection",
   "user_record_approval": {
     "date_kst": "2026-11-17",
     "source": "user message in this conversation",
@@ -4240,5 +4240,18 @@
         }
       }
     ]
+  },
+  "manual_confirmation": {
+    "date_kst": "2026-11-17",
+    "tested_commit": "ee10e08be35dce810cdd682a5d3ac35775e8f5ae",
+    "record": "docs/evidence/N09-manual-2026-11-17.json",
+    "scope": "Output inspection; not acceptance of every semantic claim",
+    "node_pass": 97,
+    "python_pass": 25,
+    "client_A_pass": 15,
+    "client_B_pass": 15,
+    "new_model_requests": 0,
+    "n05_live_manual_rerun": "not-performed",
+    "semantic_acceptance_of_all_claims": false
   }
 }

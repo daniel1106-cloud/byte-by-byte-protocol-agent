@@ -1,0 +1,469 @@
+{
+  "schema_version": 1,
+  "task": "N09 manual confirmation",
+  "operator": "정의종",
+  "execution_actor": "human operator in PowerShell",
+  "recorded_at": "2026-11-17T08:13:12.389Z",
+  "tested_commit": "ee10e08be35dce810cdd682a5d3ac35775e8f5ae",
+  "classification": "public-practice manual regression and recovered-client rerun; not blind experimental scores",
+  "status": "confirmed-for-recorded-scope",
+  "regression": {
+    "node": {
+      "pass": 97,
+      "fail": 0,
+      "raw": {
+        "file": "runs/manual-check/20261117-170450-405/node-tests.log",
+        "bytes": 15038,
+        "sha256": "ce28bce3ca1c5febe2069e912afdcd2e926f20e3d3a44e8d070f532ef121fdfe"
+      }
+    },
+    "python": {
+      "pass": 25,
+      "fail": 0,
+      "raw": {
+        "file": "runs/manual-check/20261117-170450-405/python-tests.log",
+        "bytes": 6000,
+        "sha256": "c8ef3167770e71702720a397aa0cd7942277a14a2e993e719aa272805ef3e44a"
+      }
+    }
+  },
+  "source_analysis_directory": "runs/gemini/2026-11-17T06-51-02-946Z",
+  "conditions": [
+    {
+      "condition": "A",
+      "analysis_run_id": "aa60c508-96bb-4213-82cb-9220cbbeaf0c",
+      "analysis": {
+        "file": "runs/gemini/2026-11-17T06-51-02-946Z/A-analysis.json",
+        "bytes": 12903,
+        "sha256": "481e3e0eaa70a4841619d78a979b13ade49c0cd13edda845d0ebedd3ad7498b9"
+      },
+      "model": {
+        "requested": "gemini-3.5-flash-lite",
+        "returned": "gemini-3.5-flash-lite",
+        "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+        "operator_confirmed": false
+      },
+      "original_model_usage": {
+        "api_requests": 1,
+        "reported": true,
+        "prompt_tokens": 2436,
+        "completion_tokens": 858,
+        "total_tokens": 3294,
+        "provider": {
+          "completion_tokens": 858,
+          "prompt_tokens": 2436,
+          "total_tokens": 3294
+        }
+      },
+      "source_fingerprint_sha256": "6b2498cfea5a42d20a8396fc30a1526011f683b82db88895a7b9d69369544ca1",
+      "client": {
+        "file": "runs/manual-check/20261117-170450-405/A-client.json",
+        "bytes": 3851,
+        "sha256": "6fe6b36bdb3e4ca345e9eae7e5f4f680889b4742113ce06f3c8168089ca26ead"
+      },
+      "summary": {
+        "total": 15,
+        "pass": 15,
+        "fail": 0,
+        "error": 0,
+        "pass_rate": 1,
+        "all_pass": true
+      },
+      "server_stopped": true,
+      "started_at": "2026-11-17T08:09:58.291Z",
+      "finished_at": "2026-11-17T08:09:58.861Z",
+      "decoded_responses": [
+        {
+          "case_id": "new-values-whole",
+          "complete": true,
+          "values": {
+            "result_value": 14
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "new-values-byte-split",
+          "complete": true,
+          "values": {
+            "result_value": 14
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "new-values-split-three",
+          "complete": true,
+          "values": {
+            "result_value": 14
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "zero-items-whole",
+          "complete": true,
+          "values": {
+            "result_value": 0
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "zero-items-byte-split",
+          "complete": true,
+          "values": {
+            "result_value": 0
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "zero-items-split-three",
+          "complete": true,
+          "values": {
+            "result_value": 0
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "mixed-boundary-whole",
+          "complete": true,
+          "values": {
+            "result_value": 65552
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "mixed-boundary-byte-split",
+          "complete": true,
+          "values": {
+            "result_value": 65552
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "mixed-boundary-split-three",
+          "complete": true,
+          "values": {
+            "result_value": 65552
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "single-value-whole",
+          "complete": true,
+          "values": {
+            "result_value": 12345
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "single-value-byte-split",
+          "complete": true,
+          "values": {
+            "result_value": 12345
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "single-value-split-three",
+          "complete": true,
+          "values": {
+            "result_value": 12345
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "maximum-count-whole",
+          "complete": true,
+          "values": {
+            "result_value": 2097120
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "maximum-count-byte-split",
+          "complete": true,
+          "values": {
+            "result_value": 2097120
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "maximum-count-split-three",
+          "complete": true,
+          "values": {
+            "result_value": 2097120
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        }
+      ],
+      "generated_cases": {
+        "file": "runs/manual-check/20261117-170450-405/A-client.json.cases.json",
+        "bytes": 5564,
+        "sha256": "53658030a780a6e54425af9c2661232dd8c889eb8ec98f3167f170a2956222a8"
+      },
+      "evaluation": {
+        "file": "runs/manual-check/20261117-170450-405/A-client.json.evaluation.json",
+        "bytes": 12381,
+        "sha256": "4c007e10f154d56882e296f313ebfc5929c1babd8a0c97e7bcc813d69f9aebe2"
+      },
+      "csv": {
+        "file": "runs/manual-check/20261117-170450-405/A-client.json.evaluation.csv",
+        "bytes": 3360,
+        "sha256": "21c24cf8b30e829b6db55bfdc188a977c3607e308262b437f82e5b2f00102897"
+      },
+      "evaluation_summary": {
+        "total": 15,
+        "pass": 15,
+        "fail": 0,
+        "error": 0,
+        "pass_rate": 1,
+        "all_pass": true
+      }
+    },
+    {
+      "condition": "B",
+      "analysis_run_id": "80ea5edf-7d05-4cd1-b58b-0af8162e300d",
+      "analysis": {
+        "file": "runs/gemini/2026-11-17T06-51-02-946Z/B-analysis.json",
+        "bytes": 16344,
+        "sha256": "093b332195639e984e3cb6a2db37eb7505103dcabc5c2fa9296cee506d424cf6"
+      },
+      "model": {
+        "requested": "gemini-3.5-flash-lite",
+        "returned": "gemini-3.5-flash-lite",
+        "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+        "operator_confirmed": false
+      },
+      "original_model_usage": {
+        "api_requests": 1,
+        "reported": true,
+        "prompt_tokens": 8947,
+        "completion_tokens": 1203,
+        "total_tokens": 10150,
+        "provider": {
+          "completion_tokens": 1203,
+          "prompt_tokens": 8947,
+          "total_tokens": 10150
+        }
+      },
+      "source_fingerprint_sha256": "6b2498cfea5a42d20a8396fc30a1526011f683b82db88895a7b9d69369544ca1",
+      "client": {
+        "file": "runs/manual-check/20261117-170450-405/B-client.json",
+        "bytes": 3761,
+        "sha256": "0644ddec7b9bdebd911a1945622b866acd1403839e304db52151fc87f3e3f51a"
+      },
+      "summary": {
+        "total": 15,
+        "pass": 15,
+        "fail": 0,
+        "error": 0,
+        "pass_rate": 1,
+        "all_pass": true
+      },
+      "server_stopped": true,
+      "started_at": "2026-11-17T08:09:59.811Z",
+      "finished_at": "2026-11-17T08:10:00.411Z",
+      "decoded_responses": [
+        {
+          "case_id": "new-values-whole",
+          "complete": true,
+          "values": {
+            "result": 14
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "new-values-byte-split",
+          "complete": true,
+          "values": {
+            "result": 14
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "new-values-split-three",
+          "complete": true,
+          "values": {
+            "result": 14
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "zero-items-whole",
+          "complete": true,
+          "values": {
+            "result": 0
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "zero-items-byte-split",
+          "complete": true,
+          "values": {
+            "result": 0
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "zero-items-split-three",
+          "complete": true,
+          "values": {
+            "result": 0
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "mixed-boundary-whole",
+          "complete": true,
+          "values": {
+            "result": 65552
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "mixed-boundary-byte-split",
+          "complete": true,
+          "values": {
+            "result": 65552
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "mixed-boundary-split-three",
+          "complete": true,
+          "values": {
+            "result": 65552
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "single-value-whole",
+          "complete": true,
+          "values": {
+            "result": 12345
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "single-value-byte-split",
+          "complete": true,
+          "values": {
+            "result": 12345
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "single-value-split-three",
+          "complete": true,
+          "values": {
+            "result": 12345
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "maximum-count-whole",
+          "complete": true,
+          "values": {
+            "result": 2097120
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "maximum-count-byte-split",
+          "complete": true,
+          "values": {
+            "result": 2097120
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        },
+        {
+          "case_id": "maximum-count-split-three",
+          "complete": true,
+          "values": {
+            "result": 2097120
+          },
+          "bytes_consumed": 10,
+          "remaining_hex": ""
+        }
+      ],
+      "generated_cases": {
+        "file": "runs/manual-check/20261117-170450-405/B-client.json.cases.json",
+        "bytes": 5564,
+        "sha256": "53658030a780a6e54425af9c2661232dd8c889eb8ec98f3167f170a2956222a8"
+      },
+      "evaluation": {
+        "file": "runs/manual-check/20261117-170450-405/B-client.json.evaluation.json",
+        "bytes": 12381,
+        "sha256": "ce1916695eb43901e422156eba41185ca4b315349f364e04469b48dc0358c584"
+      },
+      "csv": {
+        "file": "runs/manual-check/20261117-170450-405/B-client.json.evaluation.csv",
+        "bytes": 3360,
+        "sha256": "772302e7820cb71f3abc9b405c078a7060e41589bdac76ad45dd2e2ce710a263"
+      },
+      "evaluation_summary": {
+        "total": 15,
+        "pass": 15,
+        "fail": 0,
+        "error": 0,
+        "pass_rate": 1,
+        "all_pass": true
+      }
+    }
+  ],
+  "evidence_display": {
+    "status": "A/B specs, observations, quotes and unknowns displayed and shared by user",
+    "transcript": {
+      "file": "runs/manual-check/20261117-170450-405/user-output.txt",
+      "bytes": 17633,
+      "sha256": "6de513c13acbde99695339703c2897f80e62c409d407060d74fa33f9c7553d3d"
+    },
+    "scope": "Output inspection; not acceptance of every semantic claim"
+  },
+  "new_model_requests": 0,
+  "additional_model_tokens": 0,
+  "terminal_issue": {
+    "kind": "PSReadLine console rendering exception during paste",
+    "effect": "Both A/B output sections appear after the exception; completed evaluations are retained"
+  },
+  "pending": [
+    "N05 live model/REA rerun by human operator",
+    "Course model confirmation",
+    "Peer semantic review and approval",
+    "N11 private grading",
+    "N12 web integration",
+    "Frozen blind A/B five repetitions"
+  ],
+  "limitations": [
+    "Normal-command frame subset only; A negative/error interpretation remains unsupported",
+    "Independent public expected values are supplied to the evaluator, not inferred by the reference client",
+    "Application write splits do not prove TCP segment boundaries"
+  ]
+}
