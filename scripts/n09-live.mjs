@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { isDeepStrictEqual } from 'node:util';
 import { BUDGET, makeRequest, validateOutput, validateSelection } from './n09-contract.mjs';
 import { fingerprintSources } from './n09-source-state.mjs';
+import { validateDetailBundle } from './rea-detail.mjs';
 
 const MAX_FILE_BYTES = 16 * 1024 * 1024;
 const MAX_RESPONSE_BYTES = 2 * 1024 * 1024;
@@ -67,7 +68,8 @@ async function loadPreparation(filename) {
       let parsed;
       try { parsed = JSON.parse(raw.bytes.toString('utf8')); }
       catch { throw fault('REA_EVIDENCE', 'Binary evidence is not JSON'); }
-      if (parsed.operation !== 'binary_overview' || parsed.subject?.digest?.sha256 !== p.input.binary.sha256 ||
+      if(parsed.format==='rea-evidence-bundle-v1') await validateDetailBundle(parsed,p.input.binary.sha256);
+      else if (parsed.operation !== 'binary_overview' || parsed.subject?.digest?.sha256 !== p.input.binary.sha256 ||
           parsed.analysis_profile?.parameters?.upstream_analysis_profile?.provider?.id !== 'ghidra')
         throw fault('REA_EVIDENCE', 'Binary evidence is not bound to the selected Ghidra input');
     }

@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { defaultRunCommand, runSmoke } from './rea-smoke.mjs';
 import { BUDGET, makeRequest, mockOutput, validateOutput, validateSelection } from './n09-contract.mjs';
 import { fingerprintSources } from './n09-source-state.mjs';
+import { detailBundle } from './rea-detail.mjs';
 
 const sha = value => createHash('sha256').update(value).digest('hex');
 const now = () => new Date().toISOString();
@@ -29,7 +30,7 @@ function excerpt(text, limit) {
 }
 export async function prepareRun({ condition, pcapPath, binaryPath, resultPath,
   execution = 'prepare', experiment = 'practice', env = process.env,
-  runCommand = defaultRunCommand, packetFormat = 'tcpdump' } = {}) {
+  runCommand = defaultRunCommand, packetFormat = 'tcpdump', binaryDetails = false } = {}) {
   // Reject A+binary before reading any input or creating a result.
   validateSelection({ condition, binaryPath, execution, experiment });
   if (!['tcpdump','tcp-streams-v1'].includes(packetFormat)) throw fault('PACKET_FORMAT', 'Use tcpdump or tcp-streams-v1');
@@ -131,10 +132,16 @@ export async function prepareRun({ condition, pcapPath, binaryPath, resultPath,
           (await snapshot(binaryPath)).sha256 !== result.input.binary.sha256)
         throw fault('INPUT_CHANGED', 'Binary changed during preparation');
       // N05 validates the Ghidra Evidence envelope and its subject digest against the selected binary.
-      const raw = await readFile(rea.evidence.raw_file, 'utf8');
+      let raw = await readFile(rea.evidence.raw_file, 'utf8'), rawFile=rea.evidence.raw_file;
+      if(binaryDetails) {
+        const bundle=await detailBundle({binaryPath:result.input.binary.path,binarySha:rea.input.sha256,
+          overviewPath:rea.evidence.raw_file,artifacts,runCommand,env:safeEnv});
+        raw=JSON.stringify(bundle,null,2);rawFile=path.join(artifacts,'binary.bundle.json');
+        await saveText(rawFile,raw);result.runtime.rea_detail_profile=bundle.profile;
+      }
       binary = { id: 'binary-1', source: 'binary', ...excerpt(raw, BUDGET.binary_evidence_bytes) };
-      result.evidence.push({ ...binary, raw_file: rea.evidence.raw_file,
-        subject_sha256: rea.input.sha256, operation: rea.evidence.validation.operation });
+      result.evidence.push({ ...binary, raw_file: rawFile,
+        subject_sha256: rea.input.sha256, operation: binaryDetails?'rea-evidence-bundle-v1':rea.evidence.validation.operation });
     });
     let request;
     await stage('request_template', async () => {

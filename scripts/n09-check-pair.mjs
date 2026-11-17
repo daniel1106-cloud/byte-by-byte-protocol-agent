@@ -6,6 +6,7 @@ import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fingerprintSources } from './n09-source-state.mjs';
+import { validateDetailBundle } from './rea-detail.mjs';
 const read = async filename => JSON.parse(await readFile(filename, 'utf8'));
 const hash = value => createHash('sha256').update(value).digest('hex');
 
@@ -55,7 +56,12 @@ assert.equal(rea.execution_backend, 'real');
 assert.equal(rea.evidence.validation.upstream_provider, 'ghidra');
 assert.equal(rea.evidence.validation.subject_sha256, b.input.binary.sha256);
 const binaryRaw = await readFile(rea.evidence.raw_file, 'utf8');
-assert.equal(hash(binaryRaw), b.evidence[1].raw_sha256);
+if(b.evidence[1].operation==='rea-evidence-bundle-v1') {
+  const bundleRaw=await readFile(b.evidence[1].raw_file,'utf8'),bundle=JSON.parse(bundleRaw);
+  assert.equal(hash(bundleRaw),b.evidence[1].raw_sha256);
+  await validateDetailBundle(bundle,b.input.binary.sha256);
+  assert.equal(bundle.records[0].raw_sha256,hash(binaryRaw));
+} else assert.equal(hash(binaryRaw), b.evidence[1].raw_sha256);
 const summary = {
   task: 'N09', classification: 'real-local-tools-key-free-preparation',
   recorded_at: new Date().toISOString(),

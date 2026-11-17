@@ -30,7 +30,8 @@ node --env-file=.env.gemini scripts/gemini-pilot.mjs --execution live
 - A는 공개 PCAP만, B는 같은 PCAP+선택 바이너리의 REA/Ghidra 개요만 받는다.
 - 새 pilot은 `tcp-streams-v1` 전처리를 양쪽에 동일하게 적용한다. TCP seq 기준으로 방향별 페이로드를 재조립하고 재전송 중복·누락·충돌을 표시한다. 스트림 전체를 한 응용 메시지라고 단정하지 않는다. 기존 tcpdump 원문도 보존한다. 이 전처리는 기존 raw-dump pilot과 다른 버전이다.
 - 공통 프롬프트는 여러 세션에서 응용 필드·길이·엔디안·의미를 추론하도록 요구한다. 정답 상수·필드 크기·연산은 프롬프트에 하드코딩하지 않는다.
-- REA 개요는 함수 의사코드를 제공하지 않는다. 함수 검색/디컴파일을 추가할 경우 새 도구·예산 버전으로 명시해야 한다.
+- 최신 B pilot은 REA 개요에 더해 `named-procedure-v1`을 사용한다. 고정 정규식으로 함수 인벤토리를 1회 검색하고, 실제 관찰된 비외부 함수 중 최대1개를 1회 디컴파일한다(추가 REA 명령 최대2회). 프로토콜 처리 이름을 우선하고 없으면 main 등을 선택한다. 심볼이 없는 바이너리에서는 대상이 없을 수 있다. A에는 이 근거가 제공되지 않는다. 정답 소스를 열거나 모델이 임의 파일/명령을 지정하는 기능이 아니다.
+- 개요·검색·의사코드 원본은 각각 보존한다. 모델에는 원본에서 추출한 정규화 결과와 해시를 묶어 제공하고, 호출 전에 원본/투영/선택 바이너리의 일치를 다시 검증한다. 기존 개요만 공급한 pilot과 다른 도구 프로필이다.
 - 원문에 연속해서 존재하지 않는 인용문, 빈 spec, 잘린 응답은 실패로 보존한다.
 
 ## 실행 가능한 명세 제안: wire-spec-v1
@@ -69,7 +70,7 @@ docker compose -f compose.n05.yaml run --rm n05 node scripts/n12-practice-bridge
 ## 검증과 인계
 
 ```powershell
-node --test scripts/rea-smoke.test.mjs scripts/n09-contract.test.mjs scripts/n09-prepare.test.mjs scripts/n09-live.test.mjs scripts/n09-check-pair.test.mjs scripts/wire-spec.test.mjs
+node --test scripts/rea-smoke.test.mjs scripts/rea-detail.test.mjs scripts/n09-contract.test.mjs scripts/n09-prepare.test.mjs scripts/n09-live.test.mjs scripts/n09-check-pair.test.mjs scripts/wire-spec.test.mjs
 python -m unittest discover -s scripts -p 'test_*.py'
 ```
 

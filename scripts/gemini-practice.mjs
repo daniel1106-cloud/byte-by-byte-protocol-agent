@@ -40,7 +40,7 @@ try {
   if(phase==='all'||phase==='recover') {
     const aPath=path.join(directory,'A-prepare.json'),bPath=path.join(directory,'B-prepare.json');
     for(const [condition,resultPath] of [['A',aPath],['B',bPath]]) {
-      const result=await prepareRun({condition,resultPath,pcapPath:'practice/n06/normal-sessions.pcap',binaryPath:condition==='B'?binary:undefined,packetFormat:'tcp-streams-v1'});
+      const result=await prepareRun({condition,resultPath,pcapPath:'practice/n06/normal-sessions.pcap',binaryPath:condition==='B'?binary:undefined,packetFormat:'tcp-streams-v1',binaryDetails:condition==='B'});
       if(!result.success)throw new Error('Preparation failed: '+condition);
     }
     await checkPair({aPath,bPath,outPath:path.join(directory,'pair.json'),allowDirty:options['--allow-dirty']==='true'});
