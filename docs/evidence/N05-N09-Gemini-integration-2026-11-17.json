@@ -4030,5 +4030,206 @@
     "A/B are independently generated once per version; these development attempts are not five frozen blind repetitions.",
     "N09 success validates envelope and exact quotes. Semantic review remains pending; A prose contains an unsupported negative/error interpretation despite passing the executable normal-frame subset.",
     "N11 private grading and N12 web integration remain team dependencies. No manual candidate corrections or promotion of failed candidates."
-  ]
+  ],
+  "ci": {
+    "run_id": 44034971195,
+    "url": "https://github.com/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/runs/44034971195",
+    "source_commit": "473f05a534e375dff9307e96faad851d5b4cc4d3",
+    "conclusion": "success",
+    "model_requests": 0,
+    "jobs": [
+      {
+        "id": 133875546921,
+        "name": "keyless-rea-pair",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 44034971195,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Build pinned REA and Ghidra environment",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Real A and B preparation on the same public N06 capture",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Tracked Gemini launcher without model requests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Give the uploader ownership of generated evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Retain real REA preparation evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          }
+        ]
+      },
+      {
+        "id": 133875547225,
+        "name": "keyless",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 44034971195,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Prepare key-free environment",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Node mock regressions",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Python evaluator regressions",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Actual public PCAP preparation, condition A",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Offline model request audit on actual public PCAP preparation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Actual public N06 TCP evaluation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Retain key-free evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          }
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "id": 14307271103,
+        "name": "keyless-evidence",
+        "size_in_bytes": 83898,
+        "url": "https://api.github.com/repos/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/artifacts/14307271103",
+        "archive_download_url": "https://api.github.com/repos/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/artifacts/14307271103/zip",
+        "expired": false,
+        "created_at": "2026-11-17T06:57:38Z",
+        "expires_at": "2026-12-17T06:57:38Z",
+        "updated_at": "2026-11-17T06:57:38Z",
+        "digest": "sha256:30de0aa8d9bdd3b5d0a4dd2678859720fad653094559f03c97347ef7d79db0aa",
+        "workflow_run": {
+          "id": 44034971195,
+          "repository_id": 1438597500,
+          "head_repository_id": 1438597500,
+          "head_branch": "n09-live-api-20261117",
+          "head_sha": "473f05a534e375dff9307e96faad851d5b4cc4d3"
+        }
+      },
+      {
+        "id": 14306463519,
+        "name": "keyless-rea-pair-evidence",
+        "size_in_bytes": 106249,
+        "url": "https://api.github.com/repos/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/artifacts/14306463519",
+        "archive_download_url": "https://api.github.com/repos/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/artifacts/14306463519/zip",
+        "expired": false,
+        "created_at": "2026-11-17T06:58:24Z",
+        "expires_at": "2026-12-17T06:58:23Z",
+        "updated_at": "2026-11-17T06:58:24Z",
+        "digest": "sha256:d8e09b80899d8b956b569a81a8033c4bdab938d2168620795dddfad8c8d1a79c",
+        "workflow_run": {
+          "id": 44034971195,
+          "repository_id": 1438597500,
+          "head_repository_id": 1438597500,
+          "head_branch": "n09-live-api-20261117",
+          "head_sha": "473f05a534e375dff9307e96faad851d5b4cc4d3"
+        }
+      }
+    ]
+  }
 }

@@ -8,6 +8,7 @@
 - N09: 마지막 공개 연습은 A=PCAP만, B=동일 PCAP+선택 바이너리의 REA 근거로 각각 실제 요청1회가 완료됐다. 요청·반환 모델은 모두 `gemini-3.5-flash-lite`다.
 - 두 모델의 **수정하지 않은** `wire-spec-v1` 필드로 참조 클라이언트를 생성해 N07 실제 서버 평가를 실행했다. A/B 각각 정상 명령15/15, 응답 디코딩 완료·남은 바이트0·서버 종료를 확인했다.
 - Node97/97·Python25/25 회귀가 통과했다. Python에는 기존 평가기21개와 TCP 스트림 추출4개가 포함된다.
+- 최신 [Linux CI](https://github.com/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/runs/44034971195)도 Node97/97·Python25/25·기존 N06 TCP21/21·실제 REA A/B 준비·launcher dry-run 및 두 원본 아티팩트 업로드까지 통과했다. CI API 요청0회이며 위 실제 Gemini 시행과 구분한다. CI checkout은473f05a이고 이후 변경은 검증 기록만 추가했다.
 
 | 최종 공개 시행 | 입력 토큰 | 출력 토큰 | 합계 | 명세/인용 검사 | 복원 프레임 실제 통신 |
 | --- | ---: | ---: | ---: | --- | --- |
