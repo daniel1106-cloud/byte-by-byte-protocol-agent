@@ -1,0 +1,59 @@
+{
+  "task": "N10",
+  "owner": "김태형",
+  "classification": "experiment analysis files (private answer key kept outside this repository)",
+  "experiment_score": false,
+  "recorded_kst": "2026-11-09",
+  "status": "experiment analysis files prepared and auto-verified; owner ran one session (2026-11-09)",
+  "environment": {
+    "host": "macOS arm64",
+    "container_platform": "linux/amd64 (Docker Desktop emulation)",
+    "images": [
+      "byte-by-byte-n05:rea6.8.0",
+      "byte-by-byte-n06:rea6.8.0-tcpdump"
+    ],
+    "gcc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "tcpdump": "tcpdump version 4.99.4"
+  },
+  "files": {
+    "server": {
+      "path": "experiment/n10/n10-server",
+      "sha256": "3bb7aaeefdc786b543c3a13d8af14096a1cde128debbe3372ec4b7e00a1859a6",
+      "bytes": 18568
+    },
+    "pcap": {
+      "path": "experiment/n10/sessions.pcap",
+      "sha256": "c4e826ac40d7ca8f320000104de288710b77ca84eeca0824e7b8b434637b41b1",
+      "bytes": 8290
+    }
+  },
+  "capture": {
+    "sessions": 6,
+    "packets": 92,
+    "syn": 6,
+    "fin": 12
+  },
+  "private_checks": {
+    "unit": "6/6",
+    "selftest": "41/41",
+    "fuzz_sessions": 1000,
+    "fuzz_mismatches": 0,
+    "private_commit": "dae199d"
+  },
+  "rea": {
+    "mode": "rea-only (N05 tool, no model call)",
+    "success": true,
+    "doctor_healthy": true,
+    "doctor_environment_healthy": false,
+    "binary_sha256": "3bb7aaeefdc786b543c3a13d8af14096a1cde128debbe3372ec4b7e00a1859a6",
+    "procedure_count": 105,
+    "string_count": 66,
+    "segment_count": 31
+  },
+  "owner_check": {
+    "date_kst": "2026-11-09",
+    "by": "김태형",
+    "scope": "one session with the private original client against the server binary (same SHA-256 as the public file); output matched the private reference spec",
+    "other_results": "capture, REA and private self-checks are AI-run"
+  }
+}
