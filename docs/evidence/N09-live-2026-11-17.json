@@ -1,0 +1,205 @@
+{
+  "task": "N09-live",
+  "owner": "정의종",
+  "recorded_date_kst": "2026-11-17",
+  "classification": "implementation-and-key-free-validation-only",
+  "actual_model_requests": 0,
+  "school_api_support": "not_confirmed",
+  "school_credit_to_token_rate": "not_confirmed",
+  "api_credentials_configured_in_current_environment": false,
+  "n05_complete": false,
+  "n09_complete": false,
+  "experiment_score": false,
+  "source_commit": "fcb1d0be76676c0d31da9cda08e458e6366e41df",
+  "ci_checkout_commit": "5d89765b285f5c33988d5b9620d0db6d8d09981f",
+  "local": {
+    "os": "Windows",
+    "node": "v24.18.0",
+    "tests": {
+      "total": 74,
+      "pass": 74,
+      "fail": 0,
+      "new_live_tests": 19,
+      "existing_tests": 55
+    },
+    "source_sha256": {
+      "scripts/n09-live.mjs": "4db9f05871466dd100c5d2c355ae6553f3341641a58d0af1b06d6ca62b676386",
+      "scripts/n09-live.test.mjs": "fd420019f7015ff7c995438c8fd767200dead9b87366f1dde5a2300ad3fdaa7f"
+    },
+    "raw_log": "runs/n09-live/node-tests-20261117.log",
+    "docker": "Sandbox account lacked Docker engine access; real PCAP/REA tooling was verified in CI."
+  },
+  "ci": {
+    "run_id": 44026961401,
+    "url": "https://github.com/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/runs/44026961401",
+    "jobs": [
+      {
+        "id": 133849498224,
+        "name": "keyless",
+        "conclusion": "success"
+      },
+      {
+        "id": 133849498260,
+        "name": "keyless-rea-pair",
+        "conclusion": "success"
+      }
+    ],
+    "node_regressions": {
+      "total": 74,
+      "pass": 74,
+      "fail": 0
+    },
+    "python_regressions": {
+      "total": 21,
+      "pass": 21
+    },
+    "real_practice_tcp": {
+      "total": 21,
+      "pass": 21,
+      "fail": 0,
+      "error": 0,
+      "all_pass": true
+    },
+    "request_audits": {
+      "actual_public_pcap_A": "success",
+      "actual_rea_pair_A": "success",
+      "actual_rea_pair_B": "success",
+      "api_requests_each": 0
+    },
+    "real_pair": {
+      "task": "N09",
+      "classification": "real-local-tools-key-free-preparation",
+      "recorded_at": "2026-11-17T05:52:17.592Z",
+      "execution_code_commit": "5d89765b285f5c33988d5b9620d0db6d8d09981f",
+      "code_dirty": false,
+      "input": {
+        "pcap": {
+          "path": "/work/practice/n06/normal-sessions.pcap",
+          "bytes": 4310,
+          "sha256": "e9b5650cd8aab5f0480a1b99740af67e7713f5083f5a58c0acaa5535207bd698"
+        },
+        "binary": {
+          "path": "/work/runs/n09/practice-server",
+          "bytes": 16928,
+          "sha256": "d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067"
+        }
+      },
+      "same_packet_sha256": "d539a6e15a6103f5eaa8ca17a44181832219fa83221117a0f9ae03e4d3c5ab35",
+      "same_system_prompt_sha256": "3ebb74f35e14074e28916d5695da4165e20cf4ab954387cd42a1744e6aacb8a8",
+      "same_budget": {
+        "model_calls": 2,
+        "max_output_tokens_per_call": 4096,
+        "model_timeout_ms": 120000,
+        "packet_evidence_bytes": 65536,
+        "binary_evidence_bytes": 24576,
+        "server_queries": 0
+      },
+      "checks": {
+        "a_packet_only": true,
+        "b_real_rea": true,
+        "same_pcap": true,
+        "same_packet_text": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "binary_hash_match": true
+      },
+      "rea": {
+        "version": "6.8.0",
+        "validation": {
+          "evidence_id": "ev_9b5ec86fab407d69cedfed58f9f2e92a9911c42bf28b7c73b1da7e538a4911e6",
+          "operation": "binary_overview",
+          "subject_sha256": "d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067",
+          "upstream_provider": "ghidra"
+        }
+      },
+      "supplied_evidence": {
+        "a": [
+          {
+            "source": "packet",
+            "supplied_bytes": 24300,
+            "truncated": false
+          }
+        ],
+        "b": [
+          {
+            "source": "packet",
+            "supplied_bytes": 24300,
+            "truncated": false
+          },
+          {
+            "source": "binary",
+            "supplied_bytes": 8411,
+            "truncated": false
+          }
+        ]
+      },
+      "runtime": {
+        "node": "v24.22.1",
+        "platform": "linux",
+        "arch": "x64",
+        "code_commit": "5d89765b285f5c33988d5b9620d0db6d8d09981f",
+        "code_dirty": false,
+        "packet_command": {
+          "argv": [
+            "tcpdump",
+            "-nn",
+            "-tt",
+            "-s",
+            "0",
+            "-XX",
+            "-r",
+            "/work/practice/n06/normal-sessions.pcap"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "stdout": "/work/runs/n09/A-rea-practice.json.artifacts-a62ae302-2370-4c46-8951-0450fc1d257a/packet.stdout.txt",
+          "stderr": "/work/runs/n09/A-rea-practice.json.artifacts-a62ae302-2370-4c46-8951-0450fc1d257a/packet.stderr.txt"
+        },
+        "prompt_sha256": "3ebb74f35e14074e28916d5695da4165e20cf4ab954387cd42a1744e6aacb8a8"
+      },
+      "result_files": {
+        "a": "runs/n09/A-rea-practice.json",
+        "b": "runs/n09/B-rea-practice.json",
+        "rea": "/work/runs/n09/B-rea-practice.json.artifacts-c47ebddc-cd80-402a-b41e-7543b45eb8d8/rea-result.json"
+      },
+      "model_calls": 0,
+      "experiment_score": false,
+      "n05_complete": false,
+      "n09_complete": false,
+      "semantic_review": "pending",
+      "human_execution_check": "pending"
+    },
+    "artifacts": [
+      {
+        "id": 14304070762,
+        "name": "keyless-rea-pair-evidence",
+        "digest": "sha256:5d8ca256c35fc6e1e78ab2a20a1fc54d2f0a407786f2b7d64051c466b46d1ac8",
+        "expires_at": "2026-12-17T05:52:18Z",
+        "url": "https://github.com/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/runs/44026961401/artifacts/14304070762"
+      },
+      {
+        "id": 14302763958,
+        "name": "keyless-evidence",
+        "digest": "sha256:7974f224e4683de3fc92f264e3eac689a6773aadb85be9e64b9254a9f5b35003",
+        "expires_at": "2026-12-17T05:51:41Z",
+        "url": "https://github.com/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/runs/44026961401/artifacts/14302763958"
+      }
+    ]
+  },
+  "implemented_limits": {
+    "model_requests_per_invocation": 1,
+    "max_output_tokens": 4096,
+    "timeout_ms": 120000,
+    "automatic_retries": 0,
+    "server_queries": 0
+  },
+  "owner_manual_check": "pending",
+  "live_model_pilot": "pending",
+  "remaining": [
+    "Confirm whether the school service offers external API credentials and its credit conversion.",
+    "Configure an eligible API endpoint and exact model ID locally; do not treat a web subscription balance as an API key.",
+    "Run one practice A/B live pair, record API usage and confirm model identity and candidate meaning.",
+    "N05 actual model-requested tool loop, N11 grading, and N12 executable-spec compatibility remain separate."
+  ],
+  "provenance": "CI test counts, request-audit status, pair metadata and artifact IDs were read from the successful job logs. No actual model response or reconstruction score is claimed."
+}
