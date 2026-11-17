@@ -77,7 +77,9 @@ test('live protocol fixture records real usage fields but cannot claim an actual
   assert.equal(r.success,true);assert.equal(f.requests.length,1);
   assert.equal(r.model_called,false);assert.equal(r.model_response_received,true);
   assert.equal(r.classification,'injected-api-protocol-test');
-  assert.equal(r.analysis_run_id,f.prepared.run_id);
+  assert.equal(r.analysis_run_id,r.run_id);
+  assert.equal(r.preparation_run_id,f.prepared.run_id);
+  assert.notEqual(r.analysis_run_id,r.preparation_run_id);
   assert.equal(r.usage.total_tokens,168);
   assert.equal(r.usage.api_requests,1);
   assert.equal(r.experiment_score,false);assert.equal(r.n09_complete,false);
@@ -226,3 +228,4 @@ test('an actual loopback HTTP fixture exercises wire serialization without invok
   assert.equal(received.body.model,f.env.LLM_MODEL);
   assert.equal(r.model_called,false);assert.equal(r.usage.total_tokens,168);
 });
+

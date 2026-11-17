@@ -142,8 +142,9 @@ export async function runLive({preparedPath,resultPath,execution='dry-run',env=p
   const redact = x => secret ? String(x).split(secret).join('[REDACTED_API_KEY]') : String(x);
   const save = (filename,value) => writeFile(filename,redact(value),{flag:'wx',mode:0o600});
   const injected = fetchImpl !== globalThis.fetch;
-  const result = {schema_version:1, task:'N09-live', run_id:randomUUID(),
-    analysis_run_id:null, execution, classification:execution==='dry-run'?'offline-request-audit':
+  const runId = randomUUID();
+  const result = {schema_version:1, task:'N09-live', run_id:runId,
+    analysis_run_id:runId, preparation_run_id:null, execution, classification:execution==='dry-run'?'offline-request-audit':
       injected?'injected-api-protocol-test':'live-model-candidate',
     started_at:now(), finished_at:null, success:false,stage:'preparation',stages:[],
     model_called:false, model_response_received:false, experiment_score:false,
@@ -170,7 +171,7 @@ export async function runLive({preparedPath,resultPath,execution='dry-run',env=p
   };
   try {
     const prepared = await stage('preparation',()=>loadPreparation(preparedPath));
-    result.analysis_run_id = prepared.preparation.run_id;
+    result.preparation_run_id = prepared.preparation.run_id;
     result.condition = prepared.preparation.condition;
     result.experiment = prepared.preparation.experiment;
     result.source_preparation=prepared.source;
@@ -265,3 +266,4 @@ if(process.argv[1] && path.resolve(process.argv[1])===fileURLToPath(import.meta.
   main().then(code=>{process.exitCode=code;}).catch(e=>{
     console.error('N09-live: '+(e.code || e.name));process.exitCode=1;
   });
+
