@@ -322,5 +322,86 @@
     "human_semantic_review": "pending",
     "web_integration": "pending"
   },
-  "school_credit_to_token_conversion": "unverified"
+  "school_credit_to_token_conversion": "unverified",
+  "latest_ci": {
+    "url": "https://github.com/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/runs/44032854840",
+    "run_id": 44032854840,
+    "source_branch_commit": "0374f818760fcd19e8c81a5db3e1aee427e7adff",
+    "checkout_commit": "e03e6bd970ed339c497b889df7de9d1bb04bfe8d",
+    "jobs": [
+      {
+        "id": 133868672978,
+        "name": "keyless",
+        "conclusion": "success"
+      },
+      {
+        "id": 133868673274,
+        "name": "keyless-rea-pair",
+        "conclusion": "success"
+      }
+    ],
+    "node": {
+      "total": 92,
+      "pass": 92,
+      "fail": 0
+    },
+    "python": {
+      "total": 21,
+      "pass": 21,
+      "fail": 0
+    },
+    "actual_public_n06_tcp": {
+      "total": 21,
+      "pass": 21,
+      "fail": 0,
+      "error": 0,
+      "server_stopped": true,
+      "target": "existing reference cases, not recovered N12 client"
+    },
+    "actual_rea_pair": {
+      "clean_checkout": true,
+      "sources_verified": true,
+      "source_fingerprint": "cc0339990a026f9f2b9112a3d76e5bbffe70d5fe51dec9c3c2361f82fdf7d875",
+      "checks": {
+        "a_packet_only": true,
+        "b_real_rea": true,
+        "same_pcap": true,
+        "same_packet_text": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "binary_hash_match": true
+      }
+    },
+    "tracked_launcher": {
+      "phase": "smoke",
+      "execution": "dry-run",
+      "success": true,
+      "model_requests": 0
+    },
+    "model_api_requests": 0,
+    "artifacts": [
+      {
+        "id": 14305868248,
+        "name": "keyless-evidence",
+        "size_in_bytes": 85408,
+        "digest": "sha256:0c6cf108a487971921bbd907ac2b4980bea684002ced9a05cb34f4fa000ab791",
+        "expires_at": "2026-12-17T06:40:03Z"
+      },
+      {
+        "id": 14305513601,
+        "name": "keyless-rea-pair-evidence",
+        "size_in_bytes": 103630,
+        "digest": "sha256:3e53d064d9738b6b794305ed6b76cd904426f2fa8437c935d320ab0070f83be3",
+        "expires_at": "2026-12-17T06:41:03Z"
+      }
+    ],
+    "previous_failed_run": {
+      "run_id": 44032530850,
+      "failed_stage": "host read and artifact upload",
+      "cause": "container-owned mode-0600/0700 output caused EACCES",
+      "runner_result_success": true,
+      "fix": "restore runner ownership before reading and uploading generated evidence",
+      "runtime_sources_changed": false
+    }
+  }
 }
