@@ -1,4 +1,5 @@
 // N09 shared contract. Pure JavaScript: no filesystem, subprocess, network or model access.
+import { WIRE_SPEC_GUIDANCE } from './wire-spec.mjs';
 export const BUDGET = Object.freeze({
   model_calls: 2, max_output_tokens_per_call: 4096, model_timeout_ms: 120000,
   packet_evidence_bytes: 65536, binary_evidence_bytes: 24576, server_queries: 0,
@@ -10,6 +11,7 @@ export const PROMPT = [
   'spec is a candidate specification, not a confirmed answer. Unknown fields must remain unknown.',
   'Use exact evidence quotes of at least 12 characters. Report ambiguity and unsupported hypotheses.',
   'Do not assume TCP packet, send(), recv() or data-event boundaries are application message boundaries.',
+  WIRE_SPEC_GUIDANCE,
 ].join(' ');
 const problem = (code, message) => Object.assign(new Error(message), { code });
 export function validateSelection({ condition, binaryPath, execution = 'prepare', experiment = 'practice' }) {
