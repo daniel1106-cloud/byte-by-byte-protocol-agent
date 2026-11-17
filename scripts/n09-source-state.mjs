@@ -6,6 +6,7 @@ export const SOURCE_FILES = Object.freeze([
   'rea-smoke.mjs', 'n09-contract.mjs', 'n09-prepare.mjs',
   'n09-live.mjs', 'n09-check-pair.mjs', 'n09-source-state.mjs',
   'wire-spec.mjs', 'n12-practice-bridge.mjs', 'gemini-practice.mjs', 'gemini-pilot.mjs',
+  'pcap-tcp-streams.py',
 ]);
 const sha = value => createHash('sha256').update(value).digest('hex');
 

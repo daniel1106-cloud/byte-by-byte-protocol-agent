@@ -29,9 +29,10 @@ function excerpt(text, limit) {
 }
 export async function prepareRun({ condition, pcapPath, binaryPath, resultPath,
   execution = 'prepare', experiment = 'practice', env = process.env,
-  runCommand = defaultRunCommand } = {}) {
+  runCommand = defaultRunCommand, packetFormat = 'tcpdump' } = {}) {
   // Reject A+binary before reading any input or creating a result.
   validateSelection({ condition, binaryPath, execution, experiment });
+  if (!['tcpdump','tcp-streams-v1'].includes(packetFormat)) throw fault('PACKET_FORMAT', 'Use tcpdump or tcp-streams-v1');
   if (!pcapPath || !resultPath) throw fault('USAGE', 'PCAP and a new output JSON path are required');
   const output = path.resolve(resultPath);
   if ([pcapPath, binaryPath].filter(Boolean).some(x => path.resolve(x) === output))
@@ -99,9 +100,25 @@ export async function prepareRun({ condition, pcapPath, binaryPath, resultPath,
         throw fault('PACKET_COMMAND_FAILED', 'tcpdump failed; inspect retained artifacts');
       if ((await stat(filename)).size > MAX_INPUT_BYTES) throw fault('PACKET_OUTPUT_LIMIT', 'Packet dump exceeded 16 MiB; raw file retained');
       if ((await snapshot(pcapPath)).sha256 !== result.input.pcap.sha256) throw fault('INPUT_CHANGED', 'PCAP changed during extraction');
-      const raw = await readFile(filename, 'utf8');
+      let raw = await readFile(filename, 'utf8'), rawFile = filename;
+      if (packetFormat === 'tcp-streams-v1') {
+        const streamPath = path.join(artifacts,'packet.streams.json'), streamError = path.join(artifacts,'packet.streams.stderr');
+        const streamArgs = ['scripts/pcap-tcp-streams.py','--pcap',result.input.pcap.path];
+        const streams = await runCommand('python3',streamArgs,{env:safeEnv,timeoutMs:30000,stdoutPath:streamPath,stderrPath:streamError});
+        for (const [target,value] of [[streamPath,streams.stdout],[streamError,streams.stderr]]) {
+          try {await saveText(target,value||'');}catch(error){if(error.code!=='EEXIST')throw error;}
+        }
+        if (streams.exitCode!==0||streams.timedOut||streams.spawnError)throw fault('STREAM_EXTRACTION_FAILED','TCP stream extraction failed; raw evidence retained');
+        if ((await stat(streamPath)).size>MAX_INPUT_BYTES)throw fault('PACKET_OUTPUT_LIMIT','Stream output exceeded 16 MiB');
+        raw = await readFile(streamPath,'utf8');rawFile = streamPath;
+        const parsed = JSON.parse(raw);
+        if (parsed.pcap_sha256!==result.input.pcap.sha256 || (await snapshot(pcapPath)).sha256!==result.input.pcap.sha256)
+          throw fault('INPUT_CHANGED','PCAP changed during stream extraction');
+        result.runtime.stream_command={argv:['python3',...streamArgs],exit_code:streams.exitCode,stdout:streamPath,stderr:streamError};
+      }
+      result.runtime.packet_format=packetFormat;
       packet = { id: 'packet-1', source: 'packet', ...excerpt(raw, BUDGET.packet_evidence_bytes) };
-      result.evidence.push({ ...packet, raw_file: filename });
+      result.evidence.push({ ...packet, raw_file: rawFile });
     });
     let binary = null;
     if (condition === 'B') await stage('binary_evidence', async () => {
@@ -147,7 +164,7 @@ export async function prepareRun({ condition, pcapPath, binaryPath, resultPath,
 }
 export function parseArgs(argv) {
   const names = { '--condition': 'condition', '--pcap': 'pcapPath', '--binary': 'binaryPath',
-    '--out': 'resultPath', '--execution': 'execution', '--experiment': 'experiment' };
+    '--out': 'resultPath', '--execution': 'execution', '--experiment': 'experiment', '--packet-format': 'packetFormat' };
   const options = {};
   for (let index = 0; index < argv.length; index += 2) {
     const key = names[argv[index]], value = argv[index + 1];

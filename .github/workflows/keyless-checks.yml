@@ -27,10 +27,10 @@ jobs:
       - name: Node mock regressions
         run: node --test scripts/rea-smoke.test.mjs scripts/n09-contract.test.mjs scripts/n09-prepare.test.mjs scripts/n09-live.test.mjs scripts/n09-check-pair.test.mjs scripts/wire-spec.test.mjs | tee runs/n09/node-tests.log
       - name: Python evaluator regressions
-        run: python3 -m unittest discover -s scripts -p 'test_n07*.py' 2>&1 | tee runs/n09/python-tests.log
+        run: python3 -m unittest discover -s scripts -p 'test_*.py' 2>&1 | tee runs/n09/python-tests.log
       - name: Actual public PCAP preparation, condition A
         run: |
-          node scripts/n09-prepare.mjs --condition A --pcap practice/n06/normal-sessions.pcap --out runs/n09/A-public-practice.json
+          node scripts/n09-prepare.mjs --condition A --pcap practice/n06/normal-sessions.pcap --packet-format tcp-streams-v1 --out runs/n09/A-public-practice.json
           node -e "const r=require('./runs/n09/A-public-practice.json'); if(!r.success || r.model_called || r.experiment_score || r.input.binary) process.exit(1)"
       - name: Offline model request audit on actual public PCAP preparation
         run: |
