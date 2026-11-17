@@ -25,7 +25,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y tcpdump
       - name: Node mock regressions
-        run: node --test scripts/rea-smoke.test.mjs scripts/n09-contract.test.mjs scripts/n09-prepare.test.mjs scripts/n09-live.test.mjs | tee runs/n09/node-tests.log
+        run: node --test scripts/rea-smoke.test.mjs scripts/n09-contract.test.mjs scripts/n09-prepare.test.mjs scripts/n09-live.test.mjs scripts/n09-check-pair.test.mjs scripts/wire-spec.test.mjs | tee runs/n09/node-tests.log
       - name: Python evaluator regressions
         run: python3 -m unittest discover -s scripts -p 'test_n07*.py' 2>&1 | tee runs/n09/python-tests.log
       - name: Actual public PCAP preparation, condition A

@@ -6,6 +6,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defaultRunCommand, runSmoke } from './rea-smoke.mjs';
 import { BUDGET, makeRequest, mockOutput, validateOutput, validateSelection } from './n09-contract.mjs';
+import { fingerprintSources } from './n09-source-state.mjs';
 
 const sha = value => createHash('sha256').update(value).digest('hex');
 const now = () => new Date().toISOString();
@@ -71,6 +72,7 @@ export async function prepareRun({ condition, pcapPath, binaryPath, resultPath,
   };
   try {
     await stage('input', async () => {
+      result.runtime.source_fingerprint = await fingerprintSources();
       result.input.pcap = await snapshot(pcapPath);
       // Snapshot the selected binary only in B. No directory scan, README or hidden-answer lookup.
       if (condition === 'B') result.input.binary = await snapshot(binaryPath);
@@ -130,6 +132,10 @@ export async function prepareRun({ condition, pcapPath, binaryPath, resultPath,
       const matches = validateOutput(mock, request);
       result.spec = mock.spec; result.observations = mock.observations; result.unknowns = mock.unknowns;
       result.verification = { exact_quotes: matches, semantic_review: 'pending', actual_protocol_reconstruction: false };
+    });
+    await stage('source_verification', async () => {
+      if ((await fingerprintSources()).sha256 !== result.runtime.source_fingerprint.sha256)
+        throw fault('CODE_CHANGED', 'Runner source files changed during preparation; start a new run');
     });
     result.stage = 'complete'; result.success = true;
   } catch (error) {

@@ -117,6 +117,29 @@ test('N05 absent tool call fails before any REA invocation', async () => {
   assert.equal((await saved(f)).success, false);
 });
 
+test('N05 preserves provider thought signatures and explicitly caps both calls', async () => {
+  const message=first();message.extra_content={google:{thought_signature:'mock-signature'}};
+  message.tool_calls[0].extra_content={google:{thought_signature:'mock-tool-signature'}};
+  const f=await fixture('provider-signatures',{first:message});
+  const result=await f.run({env:{...env,LLM_JSON_MODE:'on',LLM_MAX_TOKENS_PARAM:'max_tokens'}});
+  assert.equal(result.success,true);
+  assert.deepEqual(f.requests[1].body.messages.find(m=>m.role==='assistant'),message);
+  assert.ok(f.requests.every(r=>r.body.max_tokens===4096));
+  assert.deepEqual(f.requests[1].body.response_format,{type:'json_object'});
+  assert.equal(result.usage.api_requests,2);
+});
+
+test('N05 records API usage independently for the two model rounds', async () => {
+  const f=await fixture('two-round-usage',{fetch:(round)=>new Response(JSON.stringify({
+    model:'explicit-mock-model',usage:{prompt_tokens:round*10,completion_tokens:round,total_tokens:round*11},
+    choices:[{message:round===1?first():final()}]
+  }),{status:200})});
+  const result=await f.run();
+  assert.equal(result.success,true);assert.equal(result.usage.api_requests,2);
+  assert.equal(result.usage.prompt_tokens,30);assert.equal(result.usage.completion_tokens,3);
+  assert.equal(result.usage.total_tokens,33);
+});
+
 for (const [name, calls] of [
   ['unknown-tool', [call({ function: { name: 'run_shell', arguments: '{}' } })]],
   ['multiple-tools', [call(), call({ id: 'another-call' })]],

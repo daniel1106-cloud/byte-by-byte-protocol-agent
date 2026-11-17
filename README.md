@@ -1,6 +1,8 @@
 # byte-by-byte-protocol-agent
 LLM- and REA-assisted reconstruction of custom TCP protocols, with compatible clients and reproducible network experiments.
 
+- [Gemini N05/N09 pilot and N12 wire-spec handoff](docs/n09-wire-handoff.md)
+
 ## Reproduce and contribute
 
 - [N05 REA smoke runner](docs/rea-smoke.md)
