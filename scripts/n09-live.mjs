@@ -24,12 +24,8 @@ async function readBounded(filename, limit = MAX_FILE_BYTES) {
   if (bytes.length > limit) throw fault('FILE_LIMIT', 'File grew beyond the size limit');
   return { path: resolved, bytes, sha256: hash(bytes) };
 }
-async function loadPreparation(filename) {
-  const source = await readBounded(filename);
-  let p;
-  try { p = JSON.parse(source.bytes.toString('utf8')); }
-  catch { throw fault('PREPARATION_JSON', 'Preparation file is not JSON'); }
-  if (p.task !== 'N09' || p.success !== true || p.execution !== 'prepare' ||
+async function validatePreparation(p) {
+  if (p?.task !== 'N09' || p.success !== true || p.execution !== 'prepare' ||
       p.command_backend !== 'real' || p.model_called !== false || p.spec !== null ||
       p.experiment_score !== false || !['practice', 'E1'].includes(p.experiment) ||
       !isDeepStrictEqual(p.budget, BUDGET)) {
@@ -78,7 +74,7 @@ async function loadPreparation(filename) {
   }
   // Rebuild the request from selected evidence; do not trust an edited request.json.
   const request = makeRequest({condition:p.condition, packet:evidence[0], binary:evidence[1] || null});
-  return {source:{path:source.path,sha256:source.sha256}, preparation:p, request, inputFiles, rawFiles};
+  return {request, inputFiles, rawFiles};
 }
 function configuration(env, live) {
   const missing = ['LLM_CHAT_COMPLETIONS_URL', 'LLM_MODEL', 'LLM_API_KEY']
@@ -131,12 +127,16 @@ function providerUsage(raw) {
     prompt_tokens:integer(raw?.prompt_tokens), completion_tokens:integer(raw?.completion_tokens),
     total_tokens:integer(raw?.total_tokens), provider:raw || null};
 }
-export async function runLive({preparedPath,resultPath,execution='dry-run',env=process.env,
+export async function runLive({preparedPath,resultPath,execution='dry-run',condition=null,repeat=null,env=process.env,
   fetchImpl=globalThis.fetch,timeoutMs=BUDGET.model_timeout_ms}={}) {
   if (!['dry-run','live'].includes(execution) || !preparedPath || !resultPath)
     throw fault('USAGE', 'Use --prepared FILE --out NEW_FILE --execution dry-run|live');
   if (!Number.isSafeInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > BUDGET.model_timeout_ms)
     throw fault('TIMEOUT_BUDGET', 'Timeout must not exceed the shared model budget');
+  if (condition !== null && !['A','B'].includes(condition))
+    throw fault('INVALID_CONDITION', 'Use A or B for the planned condition');
+  if (repeat !== null && (!Number.isSafeInteger(repeat) || repeat < 1))
+    throw fault('INVALID_REPEAT', 'Use a positive integer for the planned repeat');
   const output = path.resolve(resultPath);
   if (output === path.resolve(preparedPath)) throw fault('OUTPUT_IS_INPUT', 'Output cannot replace preparation');
   await mkdir(path.dirname(output),{recursive:true});
@@ -153,7 +153,7 @@ export async function runLive({preparedPath,resultPath,execution='dry-run',env=p
       injected?'injected-api-protocol-test':'live-model-candidate',
     started_at:now(), finished_at:null, success:false,stage:'preparation',stages:[],
     model_called:false, model_response_received:false, experiment_score:false,
-    n05_complete:false,n09_complete:false, condition:null,experiment:null,
+    n05_complete:false,n09_complete:false, condition,repeat,experiment:null,
     source_preparation:null,request_file:null,artifacts,budget:{...BUDGET},
     model:{requested:null,returned:null,endpoint:null,operator_confirmed:false},
     usage:{api_requests:0,reported:false,prompt_tokens:null,completion_tokens:null,total_tokens:null},
@@ -175,13 +175,21 @@ export async function runLive({preparedPath,resultPath,execution='dry-run',env=p
     finally {s.finished_at=now();await persist();}
   };
   try {
-    const prepared = await stage('preparation',()=>loadPreparation(preparedPath));
+    const prepared = await stage('preparation',async()=>{
+      const source = await readBounded(preparedPath);
+      let manifest;
+      try { manifest = JSON.parse(source.bytes.toString('utf8')); }
+      catch { throw fault('PREPARATION_JSON', 'Preparation file is not JSON'); }
+      result.source_preparation = {path:source.path,sha256:source.sha256};
+      if (condition !== null && manifest?.condition !== condition)
+        throw fault('CONDITION_MISMATCH', 'Preparation does not match the planned condition');
+      if (['A','B'].includes(manifest?.condition)) result.condition = manifest.condition;
+      result.preparation_run_id = manifest?.run_id ?? null;
+      result.experiment = manifest?.experiment ?? null;
+      result.runtime.preparation_code_dirty = manifest?.runtime?.code_dirty ?? null;
+      return validatePreparation(manifest);
+    });
     result.runtime.source_fingerprint = await fingerprintSources();
-    result.runtime.preparation_code_dirty = prepared.preparation.runtime?.code_dirty ?? null;
-    result.preparation_run_id = prepared.preparation.run_id;
-    result.condition = prepared.preparation.condition;
-    result.experiment = prepared.preparation.experiment;
-    result.source_preparation=prepared.source;
     result.input={selected:prepared.inputFiles,raw_evidence:prepared.rawFiles};
     const config=await stage('configuration',()=>configuration(env,execution==='live'));
     result.configuration={ready:config.missing.length===0,missing:config.missing,
@@ -196,10 +204,12 @@ export async function runLive({preparedPath,resultPath,execution='dry-run',env=p
       await save(result.request_file,JSON.stringify(payload,null,2)+'\n');
     });
     if (execution==='live') {
-      let response, raw; const controller=new AbortController();
-      const timer=setTimeout(()=>controller.abort(),timeoutMs);
-      try {
-        await stage('model_request',async()=>{
+      let raw;
+      await stage('model_request',async()=>{
+        const controller=new AbortController();
+        const timer=setTimeout(()=>controller.abort(),timeoutMs);
+        let response;
+        try {
           result.usage.api_requests=1;
           response=await fetchImpl(config.url,{method:'POST',redirect:'error',signal:controller.signal,
             headers:{'Content-Type':'application/json',Authorization:'Bearer '+secret},
@@ -207,14 +217,14 @@ export async function runLive({preparedPath,resultPath,execution='dry-run',env=p
           result.api={status:response.status,request_id:response.headers?.get('x-request-id') || null,
             retry_after:response.headers?.get('retry-after') || null};
           raw=await responseText(response);
-          result.response_file=path.join(artifacts,'response.txt');
-          await save(result.response_file,raw);
-          if (!response.ok) throw fault('API_HTTP_ERROR','API returned HTTP '+response.status+'; response retained');
-        });
-      } catch(e) {
-        if (controller.signal.aborted) throw fault('MODEL_TIMEOUT','Model request exceeded its timeout');
-        throw e;
-      } finally {clearTimeout(timer);}
+        } catch(e) {
+          if (controller.signal.aborted) throw fault('MODEL_TIMEOUT','Model request exceeded its timeout');
+          throw e;
+        } finally {clearTimeout(timer);}
+        result.response_file=path.join(artifacts,'response.txt');
+        await save(result.response_file,raw);
+        if (!response.ok) throw fault('API_HTTP_ERROR','API returned HTTP '+response.status+'; response retained');
+      });
       await stage('candidate_validation',async()=>{
         let envelope;
         try {envelope=JSON.parse(raw);}
@@ -251,12 +261,13 @@ export async function runLive({preparedPath,resultPath,execution='dry-run',env=p
   return result;
 }
 export function parseArgs(argv) {
-  const keys={'--prepared':'preparedPath','--out':'resultPath','--execution':'execution'}, options={};
+  const keys={'--prepared':'preparedPath','--out':'resultPath','--execution':'execution',
+    '--condition':'condition','--repeat':'repeat'}, options={};
   for(let i=0;i<argv.length;i+=2) {
     const key=keys[argv[i]],value=argv[i+1];
     if(!key || !value || value.startsWith('--') || Object.hasOwn(options,key))
       throw fault('USAGE','Use unique named options with values');
-    options[key]=value;
+    options[key]=key==='repeat'?Number(value):value;
   }
   return options;
 }

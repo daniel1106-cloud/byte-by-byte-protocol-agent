@@ -46,15 +46,17 @@ try {
     await checkPair({aPath,bPath,outPath:path.join(directory,'pair.json'),allowDirty:options['--allow-dirty']==='true'});
     for(const [condition,preparedPath] of [['A',aPath],['B',bPath]]) {
       const resultPath=path.join(directory,condition+'-analysis.json');
-      const result=await runLive({preparedPath,resultPath,execution});
+      const result=await runLive({preparedPath,resultPath,execution,condition,repeat:1});
+      const attempt={analysis_run_id:result.analysis_run_id,condition:result.condition,repeat:result.repeat};
       summary.model_requests+=result.usage.api_requests;
-      await record('N09-'+condition,{file:resultPath,success:result.success,usage:result.usage,error:result.error||null});
-      if(result.api&&result.api.status!==200)break;
-      if(execution==='live'&&result.success) {
+      await record('N09-'+condition,{...attempt,file:resultPath,success:result.success,usage:result.usage,error:result.error||null});
+      if(execution==='live') {
         const bridgePath=path.join(directory,condition+'-client.json');
         const bridge=await evaluatePractice({analysisPath:resultPath,binaryPath:binary,resultPath:bridgePath});
-        await record('N12-reference-'+condition,{file:bridgePath,success:bridge.success,summary:bridge.summary,error:bridge.error||null});
+        await record('N12-reference-'+condition,{...attempt,file:bridgePath,success:bridge.success,
+          evaluation_status:bridge.evaluation_status,summary:bridge.summary,error:bridge.error||null});
       }
+      if(result.api&&result.api.status!==200)break;
     }
   }
   summary.success=summary.results.length>0&&summary.results.every(result=>result.success);

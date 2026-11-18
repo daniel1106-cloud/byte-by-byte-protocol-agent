@@ -8,6 +8,7 @@ import path from 'node:path';
 import { BUDGET, PROMPT } from './n09-contract.mjs';
 import { runLive, parseArgs } from './n09-live.mjs';
 import { fingerprintSources } from './n09-source-state.mjs';
+import { evaluatePractice } from './n12-practice-bridge.mjs';
 
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const root=path.resolve('runs/n09-live-tests');
@@ -129,8 +130,22 @@ test('A rejects binary metadata even if its path is empty',async()=>{
 });
 test('changed input digest is rejected before sending any evidence',async()=>{
   const f=await fixture();await writeFile(f.pcapPath,'changed input');
-  assert.equal((await f.run()).error.code,'INPUT_CHANGED');
+  const result=await f.run();
+  assert.equal(result.error.code,'INPUT_CHANGED');
+  assert.equal(result.condition,'A');
+  assert.equal(result.preparation_run_id,f.prepared.run_id);
   assert.equal(f.requests.length,0);
+});
+test('planned condition and repeat survive unreadable or mismatched preparation',async()=>{
+  for(const invalidJson of [true,false]){
+    const f=await fixture('A');
+    if(invalidJson) await writeFile(f.preparedPath,'invalid JSON');
+    const result=await f.run({condition:'B',repeat:2});
+    assert.equal(result.error.code,invalidJson?'PREPARATION_JSON':'CONDITION_MISMATCH');
+    assert.equal(result.condition,'B');assert.equal(result.repeat,2);
+    assert.equal(result.analysis_run_id,result.run_id);
+    assert.equal(f.requests.length,0);
+  }
 });
 test('changed raw evidence and edited excerpts are both rejected',async()=>{
   const f=await fixture();await writeFile(f.prepared.evidence[0].raw_file,'changed evidence');
@@ -163,13 +178,34 @@ test('HTTP 429 keeps its body and usage unknown without automatic retries',async
   assert.match(await readFile(r.response_file,'utf8'),/REDACTED_API_KEY/);
   assert.equal((await retainedText(f.dir)).includes(f.env.LLM_API_KEY),false);
 });
-test('request timeout persists failure instead of leaving an unbounded fetch',async()=>{
-  const f=await fixture();
-  const r=await f.run({timeoutMs:10,fetchImpl:async(_,opts)=>new Promise((_,reject)=>{
-    opts.signal.addEventListener('abort',()=>reject(new DOMException('aborted','AbortError')),{once:true});
-  })});
-  assert.equal(r.error.code,'MODEL_TIMEOUT');
-  assert.equal(r.usage.api_requests,1);assert.equal(r.model_called,false);
+for (const lateSubscriber of [false,true]) {
+  const timing=lateSubscriber?'already aborted':'waiting for abort';
+  test('request timeout persists failure: '+timing,{timeout:10000},async()=>{
+    const f=await fixture();
+    const result=await f.run({timeoutMs:10,fetchImpl:async(_url,{signal})=>{
+      assert.equal(signal.aborted,false,'Request timer must start after stage persistence');
+      if (lateSubscriber) await once(signal,'abort');
+      // once handles both pending and previously aborted signals, just like fetch.
+      return once(new EventTarget(),'response',{signal});
+    }});
+    const saved=JSON.parse(await readFile(f.resultPath,'utf8'));
+    assert.equal(saved.error.code,'MODEL_TIMEOUT');assert.equal(saved.error.stage,'model_request');
+    assert.equal(saved.analysis_run_id,result.run_id);assert.equal(saved.success,false);
+    assert.equal(saved.usage.api_requests,1);assert.equal(saved.model_called,false);
+  });
+}
+test('N09 failure produces a linked N12 record without running the TCP evaluator',async()=>{
+  const f=await fixture('B');
+  const analysis=await f.run({env:{},condition:'B',repeat:3});
+  assert.equal(analysis.error.code,'MISSING_CONFIGURATION');
+  const resultPath=path.join(f.dir,'client.json');
+  await evaluatePractice({analysisPath:f.resultPath,resultPath,binaryPath:'must-not-execute'});
+  const saved=JSON.parse(await readFile(resultPath,'utf8'));
+  assert.equal(saved.analysis_run_id,analysis.run_id);
+  assert.equal(saved.condition,'B');assert.equal(saved.repeat,3);
+  assert.deepEqual(saved.error,analysis.error);
+  assert.equal(saved.success,false);assert.equal(saved.evaluation_status,'not_run');
+  assert.equal(saved.evaluation_file,undefined);assert.equal(saved.generated_cases_file,undefined);
 });
 test('unsupported schemes, URL secrets and oversized timeout budgets cannot cause a call',async()=>{
   for(const url of ['http://example.test/api','https://user:secret@example.test/api','https://example.test/api?key=secret']){
@@ -220,6 +256,7 @@ test('truncation, tool requests and empty candidate specs are preserved as failu
 test('CLI parsing rejects unknown, duplicate or missing arguments',()=>{
   assert.deepEqual(parseArgs(['--prepared','p.json','--out','r.json']),
     {preparedPath:'p.json',resultPath:'r.json'});
+  assert.deepEqual(parseArgs(['--condition','A','--repeat','2']),{condition:'A',repeat:2});
   for(const args of [['--out'],['--oops','a'],['--out','a','--out','b']])
     assert.throws(()=>parseArgs(args),{code:'USAGE'});
 });

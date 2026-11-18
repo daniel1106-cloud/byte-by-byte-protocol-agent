@@ -33,12 +33,22 @@ export async function evaluatePractice({analysisPath,binaryPath,resultPath,env=p
   const output=path.resolve(resultPath);await mkdir(path.dirname(output),{recursive:true});
   const reserved=await open(output,'wx',0o600);await reserved.close();
   const result={task:'N12-reference',classification:'public-practice-recovered-wire-client',
-    experiment_score:false,success:false,started_at:new Date().toISOString(),analysis_run_id:null};
+    experiment_score:false,success:false,started_at:new Date().toISOString(),analysis_run_id:null,
+    condition:null,repeat:null,evaluation_status:'not_run'};
   try {
     const raw=await readFile(analysisPath,'utf8'),analysis=JSON.parse(raw);
+    result.analysis_sha256=sha(raw);
+    result.analysis_run_id=analysis.analysis_run_id ?? (analysis.task==='N09-live'?analysis.run_id:null) ?? null;
+    result.condition=analysis.condition ?? null;
+    result.repeat=analysis.repeat ?? null;
+    if(analysis.success===false) {
+      const error=new Error(analysis.error?.message || 'Upstream N09 analysis failed');
+      error.code=analysis.error?.code || 'ANALYSIS_FAILED';
+      error.stage=analysis.error?.stage || analysis.stage || 'analysis';
+      throw error;
+    }
     if(!analysis.success||!analysis.model_called||analysis.runtime?.execution_backend!=='real')
       throw new Error('Use a validated real model candidate; mock, empty and failed analysis results cannot execute');
-    result.analysis_run_id=analysis.analysis_run_id;result.analysis_sha256=sha(raw);result.condition=analysis.condition;
     const vectorPath=new URL('../practice/n06/client-vectors.json',import.meta.url);
     const vectorRaw=await readFile(vectorPath,'utf8');result.oracle_sha256=sha(vectorRaw);
     result.spec_sha256=sha(JSON.stringify(analysis.spec));
@@ -46,6 +56,7 @@ export async function evaluatePractice({analysisPath,binaryPath,resultPath,env=p
     result.generated_cases_file=output+'.cases.json';result.evaluation_file=output+'.evaluation.json';
     await writeFile(result.generated_cases_file,JSON.stringify(cases,null,2)+'\n',{flag:'wx',mode:0o600});
     const safeEnv=Object.fromEntries(Object.entries(env).filter(([name])=>!/KEY|TOKEN|SECRET|^LLM_/i.test(name)));
+    result.evaluation_status='error';
     const execution=await defaultRunCommand('python3',['scripts/n07-evaluate.py','--cases',result.generated_cases_file,
       '--binary',path.resolve(binaryPath),'--out',result.evaluation_file],{env:safeEnv,timeoutMs:120000,
       stdoutPath:output+'.stdout',stderrPath:output+'.stderr'});
@@ -58,7 +69,11 @@ export async function evaluatePractice({analysisPath,binaryPath,resultPath,env=p
     });
     result.success=execution.exitCode===0&&!execution.timedOut&&evaluated.summary?.all_pass===true&&
       evaluated.server_stopped===true&&result.decoded_responses.every(r=>r.complete&&r.remaining_hex==='');
-  } catch(error) {result.error={code:error.code||error.name,message:error.message};}
+    result.evaluation_status=result.success?'passed':'failed';
+  } catch(error) {
+    result.error={code:error.code||error.name,message:error.message};
+    if(error.stage) result.error.stage=error.stage;
+  }
   result.finished_at=new Date().toISOString();
   await writeFile(output,JSON.stringify(result,null,2)+'\n',{mode:0o600});return result;
 }
