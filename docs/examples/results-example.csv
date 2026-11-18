@@ -1,12 +1,7 @@
 run_id,experiment,condition,repeat,client_version,client_origin,test_type,net_delay_ms,loss_pct,case_id,verdict,expected_text,actual_text,expected_hex,actual_hex,first_diff_offset,server_closed,error,elapsed_ms,description,started_at,code_commit,notes
-EXAMPLE-practice-known,practice,practice,,practice-server,original,socket,0,0,ping-single-write,pass,"PONG
-","PONG
-",504f4e470a,504f4e470a,,true,,2.1,Exact PING in one write,2026-11-07T11:48:09Z,cf41a6920e0d8e5ae9849eaa5a5ec6f1a786ec3e,format example; elapsed_ms illustrative
-EXAMPLE-practice-known,practice,practice,,practice-server,original,socket,0,0,ping-split-writes,pass,"PONG
-","PONG
-",504f4e470a,504f4e470a,,true,,45.3,PING split across three writes,2026-11-07T11:48:09Z,cf41a6920e0d8e5ae9849eaa5a5ec6f1a786ec3e,format example; elapsed_ms illustrative
-EXAMPLE-practice-mismatch,practice,practice,,practice-server,original,socket,0,0,missing-newline-in-reply,fail,PONG,"PONG
-",504f4e47,504f4e470a,4,true,,1.8,Deliberately wrong expected value,2026-11-07T11:48:10Z,cf41a6920e0d8e5ae9849eaa5a5ec6f1a786ec3e,"fail: bytes differ, first difference at offset 4"
-EXAMPLE-practice-mismatch,practice,practice,,practice-server,original,socket,0,0,no-terminator-assumption,error,,,,,,false,timeout,3000.0,Request without newline; server keeps waiting,2026-11-07T11:48:10Z,cf41a6920e0d8e5ae9849eaa5a5ec6f1a786ec3e,"error: evaluation problem, not a spec mismatch"
-EXAMPLE-E2-B-r1,E2,B,1,B-r1-v1,auto,delay_loss,100,5,unseen-cmd-01,pass,,,,,,true,,412.7,Unseen input under 100 ms delay and 5% loss,2026-11-20T03:00:00Z,cf41a6920e0d8e5ae9849eaa5a5ec6f1a786ec3e,format example only; not a measurement
-EXAMPLE-E2-B-r1,E2,B,1,B-r1-v1-manual,manual,socket,0,0,unseen-cmd-02,fail,,,,,,true,,3.4,"Hand-edited client, reported separately from auto",2026-11-20T03:05:00Z,cf41a6920e0d8e5ae9849eaa5a5ec6f1a786ec3e,format example only; client_origin=manual is aggregated separately
+EXAMPLE-practice-known,practice,practice,,practice-server,original,socket,0,0,ping-single-write,pass,PONG\n,PONG\n,504f4e470a,504f4e470a,,True,,2.1,Exact PING in one write,2026-11-07T11:48:09Z,cf41a6920e0d8e5ae9849eaa5a5ec6f1a786ec3e,format example; elapsed_ms illustrative
+EXAMPLE-practice-known,practice,practice,,practice-server,original,socket,0,0,ping-split-writes,pass,PONG\n,PONG\n,504f4e470a,504f4e470a,,True,,45.3,PING split across three writes,2026-11-07T11:48:09Z,cf41a6920e0d8e5ae9849eaa5a5ec6f1a786ec3e,format example; elapsed_ms illustrative
+EXAMPLE-practice-mismatch,practice,practice,,practice-server,original,socket,0,0,missing-newline-in-reply,fail,PONG,PONG\n,504f4e47,504f4e470a,4,True,,1.8,Deliberately wrong expected value,2026-11-07T11:48:10Z,cf41a6920e0d8e5ae9849eaa5a5ec6f1a786ec3e,"fail: bytes differ, first difference at offset 4"
+EXAMPLE-practice-mismatch,practice,practice,,practice-server,original,socket,0,0,no-terminator-assumption,error,PONG\n,,504f4e470a,,0,False,timeout,1000.4,Request without newline; server keeps waiting,2026-11-07T11:48:10Z,cf41a6920e0d8e5ae9849eaa5a5ec6f1a786ec3e,error(timeout) caused by wrong spec (request without newline); baseline passes so cause=spec
+EXAMPLE-eval-E2-B-r1-delay,E2,B,1,EXAMPLE-analysis-B-r1,auto,delay_loss,100,5,unseen-cmd-01,pass,,,,,,True,,412.7,Unseen input under 100 ms delay and 5% loss,2026-11-20T03:00:00Z,cf41a6920e0d8e5ae9849eaa5a5ec6f1a786ec3e,format example only; not a measurement
+EXAMPLE-eval-E2-B-r1-socket,E2,B,1,EXAMPLE-analysis-B-r1-m1,manual,socket,0,0,unseen-cmd-02,fail,,,,,,True,,3.4,"Hand-edited client, reported separately from auto",2026-11-20T03:05:00Z,cf41a6920e0d8e5ae9849eaa5a5ec6f1a786ec3e,format example only; client_origin=manual is aggregated separately

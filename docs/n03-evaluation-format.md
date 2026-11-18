@@ -66,11 +66,11 @@ N07 평가기(`scripts/n07-evaluate.py`)의 `CSV_FIELDS` 11개 열을 **그대�
 
 | 열 | 값 | 설명 |
 | --- | --- | --- |
-| `run_id` | 문자열 | 한 번의 평가 실행. 같은 실행의 모든 줄이 같은 값 |
+| `run_id` | 문자열 | 한 번의 평가 실행(N07 실행 1회). 같은 실행의 모든 줄이 같은 값. 분석 실행과의 연결은 §2.4 |
 | `experiment` | `practice`/`E1`/`E2`/`E3` | 연습 결과는 `practice`이며 본 실험 점수가 아니다 |
 | `condition` | `A`/`B`/`original`/`practice` | 분석 조건 또는 원본 클라이언트 기준선 |
 | `repeat` | 정수 | 같은 조건의 반복 번호(1~5), 해당 없으면 빈 칸 |
-| `client_version` | 문자열 | 평가한 클라이언트 버전. 수정본은 새 버전으로 구분 |
+| `client_version` | 문자열 | 평가한 클라이언트. 자동 생성이면 그 클라이언트를 만든 분석 실행의 `analysis_run_id`, 사람이 고친 수정본은 `<analysis_run_id>-m1`, `-m2`…, 원본 클라이언트는 `original` (§2.4) |
 | `client_origin` | `auto`/`manual`/`original` | 자동 생성, 사람이 수정, 원본. 수동 수정본은 자동 결과와 따로 집계 |
 | `test_type` | 1.2의 값 | `unseen_input`/`parser_chunk`/`socket`/`delay_loss` |
 | `net_delay_ms` | 숫자 | 주입한 지연, 없으면 0 |
@@ -80,17 +80,26 @@ N07 평가기(`scripts/n07-evaluate.py`)의 `CSV_FIELDS` 11개 열을 **그대�
 | `code_commit` | 해시 | 평가기 코드 커밋(dirty면 `-dirty` 접미) |
 | `notes` | 문자열 | 수동 개입, 재시도 등 |
 
-`verdict`는 `pass`(바이트 정확히 일치) / `fail`(받았지만 다름, `first_diff_offset` 기록) / `error`(연결 실패·시간 초과·리셋 등, 원인은 `error`)이다. **error는 평가 환경 문제이고 fail은 명세 불일치**이므로 합산하지 않는다. `elapsed_ms`는 연결 시작부터 서버 종료/수신 완료까지의 시간이다.
+`verdict`는 `pass`(바이트 정확히 일치) / `fail`(서버가 닫을 때까지 받았지만 기대와 다름, `first_diff_offset` 기록) / `error`(바이트 비교까지 가지 못함)이다. `elapsed_ms`는 연결 시작부터 서버 종료/수신 완료까지의 시간이다.
+
+**error의 의미.** `error`는 "비교 불가"이지 "환경 문제"와 같은 말이 아니다. `error` 열에는 N07의 `error.type`(`connect_timeout`, `timeout`, `response_too_large`, `ConnectionResetError` 등)을 적는다. 원인은 두 갈래다.
+
+- 환경: 서버 미기동·연결 실패, 네트워크 조건 때문의 리셋·시간 초과.
+- 명세: 복원 클라이언트가 틀린 길이·구분자를 보내 서버가 입력을 더 기다리다 `timeout`이 나는 경우, 응답을 끝까지 읽지 못하게 만드는 경우. (연습 예: 개행 없는 `PING`은 서버가 계속 기다려 `timeout`.)
+
+원인을 가르는 규칙: 같은 환경·같은 케이스 순서로 **기준 실행**(원본 클라이언트 또는 정답 케이스)을 함께 돌린다. 기준 실행은 `pass`인데 복원 클라이언트만 `error`면 명세 원인, 기준 실행도 `error`면 환경 원인으로 보고 `notes`에 `cause=spec` 또는 `cause=env`로 적는다. 집계는 `pass`/`fail`/`error`를 따로 내고 `error`는 원인별로 다시 나눈다. `fail`과 `error`를 하나의 "실패"로 합치지 않는다.
+
+**텍스트 열(`expected_text`, `actual_text`) 표현.** 판정과 `first_diff_offset`은 **바이트(hex 열) 기준**이며, 텍스트 열은 사람이 읽기 위한 표시다. N07은 바이트를 Latin-1로 읽은 뒤 Python `unicode_escape`로 바꾼다. 출력 가능한 ASCII는 그대로, 개행·CR·탭은 `\n`·`\r`·`\t` 두 글자, 역슬래시는 `\\`, 나머지 바이트는 `\xNN`이다. 그래서 CSV 칸 안에 실제 줄바꿈 문자는 들어가지 않는다(예: `PONG\n`). 이진 프로토콜은 대부분 `\xNN`으로 보이므로 hex 열을 기준으로 읽는다. `first_diff_offset`은 바이트 위치이며 텍스트 열의 글자 위치가 아니다. `error`인 줄도 기대 열은 케이스에서 채우고, 실제 열은 오류 전까지 받은 바이트(없으면 빈 칸)다. `error`인 줄의 `first_diff_offset`은 받다 만 바이트와의 비교라 해석하지 않는다. `server_closed`는 N07 출력 그대로 `True`/`False`다.
 
 ### 2.2 `checklist-results.csv`
 
 | 열 | 설명 |
 | --- | --- |
-| `run_id`, `condition`, `repeat` | 어떤 분석 실행의 채점인지 |
+| `run_id`, `condition`, `repeat` | 어떤 분석 실행의 채점인지. `run_id` = 채점한 분석 실행의 `analysis_run_id` (§2.4) |
 | `item_id` | `K01`~ (본 실험 문항 ID는 N11에서 확정) |
 | `result` | `pass`/`fail` |
 | `evidence_source` | `packet`/`binary`/`server_query`/`none` |
-| `claim_ref` | 에이전트 출력에서 해당 주장을 찾을 위치(파일·줄 또는 로그 ID) |
+| `claim_ref` | 분석 결과 JSON에서 해당 주장을 찾을 위치(예: `spec.request.fields[2]`), 주장이 없으면 빈 칸 |
 | `intervention` | 사람이 개입했으면 `yes`, 아니면 `no` (개입 내용은 `notes`) |
 | `notes` | 실패 이유, 부분 정답 설명 |
 
@@ -110,6 +119,21 @@ N07 평가기(`scripts/n07-evaluate.py`)의 `CSV_FIELDS` 11개 열을 **그대�
 | `p50_ms`, `p95_ms` | 정상 응답 지연 분위수 |
 | `server_spec`, `link` | 서버 사양, 클라이언트-서버 연결 방식(다른 호스트 여부 포함) |
 | `started_at`, `code_commit`, `notes` | 시각, 코드 커밋, 비고 |
+
+### 2.4 `run_id` 연결 규칙
+
+ID는 세 종류이며 섞지 않는다. 분석 쪽 이름은 N09 결과 JSON(PR #11 기준, 아직 병합 전)을 따른다. 병합 때 이름이 바뀌면 이 절을 함께 고친다.
+
+| ID | 만드는 곳 | 뜻 | 어디에 적나 |
+| --- | --- | --- | --- |
+| `preparation_run_id` | N09 입력 준비 | A/B 입력 묶음 1개. 여러 분석 실행이 재사용할 수 있다 | 기록용(분석 결과 JSON 안) |
+| `analysis_run_id` | N09 모델 실행 | 분석(모델 호출) 1회 = E1의 반복 1회. 실패한 실행도 ID를 가진다 | `checklist-results.csv`의 `run_id`, `results.csv`·`load-summary.csv`의 `client_version` |
+| 평가 `run_id` | N07·E3 측정 | 클라이언트 1개를 평가한 실행 1회 | `results.csv`·`load-summary.csv`의 `run_id` |
+
+- 한 분석 실행에서 나온 클라이언트를 여러 조건(`socket`, `delay_loss`…)으로 평가하면 평가 `run_id`는 여러 개지만 `client_version`은 같은 `analysis_run_id`다. 그래서 E1 점수와 E2/E3 결과는 `analysis_run_id`로 이어 붙인다.
+- `condition`, `repeat`는 분석 실행의 값을 그대로 옮긴다.
+- 분석이 실패해 클라이언트를 만들 수 없으면 E1 행은 남기고(전 문항 `fail`, 실패 단계는 `notes`), E2·E3 행은 만들지 않고 집계표에 "클라이언트 없음" 실행 수를 따로 적는다.
+- 평가 `run_id`는 N07 결과 파일 이름과 같게 둔다(덮어쓰기 금지 규칙과 함께 중복 방지).
 
 ## 3. 운영 규칙(요약)
 
