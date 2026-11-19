@@ -28,7 +28,7 @@ docker compose -f compose.n05.yaml run --rm n05 gcc -O0 -fno-inline -Wall -Wextr
 `--execution mock`을 붙이면 같은 준비 과정을 실행한 뒤 **빈 spec의 모의 결과**를 추가한다.
 모의 모드도 A에서 tcpdump, B에서 tcpdump와 REA가 설치돼 있어야 한다.
 설치 없이 검증하는 것은 위의 Node 모의 테스트다.
-`--experiment E1`은 대상 구분용이고 점수를 만들지 않는다.
+E1 준비에는 A와 B 모두 `--experiment E1`을 지정한다. `n09-check-pair.mjs`는 두 준비 결과의 실험 라벨이 같은지 확인해 요약에 기록한다. E1은 두 준비 결과가 모두 깨끗한 체크아웃에서 나와야 하며 `--allow-dirty`를 사용할 수 없다. 준비와 쌍 검사는 모델 호출이나 점수 산출 없이 진행한다.
 본 실험 입력은 N10 PR #7의 버전을 확정한 후에만 교체하며, 여기서는 분석하지 않았다.
 
 기대 결과: `success:true`는 준비 절차 성공이다.

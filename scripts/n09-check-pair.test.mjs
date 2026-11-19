@@ -12,7 +12,7 @@ const sha = value => createHash('sha256').update(value).digest('hex');
 const retained = path.resolve('runs/n09-pair-tests');
 await mkdir(retained, {recursive:true});
 
-async function fixture(dirty = false) {
+async function fixture(dirty = false, experiment = 'practice') {
   const dir = await mkdtemp(path.join(retained, 'fixture-'));
   const raw = 'Explicit mock Ghidra evidence; never an experimental observation.';
   const rawPath = path.join(dir, 'binary.raw');
@@ -24,7 +24,7 @@ async function fixture(dirty = false) {
   await writeFile(requestPath, JSON.stringify({messages:[{role:'system',content:'Explicit test fixture prompt.'}]}));
   await writeFile(reaPath, JSON.stringify({success:true,mode:'rea-only',execution_backend:'real',
     evidence:{raw_file:rawPath,validation:{upstream_provider:'ghidra',subject_sha256:binaryHash}}}));
-  const a = {success:true,execution:'prepare',experiment:'practice',command_backend:'real',
+  const a = {success:true,execution:'prepare',experiment,command_backend:'real',
     model_called:false,usage:{model_calls:0,server_queries:0},experiment_score:false,n09_complete:false,
     spec:null,condition:'A',budget:{...BUDGET},input:{pcap:{sha256:sha('mock pcap')}},
     evidence:[{source:'packet',text:'Explicit mock packet evidence.',raw_sha256:sha('mock packets')}],
@@ -37,7 +37,7 @@ async function fixture(dirty = false) {
   const aPath = path.join(dir,'A.json'), bPath = path.join(dir,'B.json'), outPath = path.join(dir,'pair.json');
   const persist = async () => {await writeFile(aPath,JSON.stringify(a));await writeFile(bPath,JSON.stringify(b));};
   await persist();
-  return {a,b,outPath,persist,run:options=>checkPair({aPath,bPath,outPath,...options})};
+  return {a,b,aPath,bPath,outPath,persist,run:options=>checkPair({aPath,bPath,outPath,...options})};
 }
 
 test('pair checker retains the clean-checkout default', async () => {
@@ -46,6 +46,40 @@ test('pair checker retains the clean-checkout default', async () => {
   assert.equal(result.code_dirty,false);
   assert.equal(result.reproducibility.reference_run_eligible,true);
   assert.equal(result.reproducibility.sources_verified,true);
+});
+
+test('clean E1 pair saves its experiment label without scoring', async () => {
+  const f = await fixture(false, 'E1');
+  await f.run();
+  const saved = JSON.parse(await readFile(f.outPath,'utf8'));
+  assert.equal(saved.experiment,'E1');
+  assert.equal(saved.model_calls,0);
+  assert.equal(saved.experiment_score,false);
+});
+
+test('E1 rejects the dirty override even when both preparations are clean', async () => {
+  const f = await fixture(false, 'E1');
+  await assert.rejects(main([f.aPath,f.bPath,f.outPath,'--allow-dirty']), /E1 does not allow/);
+  await assert.rejects(readFile(f.outPath), {code:'ENOENT'});
+});
+
+test('E1 rejects a dirty preparation in either condition', async () => {
+  for (const condition of ['a','b']) {
+    const f = await fixture(false, 'E1');
+    f[condition].runtime.code_dirty = true;
+    await f.persist();
+    await assert.rejects(f.run(), /E1 requires both preparations from a clean checkout/);
+    await assert.rejects(readFile(f.outPath), {code:'ENOENT'});
+  }
+});
+
+test('mixed practice and E1 labels cannot pass with or without the override', async () => {
+  const f = await fixture();
+  f.b.experiment = 'E1';
+  await f.persist();
+  await assert.rejects(f.run(), /A\/B experiment labels differ/);
+  await assert.rejects(f.run({allowDirty:true}), /A\/B experiment labels differ/);
+  await assert.rejects(readFile(f.outPath), {code:'ENOENT'});
 });
 
 test('dirty practice requires explicit opt-in before writing a success summary', async () => {

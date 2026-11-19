@@ -13,10 +13,13 @@ const hash = value => createHash('sha256').update(value).digest('hex');
 export async function checkPair({aPath, bPath, outPath, allowDirty = false}) {
 assert.ok(aPath && bPath && outPath, 'A, B and a new summary path are required');
 const [a, b] = await Promise.all([read(aPath), read(bPath)]);
+const experiment = a.experiment;
+assert.ok(['practice', 'E1'].includes(experiment), 'Use practice or E1 preparation');
+assert.equal(b.experiment, experiment, 'A/B experiment labels differ');
+if (experiment === 'E1') assert.ok(!allowDirty, 'E1 does not allow --allow-dirty');
 for (const result of [a, b]) {
   assert.equal(result.success, true);
   assert.equal(result.execution, 'prepare');
-  assert.equal(result.experiment, 'practice');
   assert.equal(result.command_backend, 'real');
   assert.equal(result.model_called, false);
   assert.equal(result.usage.model_calls, 0);
@@ -26,7 +29,8 @@ for (const result of [a, b]) {
   assert.equal(result.spec, null);
   assert.equal(typeof result.runtime.code_dirty, 'boolean', 'Missing working-tree status');
   if (!allowDirty) assert.equal(result.runtime.code_dirty, false,
-    'Uncommitted changes: use --allow-dirty only for a local practice pilot, or commit changes first');
+    experiment === 'E1' ? 'E1 requires both preparations from a clean checkout' :
+      'Uncommitted changes: use --allow-dirty only for a local practice pilot, or commit changes first');
   assert.match(result.runtime.code_commit, /^[0-9a-f]{40}$/);
   assert.ok(result.stages.every(stage => stage.status === 'success'));
 }
@@ -63,7 +67,7 @@ if(b.evidence[1].operation==='rea-evidence-bundle-v1') {
   assert.equal(bundle.records[0].raw_sha256,hash(binaryRaw));
 } else assert.equal(hash(binaryRaw), b.evidence[1].raw_sha256);
 const summary = {
-  task: 'N09', classification: 'real-local-tools-key-free-preparation',
+  task: 'N09', experiment, classification: 'real-local-tools-key-free-preparation',
   recorded_at: new Date().toISOString(),
   execution_code_commit: a.runtime.code_commit, code_dirty: a.runtime.code_dirty,
   source_fingerprint: sourceFingerprint,
@@ -92,7 +96,7 @@ return summary;
 export async function main(argv = process.argv.slice(2)) {
   const [aPath, bPath, outPath, flag] = argv;
   assert.ok(argv.length === 3 || (argv.length === 4 && flag === '--allow-dirty'),
-    'Usage: A.json B.json new-summary.json [--allow-dirty]');
+    'Usage: A.json B.json new-summary.json [--allow-dirty for practice only]');
   const summary = await checkPair({aPath, bPath, outPath, allowDirty: flag === '--allow-dirty'});
   console.log('N09_PAIR_SUMMARY ' + JSON.stringify(summary));
   return 0;
