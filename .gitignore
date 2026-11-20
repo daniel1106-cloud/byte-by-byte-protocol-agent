@@ -223,3 +223,6 @@ __marimo__/
 .env.*
 !.env.example
 *.artifacts-*/
+
+# web/lib는 웹 백엔드 소스다. 위의 파이썬용 lib/ 규칙에서 제외한다(N08).
+!web/lib/
