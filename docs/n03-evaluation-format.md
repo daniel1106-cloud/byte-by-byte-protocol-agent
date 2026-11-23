@@ -37,7 +37,7 @@
 
 | 유형 | `test_type` | 설명 | 주요 지표 |
 | --- | --- | --- | --- |
-| 미관찰 입력 | `unseen_input` | 분석에 쓰지 않은 입력으로 실제 서버와 비교 | 응답 정답률, 통신 성공률 |
+| 미관찰 입력 | `unseen_input` | 분석에 쓰지 않은 입력으로 실제 서버와 비교 | 응답 정답률, 통신 성공률(계산식은 §2.5) |
 | 파서 분할·결합 | `parser_chunk` | 1바이트·가변 크기·여러 메시지를 붙인 입력으로 **파서만** 시험 (소켓 없음) | 통과 수 |
 | 실제 소켓 통신 | `socket` | 실제 TCP로 서버와 교환 | 통과 수, 오류 유형 |
 | 지연·손실 | `delay_loss` | 네트워크 지연·손실 조건에서 실제 통신 | 정상 완료·timeout·연결 실패를 따로 집계 |
@@ -50,7 +50,7 @@
 
 ## 2. 결과 CSV 형식
 
-파일은 세 가지다. 모든 CSV는 UTF-8(BOM 없음), 첫 줄 헤더, 쉼표 구분, 줄바꿈 CRLF 또는 LF, 시각은 ISO 8601 UTC이다. 값이 없으면 빈 칸이다(`NA`·`-` 쓰지 않음).
+파일은 세 가지다. 모든 CSV는 UTF-8(BOM 없음), 첫 줄 헤더, 쉼표 구분, 줄바꿈 CRLF 또는 LF, 시각은 ISO 8601 UTC이다(`Z`와 `+00:00` 모두 UTC로 읽는다. N07은 `2026-11-07T11:48:09.104311+00:00`처럼 마이크로초와 `+00:00`을 붙여 쓴다). 값이 없으면 빈 칸이다(`NA`·`-` 쓰지 않음).
 
 | 파일 | 한 줄의 의미 | 쓰는 실험 | 예시 |
 | --- | --- | --- | --- |
@@ -66,11 +66,11 @@ N07 평가기(`scripts/n07-evaluate.py`)의 `CSV_FIELDS` 11개 열을 **그대�
 
 | 열 | 값 | 설명 |
 | --- | --- | --- |
-| `run_id` | 문자열 | 한 번의 평가 실행. 같은 실행의 모든 줄이 같은 값 |
+| `run_id` | 문자열 | 한 번의 평가 실행(N07 실행 1회). 같은 실행의 모든 줄이 같은 값. 분석 실행과의 연결은 §2.4 |
 | `experiment` | `practice`/`E1`/`E2`/`E3` | 연습 결과는 `practice`이며 본 실험 점수가 아니다 |
 | `condition` | `A`/`B`/`original`/`practice` | 분석 조건 또는 원본 클라이언트 기준선 |
 | `repeat` | 정수 | 같은 조건의 반복 번호(1~5), 해당 없으면 빈 칸 |
-| `client_version` | 문자열 | 평가한 클라이언트 버전. 수정본은 새 버전으로 구분 |
+| `client_version` | 문자열 | 평가한 클라이언트. 자동 생성이면 그 클라이언트를 만든 분석 실행의 `analysis_run_id`, 사람이 고친 수정본은 `<analysis_run_id>-m1`, `-m2`…, 원본 클라이언트는 `original` (§2.4) |
 | `client_origin` | `auto`/`manual`/`original` | 자동 생성, 사람이 수정, 원본. 수동 수정본은 자동 결과와 따로 집계 |
 | `test_type` | 1.2의 값 | `unseen_input`/`parser_chunk`/`socket`/`delay_loss` |
 | `net_delay_ms` | 숫자 | 주입한 지연, 없으면 0 |
@@ -80,17 +80,26 @@ N07 평가기(`scripts/n07-evaluate.py`)의 `CSV_FIELDS` 11개 열을 **그대�
 | `code_commit` | 해시 | 평가기 코드 커밋(dirty면 `-dirty` 접미) |
 | `notes` | 문자열 | 수동 개입, 재시도 등 |
 
-`verdict`는 `pass`(바이트 정확히 일치) / `fail`(받았지만 다름, `first_diff_offset` 기록) / `error`(연결 실패·시간 초과·리셋 등, 원인은 `error`)이다. **error는 평가 환경 문제이고 fail은 명세 불일치**이므로 합산하지 않는다. `elapsed_ms`는 연결 시작부터 서버 종료/수신 완료까지의 시간이다.
+`verdict`는 `pass`(바이트 정확히 일치) / `fail`(서버가 닫을 때까지 받았지만 기대와 다름, `first_diff_offset` 기록) / `error`(바이트 비교까지 가지 못함)이다. `elapsed_ms`는 연결 시작부터 서버 종료/수신 완료까지의 시간이다.
+
+**error의 의미.** `error`는 "비교 불가"이지 "환경 문제"와 같은 말이 아니다. `error` 열에는 N07의 `error.type`(`connect_timeout`, `timeout`, `response_too_large`, `ConnectionResetError` 등)을 적는다. 원인은 두 갈래다.
+
+- 환경: 서버 미기동·연결 실패, 네트워크 조건 때문의 리셋·시간 초과.
+- 명세: 복원 클라이언트가 틀린 길이·구분자를 보내 서버가 입력을 더 기다리다 `timeout`이 나는 경우, 응답을 끝까지 읽지 못하게 만드는 경우. (연습 예: 개행 없는 `PING`은 서버가 계속 기다려 `timeout`.)
+
+원인을 가르는 규칙: 같은 환경·같은 케이스 순서로 **기준 실행**(원본 클라이언트 또는 정답 케이스)을 함께 돌린다. 기준 실행은 `pass`인데 복원 클라이언트만 `error`면 명세 원인, 기준 실행도 `error`면 환경 원인으로 보고 `notes`에 `cause=spec` 또는 `cause=env`로 적는다. N07은 실행 전체에 같은 `notes`를 쓰므로, `cause=`는 기준 실행과 대조한 뒤 후처리로 해당 `error` 줄에 덧붙인다. 집계는 `pass`/`fail`/`error`를 따로 내고 `error`는 원인별로 다시 나눈다. `fail`과 `error`를 하나의 "실패"로 합치지 않는다.
+
+**텍스트 열(`expected_text`, `actual_text`) 표현.** 판정과 `first_diff_offset`은 **바이트(hex 열) 기준**이며, 텍스트 열은 사람이 읽기 위한 표시다. N07은 바이트를 Latin-1로 읽은 뒤 Python `unicode_escape`로 바꾼다. 출력 가능한 ASCII는 그대로, 개행·CR·탭은 `\n`·`\r`·`\t` 두 글자, 역슬래시는 `\\`, 나머지 바이트는 `\xNN`이다. 그래서 CSV 칸 안에 실제 줄바꿈 문자는 들어가지 않는다(예: `PONG\n`). 이진 프로토콜은 대부분 `\xNN`으로 보이므로 hex 열을 기준으로 읽는다. `first_diff_offset`은 바이트 위치이며 텍스트 열의 글자 위치가 아니다. `error`인 줄도 기대 열은 케이스에서 채우고, 실제 열은 오류 전까지 받은 바이트(없으면 빈 칸)다. `error`인 줄의 `first_diff_offset`은 받다 만 바이트와의 비교라 해석하지 않는다. `server_closed`는 N07 출력 그대로 `True`/`False`다.
 
 ### 2.2 `checklist-results.csv`
 
 | 열 | 설명 |
 | --- | --- |
-| `run_id`, `condition`, `repeat` | 어떤 분석 실행의 채점인지 |
+| `run_id`, `condition`, `repeat` | 어떤 분석 실행의 채점인지. `run_id` = 채점한 분석 실행의 `analysis_run_id` (§2.4) |
 | `item_id` | `K01`~ (본 실험 문항 ID는 N11에서 확정) |
 | `result` | `pass`/`fail` |
 | `evidence_source` | `packet`/`binary`/`server_query`/`none` |
-| `claim_ref` | 에이전트 출력에서 해당 주장을 찾을 위치(파일·줄 또는 로그 ID) |
+| `claim_ref` | 분석 결과 JSON에서 해당 주장을 찾을 위치(예: `spec.request.fields[2]`), 주장이 없으면 빈 칸 |
 | `intervention` | 사람이 개입했으면 `yes`, 아니면 `no` (개입 내용은 `notes`) |
 | `notes` | 실패 이유, 부분 정답 설명 |
 
@@ -110,6 +119,47 @@ N07 평가기(`scripts/n07-evaluate.py`)의 `CSV_FIELDS` 11개 열을 **그대�
 | `p50_ms`, `p95_ms` | 정상 응답 지연 분위수 |
 | `server_spec`, `link` | 서버 사양, 클라이언트-서버 연결 방식(다른 호스트 여부 포함) |
 | `started_at`, `code_commit`, `notes` | 시각, 코드 커밋, 비고 |
+
+### 2.4 `run_id` 연결 규칙
+
+ID는 세 종류이며 섞지 않는다. 분석 쪽 이름은 N09 결과 JSON(PR #11 기준, 아직 병합 전)을 따른다. 병합 때 이름이 바뀌면 이 절을 함께 고친다. N09 결과 JSON 맨 위의 `run_id`는 `analysis_run_id`와 같은 값이며, 아래의 평가 `run_id`와는 다르다.
+
+| ID | 만드는 곳 | 뜻 | 어디에 적나 |
+| --- | --- | --- | --- |
+| `preparation_run_id` | N09 입력 준비(`scripts/n09-prepare.mjs`) | 조건 하나(A 또는 B)의 입력 준비 1회. 준비 결과 JSON 맨 위의 `run_id`(UUID)이며, 모델 실행이 그 준비 결과를 읽으면 분석 결과 JSON의 `preparation_run_id`로 그대로 복사된다. A와 B는 따로 준비하므로 값이 다르다. 같은 준비 결과를 여러 분석 실행이 재사용할 수 있다 | CSV 열은 없다. 분석 결과 JSON 안에 있고, E1 실행 기록에 반복마다 함께 적는다 |
+| `analysis_run_id` | N09 모델 실행 | 분석(모델 호출) 1회 = E1의 반복 1회. 실패한 실행도 ID를 가진다 | `checklist-results.csv`의 `run_id`, `results.csv`·`load-summary.csv`의 `client_version` |
+| 평가 `run_id` | N07·E3 측정 | 클라이언트 1개를 평가한 실행 1회 | `results.csv`·`load-summary.csv`의 `run_id` |
+
+- 한 분석 실행에서 나온 클라이언트를 여러 조건(`socket`, `delay_loss`…)으로 평가하면 평가 `run_id`는 여러 개지만 `client_version`은 같은 `analysis_run_id`다. 그래서 E1 점수와 E2/E3 결과는 `analysis_run_id`로 이어 붙인다.
+- `condition`은 분석 결과 JSON의 값을 그대로 옮긴다. N09 결과 JSON에는 `repeat`(계획한 반복 번호, 1~5)도 기록되므로(`n09-live.mjs --repeat`) 그 값을 그대로 N07 `--repeat`에 전달한다. 결과 JSON에 `repeat`가 `null`이면(연습 실행 등) 실행자가 E1 실행 기록(조건별 1~5번과 `analysis_run_id` 대응표)에 적은 번호를 쓴다.
+- 분석이 실패해 클라이언트를 만들 수 없으면 E1 행은 남기고(전 문항 `fail`, 실패 단계는 `notes`), E2·E3 행은 만들지 않고 집계표에 "클라이언트 없음" 실행 수를 따로 적는다.
+- 평가 `run_id`는 N07 결과 파일 이름과 같게 둔다(덮어쓰기 금지 규칙과 함께 중복 방지).
+- `preparation_run_id`는 A/B 공정성 확인에 쓴다. 한 쌍으로 비교하는 A·B 분석 실행이 어떤 준비 결과를 썼는지 이 값으로 찾아, 두 준비 결과가 같은 PCAP·프롬프트·예산을 썼는지(N09 `n09-check-pair.mjs`) 확인한다. 준비 결과를 읽기 전에 실패한 분석은 이 값이 `null`이며, 그래도 위 규칙대로 실패 실행으로 남긴다.
+
+### 2.5 집계 계산식
+
+모든 비율은 **개수와 퍼센트를 함께** 적는다(예: `14/21, 66.7%`). 퍼센트는 소수 첫째 자리까지 반올림한다. 연습(`experiment=practice`)과 수동 수정본(`client_origin=manual`)은 아래 본 실험 자동 결과와 따로 집계한다.
+
+**E1 · 복원 정확도** (`checklist-results.csv`)
+
+- 실행별 점수 = 그 `run_id`의 `pass` 문항 수 / 전체 문항 수.
+- 조건별(A·B) 점수 = 5회 실행 점수를 모두 나열하고 합계(`Σpass / (5 × 문항 수)`)를 함께 적는다. 실패한 분석 실행도 0점(전 문항 `fail`)으로 분모에 넣는다.
+
+**E2 · 통신 정확성** (`results.csv`, `test_type`별로 따로)
+
+평가 실행 하나(`run_id` 하나)에서 케이스 수를 `N = pass + fail + error`라 할 때:
+
+| 지표 | 계산식 | 뜻 |
+| --- | --- | --- |
+| 응답 정답률 | `pass / N` | 기대 응답과 바이트까지 같은 비율 |
+| 통신 성공률 | `(pass + fail − 명세 공백) / N` | 응답을 끝까지 받아 비교까지 간 비율. 응답 내용이 틀려도 통신은 성공으로 본다. 복원 명세로 요청을 만들 수 없어 보내지 못한 케이스는 `fail`로 기록하고 `notes`에 `명세 공백`이라 적으며(`error` 아님), 통신 성공에서는 뺀다 |
+| 오류율(원인별) | `error(cause=spec) / N`, `error(cause=env) / N` | §2.1의 기준 실행 규칙으로 나눈 값 |
+
+- 조건별(A·B) 값은 계획한 분석 실행 5회를 모두 분모에 넣는다: 응답 정답률 `Σpass / (5 × N)`, 통신 성공률 `Σ(pass + fail − 명세 공백) / (5 × N)`(실행별 식과 같이 `명세 공백`을 분자에서 뺀다). 분석이 실패해 클라이언트가 없는 실행은 E2 행을 만들지 않지만(§2.4), 그 실행의 `N`개 케이스는 정답·통신 성공 모두 0으로 센다. "클라이언트 없음" 실행 수도 함께 적는다.
+- `cause=env` 오류가 있는 평가 실행은 환경을 고친 뒤 같은 클라이언트로 다시 평가한다(새 평가 `run_id`). 조건별 집계에는 `cause=env`가 없는 마지막 평가 실행을 쓰고, 원래 실행은 지우지 않고 재평가 횟수를 적는다.
+- `delay_loss`는 `(net_delay_ms, loss_pct)` 조합마다 위 식을 따로 계산하고, 같은 조합의 원본 클라이언트 기준선과 나란히 적는다. 이 조건에서 생긴 `timeout`은 측정 결과이므로 재평가하지 않는다.
+
+**E3 · 부하** (`load-summary.csv`): `error_rate = requests_error / requests_sent`(§2.3). 요청률 단계마다 반복별 값을 나열하고 평균을 함께 적는다.
 
 ## 3. 운영 규칙(요약)
 

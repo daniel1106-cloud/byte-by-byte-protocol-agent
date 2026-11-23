@@ -1,5 +1,5 @@
 run_id,condition,repeat,item_id,result,evidence_source,claim_ref,intervention,notes
-EXAMPLE-E1-A-r1,A,1,K01,pass,packet,runs/e1/A-r1/spec.md#L12,no,
-EXAMPLE-E1-A-r1,A,1,K03,fail,none,,no,field size not stated
-EXAMPLE-E1-B-r1,B,1,K03,pass,binary,runs/e1/B-r1/spec.md#L30,no,size confirmed from decompiled parser
-EXAMPLE-E1-B-r1,B,1,K12,fail,server_query,runs/e1/B-r1/spec.md#L55,yes,human restarted the run after tool timeout
+EXAMPLE-analysis-A-r1,A,1,K01,pass,packet,spec.framing,no,
+EXAMPLE-analysis-A-r1,A,1,K03,fail,none,,no,field size not stated
+EXAMPLE-analysis-B-r1,B,1,K03,pass,binary,spec.request.fields[1],no,size confirmed from decompiled parser
+EXAMPLE-analysis-B-r1,B,1,K12,fail,server_query,spec.semantics,yes,human restarted the run after tool timeout
