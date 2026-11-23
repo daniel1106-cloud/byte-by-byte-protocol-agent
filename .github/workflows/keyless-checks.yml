@@ -1,0 +1,79 @@
+name: Key-free protocol checks
+on:
+  push:
+    branches: ['n09-*']
+    paths: ['scripts/**', 'practice/**', '.github/workflows/keyless-checks.yml', 'infra/n05/**', 'compose.n05.yaml']
+  pull_request:
+    paths: ['scripts/**', 'practice/**', '.github/workflows/keyless-checks.yml', 'infra/n05/**', 'compose.n05.yaml']
+defaults:
+  run:
+    shell: bash
+permissions:
+  contents: read
+jobs:
+  keyless:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Prepare key-free environment
+        run: |
+          mkdir -p runs/n09
+          sudo apt-get update -qq
+          sudo apt-get install -y tcpdump
+      - name: Node mock regressions
+        run: node --test scripts/rea-smoke.test.mjs scripts/n09-contract.test.mjs scripts/n09-prepare.test.mjs | tee runs/n09/node-tests.log
+      - name: Python evaluator regressions
+        run: python3 -m unittest discover -s scripts -p 'test_n07*.py' 2>&1 | tee runs/n09/python-tests.log
+      - name: Actual public PCAP preparation, condition A
+        run: |
+          node scripts/n09-prepare.mjs --condition A --pcap practice/n06/normal-sessions.pcap --out runs/n09/A-public-practice.json
+          node -e "const r=require('./runs/n09/A-public-practice.json'); if(!r.success || r.model_called || r.experiment_score || r.input.binary) process.exit(1)"
+      - name: Actual public N06 TCP evaluation
+        run: |
+          gcc -O0 -fno-inline -Wall -Wextra -o runs/n09/practice-server practice/n06/server.c
+          python3 scripts/n07-evaluate.py --cases practice/n06/cases.json --binary runs/n09/practice-server --out runs/n09/n06-evaluation.json
+          node -e "const r=require('./runs/n09/n06-evaluation.json'); if(!r.summary.all_pass || r.summary.pass!==21 || !r.server_stopped) process.exit(1)"
+      - name: Retain key-free evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: keyless-evidence
+          path: runs/n09/
+          retention-days: 30
+
+  keyless-rea-pair:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build pinned REA and Ghidra environment
+        run: |
+          mkdir -p runs/n09
+          docker compose -f compose.n05.yaml build n05 2>&1 | tee runs/n09/rea-image-build.log
+          docker image inspect byte-by-byte-n05:rea6.8.0 --format '{{.Id}}' | tee runs/n09/rea-image-id.txt
+      - name: Real A and B preparation on the same public N06 capture
+        run: |
+          docker compose -f compose.n05.yaml run --rm n05 bash -euo pipefail -c '
+            git config --global --add safe.directory /work
+            node --version
+            tcpdump --version
+            gcc --version
+            gcc -O0 -fno-inline -Wall -Wextra -o runs/n09/practice-server practice/n06/server.c
+            node scripts/n09-prepare.mjs --condition A --pcap practice/n06/normal-sessions.pcap --out runs/n09/A-rea-practice.json
+            node scripts/n09-prepare.mjs --condition B --pcap practice/n06/normal-sessions.pcap --binary runs/n09/practice-server --out runs/n09/B-rea-practice.json
+            node scripts/n09-check-pair.mjs runs/n09/A-rea-practice.json runs/n09/B-rea-practice.json runs/n09/pair-summary.json
+          ' 2>&1 | tee runs/n09/rea-pair.log
+      - name: Give the uploader ownership of generated evidence
+        if: always()
+        run: sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE/runs/n09"
+      - name: Retain real REA preparation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: keyless-rea-pair-evidence
+          path: runs/n09/
+          retention-days: 30

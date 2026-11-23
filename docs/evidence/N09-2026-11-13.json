@@ -1,0 +1,185 @@
+{
+  "task": "N09",
+  "owner": "정의종",
+  "recorded_date_kst": "2026-11-13",
+  "classification": "key-free-preparation-and-practice-validation",
+  "experiment_score": false,
+  "course_model_called": false,
+  "n05_complete": false,
+  "n09_complete": false,
+  "source_head_commit": "0ee41165dd0d36b956d3bfa94636da9b7fc92e0d",
+  "ci": {
+    "run_id": 43405177497,
+    "url": "https://github.com/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/runs/43405177497",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "id": 131817645392,
+        "name": "keyless",
+        "conclusion": "success"
+      },
+      {
+        "id": 131817645684,
+        "name": "keyless-rea-pair",
+        "conclusion": "success"
+      }
+    ],
+    "artifacts": [
+      {
+        "id": 14027380608,
+        "name": "keyless-evidence",
+        "digest": "sha256:8e93586da449aaa43832ce94a4ceeeb5232778f2e3d0be034444ab9add3a2bfc",
+        "expires_at": "2026-12-13T09:55:56Z",
+        "url": "https://github.com/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/runs/43405177497/artifacts/14027380608"
+      },
+      {
+        "id": 14026533080,
+        "name": "keyless-rea-pair-evidence",
+        "digest": "sha256:0b5a66dd1f51d9ba0f0f9d8b5540fd4b389c43eb433dfb589da71f25ed0643ae",
+        "expires_at": "2026-12-13T09:56:56Z",
+        "url": "https://github.com/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/runs/43405177497/artifacts/14026533080"
+      }
+    ]
+  },
+  "results": {
+    "node_mock_regressions": {
+      "total": 55,
+      "pass": 55,
+      "fail": 0
+    },
+    "python_evaluator_regressions": {
+      "total": 21,
+      "pass": 21
+    },
+    "actual_n06_tcp": {
+      "total": 21,
+      "pass": 21,
+      "fail": 0,
+      "error": 0,
+      "all_pass": true,
+      "server_stopped_assertion_passed": true
+    },
+    "real_ab_preparation": {
+      "task": "N09",
+      "classification": "real-local-tools-key-free-preparation",
+      "recorded_at": "2026-11-13T09:56:56.109Z",
+      "execution_code_commit": "9b8be0ab32c58cc28096443e175651737912106c",
+      "code_dirty": false,
+      "input": {
+        "pcap": {
+          "path": "/work/practice/n06/normal-sessions.pcap",
+          "bytes": 4310,
+          "sha256": "e9b5650cd8aab5f0480a1b99740af67e7713f5083f5a58c0acaa5535207bd698"
+        },
+        "binary": {
+          "path": "/work/runs/n09/practice-server",
+          "bytes": 16928,
+          "sha256": "d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067"
+        }
+      },
+      "same_packet_sha256": "d539a6e15a6103f5eaa8ca17a44181832219fa83221117a0f9ae03e4d3c5ab35",
+      "same_system_prompt_sha256": "3ebb74f35e14074e28916d5695da4165e20cf4ab954387cd42a1744e6aacb8a8",
+      "same_budget": {
+        "model_calls": 2,
+        "max_output_tokens_per_call": 4096,
+        "model_timeout_ms": 120000,
+        "packet_evidence_bytes": 65536,
+        "binary_evidence_bytes": 24576,
+        "server_queries": 0
+      },
+      "checks": {
+        "a_packet_only": true,
+        "b_real_rea": true,
+        "same_pcap": true,
+        "same_packet_text": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "binary_hash_match": true
+      },
+      "rea": {
+        "version": "6.8.0",
+        "validation": {
+          "evidence_id": "ev_9b5ec86fab407d69cedfed58f9f2e92a9911c42bf28b7c73b1da7e538a4911e6",
+          "operation": "binary_overview",
+          "subject_sha256": "d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067",
+          "upstream_provider": "ghidra"
+        }
+      },
+      "supplied_evidence": {
+        "a": [
+          {
+            "source": "packet",
+            "supplied_bytes": 24300,
+            "truncated": false
+          }
+        ],
+        "b": [
+          {
+            "source": "packet",
+            "supplied_bytes": 24300,
+            "truncated": false
+          },
+          {
+            "source": "binary",
+            "supplied_bytes": 8411,
+            "truncated": false
+          }
+        ]
+      },
+      "runtime": {
+        "node": "v24.22.1",
+        "platform": "linux",
+        "arch": "x64",
+        "code_commit": "9b8be0ab32c58cc28096443e175651737912106c",
+        "code_dirty": false,
+        "packet_command": {
+          "argv": [
+            "tcpdump",
+            "-nn",
+            "-tt",
+            "-s",
+            "0",
+            "-XX",
+            "-r",
+            "/work/practice/n06/normal-sessions.pcap"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "stdout": "/work/runs/n09/A-rea-practice.json.artifacts-00f22c21-b0ab-439f-9eac-a7e6037e8fc8/packet.stdout.txt",
+          "stderr": "/work/runs/n09/A-rea-practice.json.artifacts-00f22c21-b0ab-439f-9eac-a7e6037e8fc8/packet.stderr.txt"
+        },
+        "prompt_sha256": "3ebb74f35e14074e28916d5695da4165e20cf4ab954387cd42a1744e6aacb8a8"
+      },
+      "result_files": {
+        "a": "runs/n09/A-rea-practice.json",
+        "b": "runs/n09/B-rea-practice.json",
+        "rea": "/work/runs/n09/B-rea-practice.json.artifacts-53ef2839-6972-499d-a009-cbec51670b81/rea-result.json"
+      },
+      "model_calls": 0,
+      "experiment_score": false,
+      "n05_complete": false,
+      "n09_complete": false,
+      "semantic_review": "pending",
+      "human_execution_check": "pending"
+    }
+  },
+  "provenance": {
+    "pair_summary": "Parsed from the N09_PAIR_SUMMARY line of the successful CI keyless-rea-pair job log.",
+    "test_counts": "Read from successful CI keyless job logs; not a new personal execution by the owner.",
+    "hidden_experiment_inputs_used": false,
+    "private_answer_material_opened": false,
+    "owner_manual_check": "pending"
+  },
+  "retained_failure": {
+    "run_id": 43404891911,
+    "reason": "Actual A/B and pair checks passed; artifact upload failed with EACCES on root-owned private-mode directories.",
+    "fix": "A CI-only ownership step makes generated evidence readable by the runner without broadening file modes."
+  },
+  "limitations": [
+    "No model-produced specification or A/B E1 score.",
+    "Only packet-level tcpdump views and REA binary_overview; no complete TCP reassembly or function-decompilation agent yet.",
+    "N08 human-authored practice spec and N09 candidate output envelope are not yet an agreed executable N12 spec.",
+    "Actual GLM model/URL, supported tool calls and final budget need verification after course API delivery.",
+    "Owner's new manual execution/semantic review remains pending."
+  ]
+}

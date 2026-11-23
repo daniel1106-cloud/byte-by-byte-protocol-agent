@@ -1,0 +1,261 @@
+{
+  "task": "N04·N08",
+  "owner": "유현석",
+  "classification": "practice (known public spec, N06)",
+  "experiment_score": false,
+  "blind_rule": "N10 자료·본 실험 정답/명세/숨은 평가 입력은 찾거나 열지 않았다. 저장소는 main 브랜치만 받았다.",
+  "recorded_utc": "2026-11-09T14:35:46Z ~ 14:37:26Z",
+  "recorded_kst": "2026-11-09 23:35:46 KST ~ 2026-11-09 23:37:26 KST",
+  "code": {
+    "commit": "339967a521cb156fc3e5e63299d302119c561c16",
+    "branch": "n04-n08-web-client",
+    "dirty": false,
+    "dirty_check": "git status --porcelain 0개 파일, N07 결과 JSON의 code_dirty=false"
+  },
+  "environment": {
+    "host_os": "Microsoft Windows [Version 10.0.26200.9711]",
+    "host_node": "v24.14.1",
+    "docker": "Docker version 29.8.1, build 4a63305",
+    "compose": "5.5.1",
+    "docker_server": "29.8.1 Docker Desktop (containerized) x86_64",
+    "image": "byte-by-byte-n05:rea6.8.0 4ad5b5893314 3.39GB",
+    "container": {
+      "os": "Ubuntu 24.04.5 LTS",
+      "node": "v24.22.1",
+      "python": "Python 3.12.3",
+      "gcc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+      "git": "git version 2.43.0"
+    }
+  },
+  "input": {
+    "practice/n06/server.c": "9d87cb663c7714d1d3c0356d9c770caeaf5620bc03fb9186dc25e8ea1edb25ee",
+    "practice/n06/cases.json": "375630c1630bfddaabc45c7b03a20a14ec3bc1ee1abe29a0ce57171c04a8fc60",
+    "web/spec/n06-practice.json": "da14df8af79358cd46fc03377a45d45ee51b3edbe76653f93d4b3ca0b7c126ad",
+    "runs/n06/practice-server": "d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067",
+    "practice/n06/README.md": "9dc2cf5de54c3a9c88c28772b8345d03dec4332067423e5e57ec7e17df89cc00",
+    "scripts/n07-evaluate.py": "13249b156a2f6df0da590b52da33eac94289cbf5bbeda061c7b3207b464a9ac7",
+    "compose.n08.yaml": "bb75db931399500f682cea776b69c1e84d97e522ce9e3718dc7510b4fde0f1f6"
+  },
+  "server": {
+    "where": "컨테이너 n08(compose.n08.yaml) 안, 웹 백엔드가 자식 프로세스로 실행",
+    "address": "127.0.0.1:19006 (컨테이너 내부 전용)",
+    "command": "/work/runs/n06/practice-server 19006",
+    "pid": 15,
+    "pid_parent": 7,
+    "binary_sha256": "d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067",
+    "binary_size": 16928,
+    "binary_matches_readme": true,
+    "web": "http://127.0.0.1:8080 (호스트에는 127.0.0.1:8080->8080만 공개)"
+  },
+  "runs": [
+    {
+      "id": "tests-container",
+      "scope": "모의(가짜 서버) + 실제 도구 단독(진짜 연습 서버)",
+      "command": "docker compose -f compose.n05.yaml run --rm n05 node --test --test-timeout=120000 \"web/test/*.test.mjs\"",
+      "exit_code": 0,
+      "result": {
+        "tests": 51,
+        "pass": 51,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0
+      },
+      "real_server_tests": 7,
+      "log": "runs/n08/final/tests-20261109-143546Z.log"
+    },
+    {
+      "id": "tests-host",
+      "scope": "모의만 (Windows에서는 실제 서버 테스트 7개를 건너뜀)",
+      "command": "node --test --test-timeout=60000 \"web/test/*.test.mjs\"",
+      "exit_code": 0,
+      "result": {
+        "tests": 51,
+        "pass": 44,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 7
+      },
+      "log": "runs/n08/final/tests-host-20261109-143546Z.log"
+    },
+    {
+      "id": "web-api-readme-sessions",
+      "scope": "전체 연동: 웹 API → 같은 컨테이너의 실제 서버",
+      "command": "POST http://127.0.0.1:8080/api/send  {numbers:[...]} × 5",
+      "result": {
+        "matched_readme": 5,
+        "of": 5
+      },
+      "sessions": [
+        {
+          "input": [
+            1,
+            2,
+            3
+          ],
+          "request_hex": "424201010006000100020003",
+          "response_hex": "42420181000400000006",
+          "expected_response_hex": "42420181000400000006",
+          "outcome": "ok",
+          "sum": 6,
+          "closed_by_server": true,
+          "elapsed_ms": 1.58,
+          "match_readme": true
+        },
+        {
+          "input": [
+            10,
+            20
+          ],
+          "request_hex": "424201010004000a0014",
+          "response_hex": "4242018100040000001e",
+          "expected_response_hex": "4242018100040000001e",
+          "outcome": "ok",
+          "sum": 30,
+          "closed_by_server": true,
+          "elapsed_ms": 0.54,
+          "match_readme": true
+        },
+        {
+          "input": [
+            65535,
+            65535
+          ],
+          "request_hex": "424201010004ffffffff",
+          "response_hex": "4242018100040001fffe",
+          "expected_response_hex": "4242018100040001fffe",
+          "outcome": "ok",
+          "sum": 131070,
+          "closed_by_server": true,
+          "elapsed_ms": 0.71,
+          "match_readme": true
+        },
+        {
+          "input": [
+            1000
+          ],
+          "request_hex": "42420101000203e8",
+          "response_hex": "424201810004000003e8",
+          "expected_response_hex": "424201810004000003e8",
+          "outcome": "ok",
+          "sum": 1000,
+          "closed_by_server": true,
+          "elapsed_ms": 0.53,
+          "match_readme": true
+        },
+        {
+          "input": [
+            7,
+            7,
+            7,
+            7,
+            7
+          ],
+          "request_hex": "42420101000a00070007000700070007",
+          "response_hex": "42420181000400000023",
+          "expected_response_hex": "42420181000400000023",
+          "outcome": "ok",
+          "sum": 35,
+          "closed_by_server": true,
+          "elapsed_ms": 0.96,
+          "match_readme": true
+        }
+      ],
+      "log": "runs/n08/final/api-sessions-20261109-143546Z.json"
+    },
+    {
+      "id": "browser-send",
+      "scope": "전체 연동: 브라우저(Claude 내장) → 백엔드 → 실제 서버",
+      "input": [
+        1,
+        2,
+        3
+      ],
+      "result": {
+        "outcome": "정상 응답",
+        "headline": "합계 = 6",
+        "request_hex": "424201010006000100020003",
+        "response_hex": "42420181000400000006",
+        "closed_by_server": true,
+        "readme_match": true
+      }
+    },
+    {
+      "id": "browser-evaluate",
+      "scope": "전체 연동: 브라우저 → 백엔드 → N07 평가기(--target) → 같은 서버",
+      "command": "python3 scripts/n07-evaluate.py --cases practice/n06/cases.json --target 127.0.0.1:19006 --out runs/n08/eval-web-20261109-143650Z-f47460.json  (백엔드가 인자 배열로 실행)",
+      "exit_code": 0,
+      "summary": {
+        "total": 21,
+        "pass": 21,
+        "fail": 0,
+        "error": 0,
+        "pass_rate": 1.0,
+        "all_pass": true
+      },
+      "experiment_score": false,
+      "evaluator_code_commit": "339967a521cb156fc3e5e63299d302119c561c16",
+      "evaluator_code_dirty": false,
+      "started_at": "2026-11-09T14:36:51.463252+00:00",
+      "finished_at": "2026-11-09T14:36:51.768388+00:00",
+      "result_json": "runs/n08/eval-web-20261109-143650Z-f47460.json",
+      "result_json_sha256": "152f3c998dd1ec3eced61761b544d925251dcba1ae737a810a6207e3a327ac90",
+      "screen": "평가 완료 · 전부 통과 / 총 21 · 통과 21 · 실패 0 · 오류 0 · all_pass true / 표 21행 전부 pass / 배너 '연습 결과, 본 실험 점수 아님'"
+    },
+    {
+      "id": "cli-evaluate",
+      "scope": "전체 연동: 명령줄 N07 평가기(--target)로 웹이 쓰는 같은 서버를 평가",
+      "command": "docker compose -f compose.n08.yaml exec n08 sh -c 'python3 scripts/n07-evaluate.py --cases practice/n06/cases.json --target 127.0.0.1:19006 --out runs/n08/eval-cli-$(date +%Y%m%d-%H%M%S).json'",
+      "exit_code": 0,
+      "summary": {
+        "total": 21,
+        "pass": 21,
+        "fail": 0,
+        "error": 0,
+        "pass_rate": 1.0,
+        "all_pass": true
+      },
+      "evaluator_code_commit": "339967a521cb156fc3e5e63299d302119c561c16",
+      "evaluator_code_dirty": false,
+      "result_json": "runs/n08/eval-cli-20261109-143714.json",
+      "result_json_sha256": "0b8ef8e9f48e3f9921f402d30b68fa581a061c292fb72d416ed23037d75ea492"
+    },
+    {
+      "id": "cleanup",
+      "scope": "정리 확인",
+      "result": {
+        "stop_seconds": 0.935,
+        "container_exit_code": 0,
+        "shutdown_log": [
+          "SIGTERM: shutting down",
+          "practice server stopped (state: stopped)"
+        ],
+        "containers_left_after_down": 0,
+        "port_8080_after_down": "응답 없음(HTTP 000)",
+        "image_kept": "byte-by-byte-n05:rea6.8.0"
+      },
+      "log": "runs/n08/final/shutdown-log-20261109-143546Z.txt"
+    }
+  ],
+  "failed_steps": [
+    "시작 시 Docker Desktop이 꺼져 있어 엔진이 응답하지 않았다 → 프로그램을 켜자 약 4초 뒤 응답.",
+    "N05 이미지가 없어 처음 빌드했다(4분 22초, 3.39GB). 이후 연습 서버를 README 명령으로 빌드: SHA-256이 README 값과 일치.",
+    "app.js에 ??와 ||를 괄호 없이 섞은 문법 오류 → node --check로 첫 실행 전에 발견해 수정.",
+    "클라이언트 테스트 첫 실행 26/27: 잘못된 입력에서 sendRequest가 Promise가 아니라 동기 예외를 던짐 → async 함수로 수정.",
+    "API 테스트 첫 실행에서 2개 실패하고 프로세스가 멈춤: 테스트 버그(요청 크기 불일치로 3초 시간 초과, 동시성을 소켓 종료 시점으로 잘못 측정)와 실패 시 서버를 닫지 않는 정리 누락 → 테스트 수정, after()로 정리 추가.",
+    "node --test web/test/ (폴더 지정)는 Node 24에서 동작하지 않음 → 파일 패턴 사용.",
+    "Git Bash가 KST 시간대를 몰라 GMT로 표시 → 시각은 UTC로 기록하고 KST(+9h)로 환산.",
+    "개발 중 실패의 파일 원본은 API 테스트 첫 실행 출력(runs/n08/dev-failures/api-test-first-run.txt) 하나뿐이다. 나머지는 실행 화면 출력으로만 있었다."
+  ],
+  "not_verified": [
+    "본인 확인(docs/ai-usage.md의 '내가 직접 확인한 것')은 아직 없다. 위 결과는 모두 AI(Claude Code)가 실행한 범위다.",
+    "브라우저 화면 확인은 Claude 내장 브라우저로 한 것이다. 사람이 눈으로 보는 확인은 남아 있다.",
+    "README가 '확인 필요'로 남긴 'WSL 서버에 Windows 쪽 웹앱이 접속되는지'는 시도하지 않았다(같은 컨테이너 방식으로 우회).",
+    "동시 접속·부하는 측정하지 않았다(서버가 순차 처리). 백엔드의 직렬화와 대기 한도(429)는 가짜 서버 테스트로만 확인했다.",
+    "호스팅·공개 URL(N20), 클라이언트 자동 생성(N12)은 하지 않았다.",
+    "다른 PC(Mac arm64 등)에서의 재실행은 하지 않았다."
+  ],
+  "owner_check": {
+    "status": "확인 필요",
+    "how": "docs/n08-web-client.md의 '직접 확인할 것' 7단계"
+  }
+}

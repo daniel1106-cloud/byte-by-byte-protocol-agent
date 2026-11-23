@@ -1,0 +1,117 @@
+{
+  "format": "n08-draft-1",
+  "name": "n06-practice-sum",
+  "description": "N06 연습용 SUM 프로토콜. 요청에 담은 16비트 정수들의 합을 돌려준다.",
+  "classification": "practice",
+  "experiment_score": false,
+  "source": {
+    "kind": "human-transcribed",
+    "restored_from_traffic": false,
+    "document": "practice/n06/README.md",
+    "sections": ["프로토콜 명세", "요청 → 기대 응답 (대표)", "정상 세션 5개"],
+    "transcribed_by": "N08 (유현석)",
+    "note": "공개 연습 README에서 사람이 옮겨 적은 명세다. 패킷·바이너리 분석으로 복원한 결과가 아니고 본 실험 점수와 무관하다. N12에서 정의종의 N09 출력과 맞출 초안 형식이다."
+  },
+  "transport": {
+    "protocol": "tcp",
+    "byte_order": "big",
+    "one_request_per_connection": true,
+    "server_closes_after_reply": true,
+    "default_port": 19006,
+    "bind": "127.0.0.1"
+  },
+  "header": {
+    "size": 6,
+    "fields": [
+      { "name": "magic", "offset": 0, "size": 2, "kind": "const", "value": "4242" },
+      { "name": "version", "offset": 2, "size": 1, "kind": "const", "value": "01" },
+      { "name": "type", "offset": 3, "size": 1, "kind": "type" },
+      { "name": "length", "offset": 4, "size": 2, "kind": "length", "unit": "payload_bytes" }
+    ]
+  },
+  "messages": {
+    "request": [
+      {
+        "type": "01",
+        "name": "SUM",
+        "payload": {
+          "layout": "array",
+          "element": "u16",
+          "min_count": 0,
+          "max_count": 32,
+          "length_rule": "2 * count"
+        }
+      }
+    ],
+    "response": [
+      {
+        "type": "81",
+        "name": "SUM_RESPONSE",
+        "role": "result",
+        "payload": {
+          "layout": "fields",
+          "fields": [{ "name": "sum", "kind": "u32" }]
+        }
+      },
+      {
+        "type": "ff",
+        "name": "ERROR",
+        "role": "error",
+        "payload": {
+          "layout": "fields",
+          "fields": [
+            {
+              "name": "code",
+              "kind": "u8",
+              "values": {
+                "01": "bad magic (처음 두 바이트가 42 42가 아님)",
+                "02": "bad version (version이 01이 아님)",
+                "03": "bad type (type이 01이 아님)",
+                "04": "bad length (length가 홀수이거나 64보다 큼)"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "server_behavior": [
+    "연결 하나당 요청 하나를 처리하고 응답 뒤 연결을 닫는다.",
+    "헤더 6바이트를 모두 모은 뒤 magic → version → type → length 순서로 검사한다.",
+    "헤더 검사에 실패하면 payload를 읽지 않고 오류 프레임을 보낸다.",
+    "헤더나 payload 도중 연결이 끊기면(EOF) 응답하지 않고 닫는다.",
+    "요청을 한 번에 하나씩 순서대로 처리하고, 수신 중 유휴 제한이 없다."
+  ],
+  "examples": [
+    {
+      "input": [1, 2, 3],
+      "request_hex": "424201010006000100020003",
+      "response_hex": "42420181000400000006",
+      "note": "1+2+3 = 6"
+    },
+    {
+      "input": [10, 20],
+      "request_hex": "424201010004000a0014",
+      "response_hex": "4242018100040000001e",
+      "note": "10+20 = 30"
+    },
+    {
+      "input": [65535, 65535],
+      "request_hex": "424201010004ffffffff",
+      "response_hex": "4242018100040001fffe",
+      "note": "65535+65535 = 131070"
+    },
+    {
+      "input": [1000],
+      "request_hex": "42420101000203e8",
+      "response_hex": "424201810004000003e8",
+      "note": "1000"
+    },
+    {
+      "input": [7, 7, 7, 7, 7],
+      "request_hex": "42420101000a00070007000700070007",
+      "response_hex": "42420181000400000023",
+      "note": "7*5 = 35"
+    }
+  ]
+}

@@ -5,7 +5,7 @@ ARG GHIDRA_VERSION=12.1.4
 ARG GHIDRA_DATE=20260921
 ARG GHIDRA_SHA256=ddac49f903da9d5bac833e5cc79395098b9c33cfd3279be5f31bd00387d2d4db
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates curl xz-utils unzip openjdk-21-jdk-headless procps gcc libc6-dev python3 git && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates curl xz-utils unzip openjdk-21-jdk-headless procps gcc libc6-dev python3 git tcpdump && rm -rf /var/lib/apt/lists/*
 RUN curl --fail --location --retry 3 --output /tmp/node.tar.xz "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz" \
     && curl --fail --location --retry 3 --output /tmp/SHASUMS256.txt "https://nodejs.org/dist/v${NODE_VERSION}/SHASUMS256.txt" \
     && cd /tmp && sha256sum node.tar.xz | cut -d ' ' -f 1 > actual.sha \
