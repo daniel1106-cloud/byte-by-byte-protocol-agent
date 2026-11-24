@@ -52,6 +52,9 @@ test('A creates an offline request and never invokes REA or accesses a binary se
   assert.equal(result.spec, null);
   assert.equal(result.input.binary, undefined);
   assert.equal(f.commands.some(x => x.command === 'rea'), false);
+  assert.match(result.runtime.source_fingerprint.sha256, /^[a-f0-9]{64}$/);
+  assert.ok(result.runtime.source_fingerprint.files.every(file => file.path.startsWith('scripts/')));
+  assert.equal(result.stages.find(s => s.stage === 'source_verification').status, 'success');
   assert.equal((await saved(result.request_file)).condition, 'A');
   assert.equal((await saved(f.resultPath)).input.pcap.sha256, hash(await readFile(f.pcapPath)));
 });

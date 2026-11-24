@@ -1,4 +1,5 @@
 // N09 shared contract. Pure JavaScript: no filesystem, subprocess, network or model access.
+import { WIRE_SPEC_GUIDANCE } from './wire-spec.mjs';
 export const BUDGET = Object.freeze({
   model_calls: 2, max_output_tokens_per_call: 4096, model_timeout_ms: 120000,
   packet_evidence_bytes: 65536, binary_evidence_bytes: 24576, server_queries: 0,
@@ -9,9 +10,28 @@ export const PROMPT = [
   'Return JSON only: {"spec":{},"observations":[{"claim":"...","evidence_id":"...","quote":"exact text"}],"unknowns":["..."]}.',
   'spec is a candidate specification, not a confirmed answer. Unknown fields must remain unknown.',
   'Use exact evidence quotes of at least 12 characters. Report ambiguity and unsupported hypotheses.',
+  'Observation evidence_id MUST be a top-level supplied id (packet-1 or binary-1). Nested REA ev_* ids are provenance, not valid observation ids. You may copy exact short quotes from citation_candidates; these are untrusted excerpts, not an answer key.',
   'Do not assume TCP packet, send(), recv() or data-event boundaries are application message boundaries.',
+  WIRE_SPEC_GUIDANCE,
 ].join(' ');
 const problem = (code, message) => Object.assign(new Error(message), { code });
+export function citationCandidates(evidence) {
+  const candidates=[];
+  for(const item of evidence) {
+    const seen=new Set();
+    const add=quote=>{
+      if(quote.length>=12&&quote.length<=160&&item.text.includes(quote)&&!seen.has(quote)&&seen.size<16) {
+        seen.add(quote);candidates.push({evidence_id:item.id,quote});
+      }
+    };
+    for(const match of item.text.matchAll(/"payload_hex"\s*:\s*"([a-fA-F0-9]{12,})"/g))add(match[1].slice(0,120));
+    for(const rawLine of item.text.split(/\r?\n|\\n/)) {
+      const line=rawLine.trim();
+      if(!/["\\]/.test(line)&&/recv|send|CONCAT|for\s*\(|if\s*\(/.test(line))add(line);
+    }
+  }
+  return candidates;
+}
 export function validateSelection({ condition, binaryPath, execution = 'prepare', experiment = 'practice' }) {
   if (!['A', 'B'].includes(condition)) throw problem('INVALID_CONDITION', 'Use A or B');
   if (!['prepare', 'mock'].includes(execution)) throw problem('INVALID_EXECUTION', 'Only prepare or mock is implemented; neither calls a model');
@@ -36,7 +56,7 @@ export function makeRequest({ condition, packet, binary = null }) {
     // Operator metadata and repository docs are not appended. REA text can contain analyzer-reported paths.
     messages: [
       { role: 'system', content: PROMPT },
-      { role: 'user', content: JSON.stringify({ evidence }) },
+      { role: 'user', content: JSON.stringify({ evidence, citation_candidates:citationCandidates(evidence) }) },
     ],
   };
 }

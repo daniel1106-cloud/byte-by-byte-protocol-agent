@@ -1,0 +1,4257 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-11-17T06:53:34.767Z",
+  "classification": "AI-executed public practice integration; not blind experimental scores",
+  "human_confirmation": "confirmed-for-N09-manual-regression-public-client-rerun-and-output-inspection",
+  "user_record_approval": {
+    "date_kst": "2026-11-17",
+    "source": "user message in this conversation",
+    "statement": "갱신까지 하고 푸쉬하자",
+    "scope": "User received the AI execution results and limitations, then requested the record update and push",
+    "manual_test_rerun_attested": false,
+    "manual_raw_evidence_reading_attested": false,
+    "execution_and_evidence_review_actor": "AI"
+  },
+  "course_model_confirmation": "pending",
+  "hidden_answers_read": false,
+  "automatic_retries": 0,
+  "n05": {
+    "raw": {
+      "file": "runs/gemini/2026-11-17T06-26-43-116Z/n05.json",
+      "bytes": 31743,
+      "sha256": "a4a24103179741a4d40333de40b849911235177daf905fe9aaa0e4d4adc6f0d5"
+    },
+    "run_id": "bdcd64ba-f191-422c-9c12-9a51d73716c4",
+    "success": true,
+    "stage": "complete",
+    "runtime": {
+      "node": "v24.22.1",
+      "platform": "linux",
+      "arch": "x64",
+      "code_commit": "62b4be94173c8fea0fa8647ee074fb38940cea5e",
+      "code_dirty": false,
+      "rea-version": {
+        "command": [
+          "rea",
+          "--version"
+        ],
+        "exit_code": 0,
+        "signal": null,
+        "timed_out": false,
+        "spawn_error": null,
+        "stdout": "/work/runs/gemini/2026-11-17T06-26-43-116Z/n05.json.artifacts-46233db4-ad8f-4fb5-ab61-a56c11604fd8/rea-version.stdout",
+        "stderr": "/work/runs/gemini/2026-11-17T06-26-43-116Z/n05.json.artifacts-46233db4-ad8f-4fb5-ab61-a56c11604fd8/rea-version.stderr"
+      },
+      "rea_version": "6.8.0",
+      "rea-doctor": {
+        "command": [
+          "rea",
+          "doctor",
+          "--provider",
+          "ghidra",
+          "--json"
+        ],
+        "exit_code": 0,
+        "signal": null,
+        "timed_out": false,
+        "spawn_error": null,
+        "stdout": "/work/runs/gemini/2026-11-17T06-26-43-116Z/n05.json.artifacts-46233db4-ad8f-4fb5-ab61-a56c11604fd8/rea-doctor.stdout",
+        "stderr": "/work/runs/gemini/2026-11-17T06-26-43-116Z/n05.json.artifacts-46233db4-ad8f-4fb5-ab61-a56c11604fd8/rea-doctor.stderr"
+      },
+      "rea-analyze": {
+        "command": [
+          "rea",
+          "analyze",
+          "/work/runs/gemini/2026-11-17T06-26-43-116Z/practice-server",
+          "--provider",
+          "ghidra",
+          "--json"
+        ],
+        "exit_code": 0,
+        "signal": null,
+        "timed_out": false,
+        "spawn_error": null,
+        "stdout": "/work/runs/gemini/2026-11-17T06-26-43-116Z/n05.json.artifacts-46233db4-ad8f-4fb5-ab61-a56c11604fd8/rea-analyze.stdout",
+        "stderr": "/work/runs/gemini/2026-11-17T06-26-43-116Z/n05.json.artifacts-46233db4-ad8f-4fb5-ab61-a56c11604fd8/rea-analyze.stderr"
+      }
+    },
+    "model": {
+      "requested": "gemini-3.5-flash-lite",
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+      "returned": [
+        "gemini-3.5-flash-lite",
+        "gemini-3.5-flash-lite"
+      ],
+      "course_model_confirmed_by_operator": false,
+      "api_1_status": 200,
+      "api_2_status": 200
+    },
+    "usage": {
+      "api_requests": 2,
+      "calls": [
+        {
+          "round": 1,
+          "status": 200,
+          "usage": {
+            "completion_tokens": 12,
+            "prompt_tokens": 196,
+            "total_tokens": 208
+          }
+        },
+        {
+          "round": 2,
+          "status": 200,
+          "usage": {
+            "completion_tokens": 266,
+            "prompt_tokens": 3884,
+            "total_tokens": 4150
+          }
+        }
+      ],
+      "prompt_tokens": 4080,
+      "completion_tokens": 278,
+      "total_tokens": 4358
+    },
+    "budget": {
+      "model_calls": 2,
+      "max_output_tokens_per_call": 4096,
+      "automatic_retries": 0
+    },
+    "summary": {
+      "claims": [
+        {
+          "claim": "The inspected practice binary is an ELF format architecture x86_64 executable named practice-server.",
+          "quote": "\"name\":\"practice-server\",\"digest\":{\"sha256\":\"d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067\"},\"local_path\":\"/work/runs/gemini/2026-11-17T06-26-43-116Z/practice-server\",\"format\":\"elf\",\"architecture\":\"x86_64\""
+        },
+        {
+          "claim": "The binary overview analysis reports 33 segments, 79 procedures, and 119 strings.",
+          "quote": "\"segment_count\":33,\"procedure_count\":79,\"string_count\":119"
+        }
+      ],
+      "unknowns": [
+        "The specific runtime behavior and network protocol details of the practice-server binary."
+      ]
+    },
+    "verification": {
+      "method": "exact UTF-8 quote in raw REA output and supplied excerpt",
+      "matches": [
+        {
+          "claim": "The inspected practice binary is an ELF format architecture x86_64 executable named practice-server.",
+          "quote": "\"name\":\"practice-server\",\"digest\":{\"sha256\":\"d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067\"},\"local_path\":\"/work/runs/gemini/2026-11-17T06-26-43-116Z/practice-server\",\"format\":\"elf\",\"architecture\":\"x86_64\"",
+          "exact_match": true,
+          "raw_start_byte": 96,
+          "raw_end_byte": 320,
+          "raw_sha256": "83b8fb592921a9e53ac5f592e7b1b2125b6712bc22a6e0d2bc5186f3e0e48f27",
+          "raw_file": "/work/runs/gemini/2026-11-17T06-26-43-116Z/n05.json.artifacts-46233db4-ad8f-4fb5-ab61-a56c11604fd8/rea-analyze.stdout"
+        },
+        {
+          "claim": "The binary overview analysis reports 33 segments, 79 procedures, and 119 strings.",
+          "quote": "\"segment_count\":33,\"procedure_count\":79,\"string_count\":119",
+          "exact_match": true,
+          "raw_start_byte": 6429,
+          "raw_end_byte": 6487,
+          "raw_sha256": "83b8fb592921a9e53ac5f592e7b1b2125b6712bc22a6e0d2bc5186f3e0e48f27",
+          "raw_file": "/work/runs/gemini/2026-11-17T06-26-43-116Z/n05.json.artifacts-46233db4-ad8f-4fb5-ab61-a56c11604fd8/rea-analyze.stdout"
+        }
+      ],
+      "all_quotes_match": true,
+      "semantic_claim_review": "확인 필요",
+      "course_model_review": "확인 필요"
+    },
+    "n05_complete": false,
+    "tool_call": {
+      "id": "call_11657079235508237897",
+      "name": "inspect_practice_binary",
+      "arguments": "{}"
+    },
+    "returned_tool_call_id": "call_11657079235508237897",
+    "evidence_validation": {
+      "evidence_id": "ev_9b5ec86fab407d69cedfed58f9f2e92a9911c42bf28b7c73b1da7e538a4911e6",
+      "operation": "binary_overview",
+      "subject_sha256": "d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067",
+      "upstream_provider": "ghidra"
+    },
+    "rea_raw": {
+      "file": "runs/gemini/2026-11-17T06-26-43-116Z/n05.json.artifacts-46233db4-ad8f-4fb5-ab61-a56c11604fd8/rea-analyze.stdout",
+      "bytes": 8467,
+      "sha256": "83b8fb592921a9e53ac5f592e7b1b2125b6712bc22a6e0d2bc5186f3e0e48f27"
+    }
+  },
+  "final_pilot": {
+    "directory": "runs/gemini/2026-11-17T06-51-02-946Z/",
+    "started_at": "2026-11-17T06:51:03.517Z",
+    "finished_at": "2026-11-17T06:51:43.137Z",
+    "success": true,
+    "code_commit": "4ed5aff154d39e7b6c6b3594da31d3c6b00c577d",
+    "code_dirty": false,
+    "source_fingerprint": {
+      "algorithm": "sha256",
+      "files": [
+        {
+          "path": "scripts/rea-smoke.mjs",
+          "bytes": 21603,
+          "sha256": "7dc620eea987479df9f5886991769b64a8dfee75a46a8a7306b8d3c3695b0ec1"
+        },
+        {
+          "path": "scripts/n09-contract.mjs",
+          "bytes": 5484,
+          "sha256": "24bfb63a72ccfc67cb37db68c9c10492c83b972f4426c490d214fd12e5b92a0e"
+        },
+        {
+          "path": "scripts/n09-prepare.mjs",
+          "bytes": 12924,
+          "sha256": "5317feb6979663fee4272f6d3e7a2a4dd3dc656a5f6b71c03adfd57855d9d51f"
+        },
+        {
+          "path": "scripts/n09-live.mjs",
+          "bytes": 16955,
+          "sha256": "dc8bf90b6626a13705d3a1bf16d999e193da3b80ed896a1efd5a605f5238f7f3"
+        },
+        {
+          "path": "scripts/n09-check-pair.mjs",
+          "bytes": 5799,
+          "sha256": "940650cc230dfc5bf34e37272de5da9f7f163cb61851215ae4ac0f38d69e11f3"
+        },
+        {
+          "path": "scripts/n09-source-state.mjs",
+          "bytes": 893,
+          "sha256": "ad870192603f081e9cc4539e24c4b9a7c1a8414131b020d23597dba85f0a0843"
+        },
+        {
+          "path": "scripts/wire-spec.mjs",
+          "bytes": 8276,
+          "sha256": "65e72bda2f8f1e69fb25088ff8b249cd216cefe8a7fe6f143a3a480ef190acf3"
+        },
+        {
+          "path": "scripts/n12-practice-bridge.mjs",
+          "bytes": 5623,
+          "sha256": "28bc8078bad3dba67e8af118aeb2dad22270874030890505fa0ccf9215966a6a"
+        },
+        {
+          "path": "scripts/gemini-practice.mjs",
+          "bytes": 4930,
+          "sha256": "eede1abf09047948eddce1cb8020f78c8a36d4e9c965a9d7c43182aacb4d289b"
+        },
+        {
+          "path": "scripts/gemini-pilot.mjs",
+          "bytes": 1985,
+          "sha256": "6f1113af571cd7055bfd21dc611c0f3b43fd39a0f89b53d6683d849644cf1e7a"
+        },
+        {
+          "path": "scripts/pcap-tcp-streams.py",
+          "bytes": 5452,
+          "sha256": "1bc45040c6b3e5a67c1ea176854e2e0abbdcfaa5aa789dc1b4053131a40ec007"
+        },
+        {
+          "path": "scripts/rea-detail.mjs",
+          "bytes": 4410,
+          "sha256": "b2e9de5e0b2618ad86b92e5a2f6f28e98798c16530e6ce697bd34a740866a4c9"
+        }
+      ],
+      "sha256": "6b2498cfea5a42d20a8396fc30a1526011f683b82db88895a7b9d69369544ca1"
+    },
+    "model": "gemini-3.5-flash-lite",
+    "model_requests": 2,
+    "pair": {
+      "task": "N09",
+      "classification": "real-local-tools-key-free-preparation",
+      "recorded_at": "2026-11-17T06:51:34.605Z",
+      "execution_code_commit": "4ed5aff154d39e7b6c6b3594da31d3c6b00c577d",
+      "code_dirty": false,
+      "source_fingerprint": {
+        "algorithm": "sha256",
+        "files": [
+          {
+            "path": "scripts/rea-smoke.mjs",
+            "bytes": 21603,
+            "sha256": "7dc620eea987479df9f5886991769b64a8dfee75a46a8a7306b8d3c3695b0ec1"
+          },
+          {
+            "path": "scripts/n09-contract.mjs",
+            "bytes": 5484,
+            "sha256": "24bfb63a72ccfc67cb37db68c9c10492c83b972f4426c490d214fd12e5b92a0e"
+          },
+          {
+            "path": "scripts/n09-prepare.mjs",
+            "bytes": 12924,
+            "sha256": "5317feb6979663fee4272f6d3e7a2a4dd3dc656a5f6b71c03adfd57855d9d51f"
+          },
+          {
+            "path": "scripts/n09-live.mjs",
+            "bytes": 16955,
+            "sha256": "dc8bf90b6626a13705d3a1bf16d999e193da3b80ed896a1efd5a605f5238f7f3"
+          },
+          {
+            "path": "scripts/n09-check-pair.mjs",
+            "bytes": 5799,
+            "sha256": "940650cc230dfc5bf34e37272de5da9f7f163cb61851215ae4ac0f38d69e11f3"
+          },
+          {
+            "path": "scripts/n09-source-state.mjs",
+            "bytes": 893,
+            "sha256": "ad870192603f081e9cc4539e24c4b9a7c1a8414131b020d23597dba85f0a0843"
+          },
+          {
+            "path": "scripts/wire-spec.mjs",
+            "bytes": 8276,
+            "sha256": "65e72bda2f8f1e69fb25088ff8b249cd216cefe8a7fe6f143a3a480ef190acf3"
+          },
+          {
+            "path": "scripts/n12-practice-bridge.mjs",
+            "bytes": 5623,
+            "sha256": "28bc8078bad3dba67e8af118aeb2dad22270874030890505fa0ccf9215966a6a"
+          },
+          {
+            "path": "scripts/gemini-practice.mjs",
+            "bytes": 4930,
+            "sha256": "eede1abf09047948eddce1cb8020f78c8a36d4e9c965a9d7c43182aacb4d289b"
+          },
+          {
+            "path": "scripts/gemini-pilot.mjs",
+            "bytes": 1985,
+            "sha256": "6f1113af571cd7055bfd21dc611c0f3b43fd39a0f89b53d6683d849644cf1e7a"
+          },
+          {
+            "path": "scripts/pcap-tcp-streams.py",
+            "bytes": 5452,
+            "sha256": "1bc45040c6b3e5a67c1ea176854e2e0abbdcfaa5aa789dc1b4053131a40ec007"
+          },
+          {
+            "path": "scripts/rea-detail.mjs",
+            "bytes": 4410,
+            "sha256": "b2e9de5e0b2618ad86b92e5a2f6f28e98798c16530e6ce697bd34a740866a4c9"
+          }
+        ],
+        "sha256": "6b2498cfea5a42d20a8396fc30a1526011f683b82db88895a7b9d69369544ca1"
+      },
+      "reproducibility": {
+        "clean_checkout": true,
+        "sources_verified": true,
+        "reference_run_eligible": true,
+        "local_practice_dirty_allowed": false
+      },
+      "input": {
+        "pcap": {
+          "path": "/work/practice/n06/normal-sessions.pcap",
+          "bytes": 4310,
+          "sha256": "e9b5650cd8aab5f0480a1b99740af67e7713f5083f5a58c0acaa5535207bd698"
+        },
+        "binary": {
+          "path": "/work/runs/gemini/2026-11-17T06-51-02-946Z/practice-server",
+          "bytes": 16928,
+          "sha256": "d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067"
+        }
+      },
+      "same_packet_sha256": "afa81b79ed091d63d4d334a489dfca0ea3968bcb48e0cb1389cb2db1d703c0f6",
+      "same_system_prompt_sha256": "57c0c94824ccbf0249c6b2cea32bc6a29860b3d100236d46a757f3fc04d26b27",
+      "same_budget": {
+        "model_calls": 2,
+        "max_output_tokens_per_call": 4096,
+        "model_timeout_ms": 120000,
+        "packet_evidence_bytes": 65536,
+        "binary_evidence_bytes": 24576,
+        "server_queries": 0
+      },
+      "checks": {
+        "a_packet_only": true,
+        "b_real_rea": true,
+        "same_pcap": true,
+        "same_packet_text": true,
+        "same_prompt": true,
+        "same_budget": true,
+        "binary_hash_match": true
+      },
+      "rea": {
+        "version": "6.8.0",
+        "validation": {
+          "evidence_id": "ev_9b5ec86fab407d69cedfed58f9f2e92a9911c42bf28b7c73b1da7e538a4911e6",
+          "operation": "binary_overview",
+          "subject_sha256": "d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067",
+          "upstream_provider": "ghidra"
+        }
+      },
+      "supplied_evidence": {
+        "a": [
+          {
+            "source": "packet",
+            "supplied_bytes": 3374,
+            "truncated": false
+          }
+        ],
+        "b": [
+          {
+            "source": "packet",
+            "supplied_bytes": 3374,
+            "truncated": false
+          },
+          {
+            "source": "binary",
+            "supplied_bytes": 14478,
+            "truncated": false
+          }
+        ]
+      },
+      "runtime": {
+        "node": "v24.22.1",
+        "platform": "linux",
+        "arch": "x64",
+        "code_commit": "4ed5aff154d39e7b6c6b3594da31d3c6b00c577d",
+        "code_dirty": false,
+        "source_fingerprint": {
+          "algorithm": "sha256",
+          "files": [
+            {
+              "path": "scripts/rea-smoke.mjs",
+              "bytes": 21603,
+              "sha256": "7dc620eea987479df9f5886991769b64a8dfee75a46a8a7306b8d3c3695b0ec1"
+            },
+            {
+              "path": "scripts/n09-contract.mjs",
+              "bytes": 5484,
+              "sha256": "24bfb63a72ccfc67cb37db68c9c10492c83b972f4426c490d214fd12e5b92a0e"
+            },
+            {
+              "path": "scripts/n09-prepare.mjs",
+              "bytes": 12924,
+              "sha256": "5317feb6979663fee4272f6d3e7a2a4dd3dc656a5f6b71c03adfd57855d9d51f"
+            },
+            {
+              "path": "scripts/n09-live.mjs",
+              "bytes": 16955,
+              "sha256": "dc8bf90b6626a13705d3a1bf16d999e193da3b80ed896a1efd5a605f5238f7f3"
+            },
+            {
+              "path": "scripts/n09-check-pair.mjs",
+              "bytes": 5799,
+              "sha256": "940650cc230dfc5bf34e37272de5da9f7f163cb61851215ae4ac0f38d69e11f3"
+            },
+            {
+              "path": "scripts/n09-source-state.mjs",
+              "bytes": 893,
+              "sha256": "ad870192603f081e9cc4539e24c4b9a7c1a8414131b020d23597dba85f0a0843"
+            },
+            {
+              "path": "scripts/wire-spec.mjs",
+              "bytes": 8276,
+              "sha256": "65e72bda2f8f1e69fb25088ff8b249cd216cefe8a7fe6f143a3a480ef190acf3"
+            },
+            {
+              "path": "scripts/n12-practice-bridge.mjs",
+              "bytes": 5623,
+              "sha256": "28bc8078bad3dba67e8af118aeb2dad22270874030890505fa0ccf9215966a6a"
+            },
+            {
+              "path": "scripts/gemini-practice.mjs",
+              "bytes": 4930,
+              "sha256": "eede1abf09047948eddce1cb8020f78c8a36d4e9c965a9d7c43182aacb4d289b"
+            },
+            {
+              "path": "scripts/gemini-pilot.mjs",
+              "bytes": 1985,
+              "sha256": "6f1113af571cd7055bfd21dc611c0f3b43fd39a0f89b53d6683d849644cf1e7a"
+            },
+            {
+              "path": "scripts/pcap-tcp-streams.py",
+              "bytes": 5452,
+              "sha256": "1bc45040c6b3e5a67c1ea176854e2e0abbdcfaa5aa789dc1b4053131a40ec007"
+            },
+            {
+              "path": "scripts/rea-detail.mjs",
+              "bytes": 4410,
+              "sha256": "b2e9de5e0b2618ad86b92e5a2f6f28e98798c16530e6ce697bd34a740866a4c9"
+            }
+          ],
+          "sha256": "6b2498cfea5a42d20a8396fc30a1526011f683b82db88895a7b9d69369544ca1"
+        },
+        "packet_command": {
+          "argv": [
+            "tcpdump",
+            "-nn",
+            "-tt",
+            "-s",
+            "0",
+            "-XX",
+            "-r",
+            "/work/practice/n06/normal-sessions.pcap"
+          ],
+          "exit_code": 0,
+          "timed_out": false,
+          "stdout": "/work/runs/gemini/2026-11-17T06-51-02-946Z/A-prepare.json.artifacts-68bbdada-afbb-4ddc-9bf8-cff536d218bb/packet.stdout.txt",
+          "stderr": "/work/runs/gemini/2026-11-17T06-51-02-946Z/A-prepare.json.artifacts-68bbdada-afbb-4ddc-9bf8-cff536d218bb/packet.stderr.txt"
+        },
+        "stream_command": {
+          "argv": [
+            "python3",
+            "scripts/pcap-tcp-streams.py",
+            "--pcap",
+            "/work/practice/n06/normal-sessions.pcap"
+          ],
+          "exit_code": 0,
+          "stdout": "/work/runs/gemini/2026-11-17T06-51-02-946Z/A-prepare.json.artifacts-68bbdada-afbb-4ddc-9bf8-cff536d218bb/packet.streams.json",
+          "stderr": "/work/runs/gemini/2026-11-17T06-51-02-946Z/A-prepare.json.artifacts-68bbdada-afbb-4ddc-9bf8-cff536d218bb/packet.streams.stderr"
+        },
+        "packet_format": "tcp-streams-v1",
+        "prompt_sha256": "57c0c94824ccbf0249c6b2cea32bc6a29860b3d100236d46a757f3fc04d26b27"
+      },
+      "result_files": {
+        "a": "/work/runs/gemini/2026-11-17T06-51-02-946Z/A-prepare.json",
+        "b": "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-prepare.json",
+        "rea": "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-prepare.json.artifacts-4730f34c-4fb8-47fe-8270-50e3332dbbec/rea-result.json"
+      },
+      "model_calls": 0,
+      "experiment_score": false,
+      "n05_complete": false,
+      "n09_complete": false,
+      "semantic_review": "pending",
+      "human_execution_check": "pending"
+    },
+    "conditions": [
+      {
+        "condition": "A",
+        "analysis_raw": {
+          "file": "runs/gemini/2026-11-17T06-51-02-946Z/A-analysis.json",
+          "bytes": 12903,
+          "sha256": "481e3e0eaa70a4841619d78a979b13ade49c0cd13edda845d0ebedd3ad7498b9"
+        },
+        "analysis": {
+          "analysis_run_id": "aa60c508-96bb-4213-82cb-9220cbbeaf0c",
+          "preparation_run_id": "679ed3af-fe34-43a1-a120-ee0298ae25b7",
+          "started_at": "2026-11-17T06:51:34.612Z",
+          "finished_at": "2026-11-17T06:51:38.080Z",
+          "success": true,
+          "model_called": true,
+          "experiment_score": false,
+          "runtime": {
+            "node": "v24.22.1",
+            "platform": "linux",
+            "arch": "x64",
+            "timeout_ms": 120000,
+            "execution_backend": "real",
+            "runner_sha256": "dc8bf90b6626a13705d3a1bf16d999e193da3b80ed896a1efd5a605f5238f7f3",
+            "source_fingerprint": {
+              "algorithm": "sha256",
+              "files": [
+                {
+                  "path": "scripts/rea-smoke.mjs",
+                  "bytes": 21603,
+                  "sha256": "7dc620eea987479df9f5886991769b64a8dfee75a46a8a7306b8d3c3695b0ec1"
+                },
+                {
+                  "path": "scripts/n09-contract.mjs",
+                  "bytes": 5484,
+                  "sha256": "24bfb63a72ccfc67cb37db68c9c10492c83b972f4426c490d214fd12e5b92a0e"
+                },
+                {
+                  "path": "scripts/n09-prepare.mjs",
+                  "bytes": 12924,
+                  "sha256": "5317feb6979663fee4272f6d3e7a2a4dd3dc656a5f6b71c03adfd57855d9d51f"
+                },
+                {
+                  "path": "scripts/n09-live.mjs",
+                  "bytes": 16955,
+                  "sha256": "dc8bf90b6626a13705d3a1bf16d999e193da3b80ed896a1efd5a605f5238f7f3"
+                },
+                {
+                  "path": "scripts/n09-check-pair.mjs",
+                  "bytes": 5799,
+                  "sha256": "940650cc230dfc5bf34e37272de5da9f7f163cb61851215ae4ac0f38d69e11f3"
+                },
+                {
+                  "path": "scripts/n09-source-state.mjs",
+                  "bytes": 893,
+                  "sha256": "ad870192603f081e9cc4539e24c4b9a7c1a8414131b020d23597dba85f0a0843"
+                },
+                {
+                  "path": "scripts/wire-spec.mjs",
+                  "bytes": 8276,
+                  "sha256": "65e72bda2f8f1e69fb25088ff8b249cd216cefe8a7fe6f143a3a480ef190acf3"
+                },
+                {
+                  "path": "scripts/n12-practice-bridge.mjs",
+                  "bytes": 5623,
+                  "sha256": "28bc8078bad3dba67e8af118aeb2dad22270874030890505fa0ccf9215966a6a"
+                },
+                {
+                  "path": "scripts/gemini-practice.mjs",
+                  "bytes": 4930,
+                  "sha256": "eede1abf09047948eddce1cb8020f78c8a36d4e9c965a9d7c43182aacb4d289b"
+                },
+                {
+                  "path": "scripts/gemini-pilot.mjs",
+                  "bytes": 1985,
+                  "sha256": "6f1113af571cd7055bfd21dc611c0f3b43fd39a0f89b53d6683d849644cf1e7a"
+                },
+                {
+                  "path": "scripts/pcap-tcp-streams.py",
+                  "bytes": 5452,
+                  "sha256": "1bc45040c6b3e5a67c1ea176854e2e0abbdcfaa5aa789dc1b4053131a40ec007"
+                },
+                {
+                  "path": "scripts/rea-detail.mjs",
+                  "bytes": 4410,
+                  "sha256": "b2e9de5e0b2618ad86b92e5a2f6f28e98798c16530e6ce697bd34a740866a4c9"
+                }
+              ],
+              "sha256": "6b2498cfea5a42d20a8396fc30a1526011f683b82db88895a7b9d69369544ca1"
+            },
+            "preparation_code_dirty": false
+          },
+          "model": {
+            "requested": "gemini-3.5-flash-lite",
+            "returned": "gemini-3.5-flash-lite",
+            "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+            "operator_confirmed": false
+          },
+          "budget": {
+            "model_calls": 2,
+            "max_output_tokens_per_call": 4096,
+            "model_timeout_ms": 120000,
+            "packet_evidence_bytes": 65536,
+            "binary_evidence_bytes": 24576,
+            "server_queries": 0
+          },
+          "usage": {
+            "api_requests": 1,
+            "reported": true,
+            "prompt_tokens": 2436,
+            "completion_tokens": 858,
+            "total_tokens": 3294,
+            "provider": {
+              "completion_tokens": 858,
+              "prompt_tokens": 2436,
+              "total_tokens": 3294
+            }
+          },
+          "input": {
+            "selected": [
+              {
+                "path": "/work/practice/n06/normal-sessions.pcap",
+                "sha256": "e9b5650cd8aab5f0480a1b99740af67e7713f5083f5a58c0acaa5535207bd698"
+              }
+            ],
+            "raw_evidence": [
+              {
+                "path": "/work/runs/gemini/2026-11-17T06-51-02-946Z/A-prepare.json.artifacts-68bbdada-afbb-4ddc-9bf8-cff536d218bb/packet.streams.json",
+                "sha256": "afa81b79ed091d63d4d334a489dfca0ea3968bcb48e0cb1389cb2db1d703c0f6"
+              }
+            ]
+          },
+          "request_sha256": "06c5e9e8c12c052d6ac37f896596299d5ab645c2bf99c81e2d75e405d5bd4d3e",
+          "system_prompt_sha256": "57c0c94824ccbf0249c6b2cea32bc6a29860b3d100236d46a757f3fc04d26b27",
+          "spec": {
+            "format": "wire-spec-v1",
+            "transport": "tcp",
+            "request": {
+              "fields": [
+                {
+                  "name": "magic",
+                  "type": "const",
+                  "hex": "4242"
+                },
+                {
+                  "name": "version_or_type",
+                  "type": "const",
+                  "hex": "0101"
+                },
+                {
+                  "name": "arg_length",
+                  "type": "length",
+                  "bytes": 2,
+                  "endian": "big",
+                  "of": "arguments"
+                },
+                {
+                  "name": "arguments",
+                  "type": "uint_array",
+                  "bytes": 2,
+                  "endian": "big"
+                }
+              ]
+            },
+            "response": {
+              "fields": [
+                {
+                  "name": "magic",
+                  "type": "const",
+                  "hex": "4242"
+                },
+                {
+                  "name": "version_or_type",
+                  "type": "const",
+                  "hex": "0181"
+                },
+                {
+                  "name": "result_length",
+                  "type": "length",
+                  "bytes": 2,
+                  "endian": "big",
+                  "of": "result_value"
+                },
+                {
+                  "name": "result_value",
+                  "type": "uint",
+                  "bytes": 4,
+                  "endian": "big"
+                }
+              ]
+            },
+            "semantics": "Clients send requests with magic 0x4242, command/version 0x0101, a 16-bit big-endian byte length, and an array of 16-bit big-endian integer arguments. The server responds with magic 0x4242, status/response header 0x0181, a 16-bit big-endian length (0x0004), and a 32-bit big-endian integer result. In session 3, an error status code 0x0001 is observed in the response result field alongside a negative result value, whereas successful requests show 0x0000."
+          },
+          "observations": [
+            {
+              "claim": "Session 1 client request payload starts with magic 4242 and version/command 0101 followed by length and arguments.",
+              "evidence_id": "packet-1",
+              "quote": "424201010006000100020003"
+            },
+            {
+              "claim": "Session 1 server response payload starts with magic 4242 and response header 0181.",
+              "evidence_id": "packet-1",
+              "quote": "42420181000400000006"
+            },
+            {
+              "claim": "Session 3 server response exhibits an error status code 0001 in the upper 16 bits of the 4-byte result field.",
+              "evidence_id": "packet-1",
+              "quote": "4242018100040001fffe"
+            }
+          ],
+          "unknowns": [
+            "The exact mathematical operation performed by the server on the input arguments to produce the result value.",
+            "The full enumeration of possible command codes and error codes beyond 0x0101 and status codes 0x0000/0x0001."
+          ],
+          "verification": {
+            "exact_quotes": [
+              {
+                "evidence_id": "packet-1",
+                "source": "packet",
+                "quote_start_character": 338,
+                "quote_end_character": 362,
+                "exact_match": true,
+                "semantic_review": "pending"
+              },
+              {
+                "evidence_id": "packet-1",
+                "source": "packet",
+                "quote_start_character": 564,
+                "quote_end_character": 584,
+                "exact_match": true,
+                "semantic_review": "pending"
+              },
+              {
+                "evidence_id": "packet-1",
+                "source": "packet",
+                "quote_start_character": 1770,
+                "quote_end_character": 1790,
+                "exact_match": true,
+                "semantic_review": "pending"
+              }
+            ],
+            "semantic_review": "pending",
+            "grading": "pending",
+            "executable_spec_compatibility": "pending",
+            "actual_protocol_reconstruction_confirmed": false
+          }
+        },
+        "packet_format": "tcp-streams-v1",
+        "rea_detail_profile": null,
+        "request": {
+          "file": "runs/gemini/2026-11-17T06-51-02-946Z/A-analysis.json.artifacts-a7b42eaa-1318-406c-8da0-a9f5b5bbe544/request.json",
+          "bytes": 8482,
+          "sha256": "dd7f8d70944289c656eb5561ef12ddd1dd42eaa14fefec6aae1bc6037a4b4a1c"
+        },
+        "response": {
+          "file": "runs/gemini/2026-11-17T06-51-02-946Z/A-analysis.json.artifacts-a7b42eaa-1318-406c-8da0-a9f5b5bbe544/response.txt",
+          "bytes": 3318,
+          "sha256": "3ec9de51c92ab69c8a2d61869fcaadc03247b2bc3abd11da66b884a5e2100af7"
+        },
+        "client": {
+          "task": "N12-reference",
+          "classification": "public-practice-recovered-wire-client",
+          "experiment_score": false,
+          "success": true,
+          "started_at": "2026-11-17T06:51:38.092Z",
+          "analysis_run_id": "aa60c508-96bb-4213-82cb-9220cbbeaf0c",
+          "analysis_sha256": "481e3e0eaa70a4841619d78a979b13ade49c0cd13edda845d0ebedd3ad7498b9",
+          "condition": "A",
+          "oracle_sha256": "9ab50aefbc7f7865a214af9879756f5e349c67eeb0e82c479d0aad10727c6fbf",
+          "spec_sha256": "c8cfc850d27e28bdf0084e634407efe31551acead8c168ed69e0966dd4e2c844",
+          "generated_cases_file": "/work/runs/gemini/2026-11-17T06-51-02-946Z/A-client.json.cases.json",
+          "evaluation_file": "/work/runs/gemini/2026-11-17T06-51-02-946Z/A-client.json.evaluation.json",
+          "summary": {
+            "total": 15,
+            "pass": 15,
+            "fail": 0,
+            "error": 0,
+            "pass_rate": 1,
+            "all_pass": true
+          },
+          "server_stopped": true,
+          "runtime": {
+            "exit_code": 0,
+            "timed_out": false
+          },
+          "decoded_responses": [
+            {
+              "case_id": "new-values-whole",
+              "complete": true,
+              "values": {
+                "result_value": 14
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "new-values-byte-split",
+              "complete": true,
+              "values": {
+                "result_value": 14
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "new-values-split-three",
+              "complete": true,
+              "values": {
+                "result_value": 14
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "zero-items-whole",
+              "complete": true,
+              "values": {
+                "result_value": 0
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "zero-items-byte-split",
+              "complete": true,
+              "values": {
+                "result_value": 0
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "zero-items-split-three",
+              "complete": true,
+              "values": {
+                "result_value": 0
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "mixed-boundary-whole",
+              "complete": true,
+              "values": {
+                "result_value": 65552
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "mixed-boundary-byte-split",
+              "complete": true,
+              "values": {
+                "result_value": 65552
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "mixed-boundary-split-three",
+              "complete": true,
+              "values": {
+                "result_value": 65552
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "single-value-whole",
+              "complete": true,
+              "values": {
+                "result_value": 12345
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "single-value-byte-split",
+              "complete": true,
+              "values": {
+                "result_value": 12345
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "single-value-split-three",
+              "complete": true,
+              "values": {
+                "result_value": 12345
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "maximum-count-whole",
+              "complete": true,
+              "values": {
+                "result_value": 2097120
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "maximum-count-byte-split",
+              "complete": true,
+              "values": {
+                "result_value": 2097120
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "maximum-count-split-three",
+              "complete": true,
+              "values": {
+                "result_value": 2097120
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            }
+          ],
+          "finished_at": "2026-11-17T06:51:38.714Z"
+        },
+        "client_raw": {
+          "file": "runs/gemini/2026-11-17T06-51-02-946Z/A-client.json",
+          "bytes": 3849,
+          "sha256": "2d9e7abe5eb344560124e6726a576a764bb8ab0e557d91fdb583e7512c934748"
+        },
+        "generated_cases": {
+          "name": "n12-public-recovered-client",
+          "description": "Actual model wire layout; public oracle values excluded from model input",
+          "spec_source": "model candidate wire-spec-v1",
+          "defaults": {
+            "timeout_s": 3,
+            "chunk_delay_ms": 2
+          },
+          "cases": [
+            {
+              "id": "new-values-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201010006000200040008"
+              ],
+              "expect_hex": "4242018100040000000e"
+            },
+            {
+              "id": "new-values-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "06",
+                "00",
+                "02",
+                "00",
+                "04",
+                "00",
+                "08"
+              ],
+              "expect_hex": "4242018100040000000e"
+            },
+            {
+              "id": "new-values-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201",
+                "010006000200040008"
+              ],
+              "expect_hex": "4242018100040000000e"
+            },
+            {
+              "id": "zero-items-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201010000"
+              ],
+              "expect_hex": "42420181000400000000"
+            },
+            {
+              "id": "zero-items-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "00"
+              ],
+              "expect_hex": "42420181000400000000"
+            },
+            {
+              "id": "zero-items-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201",
+                "010000"
+              ],
+              "expect_hex": "42420181000400000000"
+            },
+            {
+              "id": "mixed-boundary-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "4242010100060000ffff0011"
+              ],
+              "expect_hex": "42420181000400010010"
+            },
+            {
+              "id": "mixed-boundary-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "06",
+                "00",
+                "00",
+                "ff",
+                "ff",
+                "00",
+                "11"
+              ],
+              "expect_hex": "42420181000400010010"
+            },
+            {
+              "id": "mixed-boundary-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201",
+                "0100060000ffff0011"
+              ],
+              "expect_hex": "42420181000400010010"
+            },
+            {
+              "id": "single-value-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "4242010100023039"
+              ],
+              "expect_hex": "42420181000400003039"
+            },
+            {
+              "id": "single-value-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "02",
+                "30",
+                "39"
+              ],
+              "expect_hex": "42420181000400003039"
+            },
+            {
+              "id": "single-value-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201",
+                "0100023039"
+              ],
+              "expect_hex": "42420181000400003039"
+            },
+            {
+              "id": "maximum-count-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201010040ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+              ],
+              "expect_hex": "424201810004001fffe0"
+            },
+            {
+              "id": "maximum-count-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "40",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff"
+              ],
+              "expect_hex": "424201810004001fffe0"
+            },
+            {
+              "id": "maximum-count-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201",
+                "010040ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+              ],
+              "expect_hex": "424201810004001fffe0"
+            }
+          ]
+        },
+        "evaluation": {
+          "task": "N07",
+          "classification": "practice evaluation (known public spec)",
+          "experiment_score": false,
+          "started_at": "2026-11-17T06:51:38.452766+00:00",
+          "stage": "complete",
+          "success": true,
+          "argv": [
+            "scripts/n07-evaluate.py",
+            "--cases",
+            "/work/runs/gemini/2026-11-17T06-51-02-946Z/A-client.json.cases.json",
+            "--binary",
+            "/work/runs/gemini/2026-11-17T06-51-02-946Z/practice-server",
+            "--out",
+            "/work/runs/gemini/2026-11-17T06-51-02-946Z/A-client.json.evaluation.json"
+          ],
+          "python": "3.12.3",
+          "platform": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "code_commit": "4ed5aff154d39e7b6c6b3594da31d3c6b00c577d",
+          "code_dirty": false,
+          "cases_file": {
+            "path": "/work/runs/gemini/2026-11-17T06-51-02-946Z/A-client.json.cases.json",
+            "sha256": "53658030a780a6e54425af9c2661232dd8c889eb8ec98f3167f170a2956222a8",
+            "name": "n12-public-recovered-client",
+            "description": "Actual model wire layout; public oracle values excluded from model input",
+            "spec_source": "model candidate wire-spec-v1"
+          },
+          "input": {
+            "path": "/work/runs/gemini/2026-11-17T06-51-02-946Z/practice-server",
+            "sha256": "d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067"
+          },
+          "server_command": [
+            "/work/runs/gemini/2026-11-17T06-51-02-946Z/practice-server",
+            "44595"
+          ],
+          "server_exit_code_during_eval": null,
+          "target": {
+            "host": "127.0.0.1",
+            "port": 44595
+          },
+          "summary": {
+            "total": 15,
+            "pass": 15,
+            "fail": 0,
+            "error": 0,
+            "pass_rate": 1,
+            "all_pass": true
+          },
+          "results": [
+            {
+              "case_id": "new-values-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201010006000200040008"
+              ],
+              "half_close": false,
+              "expected_hex": "4242018100040000000e",
+              "actual_hex": "4242018100040000000e",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x0e",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x0e",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 0.1
+            },
+            {
+              "case_id": "new-values-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "06",
+                "00",
+                "02",
+                "00",
+                "04",
+                "00",
+                "08"
+              ],
+              "half_close": false,
+              "expected_hex": "4242018100040000000e",
+              "actual_hex": "4242018100040000000e",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x0e",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x0e",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 23.4
+            },
+            {
+              "case_id": "new-values-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201",
+                "010006000200040008"
+              ],
+              "half_close": false,
+              "expected_hex": "4242018100040000000e",
+              "actual_hex": "4242018100040000000e",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x0e",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x0e",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 2.2
+            },
+            {
+              "case_id": "zero-items-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201010000"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400000000",
+              "actual_hex": "42420181000400000000",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x00",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x00",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 0.1
+            },
+            {
+              "case_id": "zero-items-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "00"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400000000",
+              "actual_hex": "42420181000400000000",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x00",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x00",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 10.7
+            },
+            {
+              "case_id": "zero-items-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201",
+                "010000"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400000000",
+              "actual_hex": "42420181000400000000",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x00",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x00",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 2.2
+            },
+            {
+              "case_id": "mixed-boundary-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "4242010100060000ffff0011"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400010010",
+              "actual_hex": "42420181000400010010",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x01\\x00\\x10",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x01\\x00\\x10",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 0.1
+            },
+            {
+              "case_id": "mixed-boundary-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "06",
+                "00",
+                "00",
+                "ff",
+                "ff",
+                "00",
+                "11"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400010010",
+              "actual_hex": "42420181000400010010",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x01\\x00\\x10",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x01\\x00\\x10",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 23.5
+            },
+            {
+              "case_id": "mixed-boundary-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201",
+                "0100060000ffff0011"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400010010",
+              "actual_hex": "42420181000400010010",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x01\\x00\\x10",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x01\\x00\\x10",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 2.3
+            },
+            {
+              "case_id": "single-value-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "4242010100023039"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400003039",
+              "actual_hex": "42420181000400003039",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x0009",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x0009",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 0.2
+            },
+            {
+              "case_id": "single-value-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "02",
+                "30",
+                "39"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400003039",
+              "actual_hex": "42420181000400003039",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x0009",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x0009",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 14.9
+            },
+            {
+              "case_id": "single-value-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201",
+                "0100023039"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400003039",
+              "actual_hex": "42420181000400003039",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x0009",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x0009",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 2.3
+            },
+            {
+              "case_id": "maximum-count-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201010040ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+              ],
+              "half_close": false,
+              "expected_hex": "424201810004001fffe0",
+              "actual_hex": "424201810004001fffe0",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x1f\\xff\\xe0",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x1f\\xff\\xe0",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 0.2
+            },
+            {
+              "case_id": "maximum-count-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "40",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff"
+              ],
+              "half_close": false,
+              "expected_hex": "424201810004001fffe0",
+              "actual_hex": "424201810004001fffe0",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x1f\\xff\\xe0",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x1f\\xff\\xe0",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 146
+            },
+            {
+              "case_id": "maximum-count-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201",
+                "010040ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+              ],
+              "half_close": false,
+              "expected_hex": "424201810004001fffe0",
+              "actual_hex": "424201810004001fffe0",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x1f\\xff\\xe0",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x1f\\xff\\xe0",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 2.4
+            }
+          ],
+          "csv": "/work/runs/gemini/2026-11-17T06-51-02-946Z/A-client.json.evaluation.csv",
+          "server_stopped": true,
+          "finished_at": "2026-11-17T06:51:38.699845+00:00"
+        }
+      },
+      {
+        "condition": "B",
+        "analysis_raw": {
+          "file": "runs/gemini/2026-11-17T06-51-02-946Z/B-analysis.json",
+          "bytes": 16344,
+          "sha256": "093b332195639e984e3cb6a2db37eb7505103dcabc5c2fa9296cee506d424cf6"
+        },
+        "analysis": {
+          "analysis_run_id": "80ea5edf-7d05-4cd1-b58b-0af8162e300d",
+          "preparation_run_id": "a6149d0b-9090-4dea-8460-6f74e40f35a0",
+          "started_at": "2026-11-17T06:51:38.730Z",
+          "finished_at": "2026-11-17T06:51:42.486Z",
+          "success": true,
+          "model_called": true,
+          "experiment_score": false,
+          "runtime": {
+            "node": "v24.22.1",
+            "platform": "linux",
+            "arch": "x64",
+            "timeout_ms": 120000,
+            "execution_backend": "real",
+            "runner_sha256": "dc8bf90b6626a13705d3a1bf16d999e193da3b80ed896a1efd5a605f5238f7f3",
+            "source_fingerprint": {
+              "algorithm": "sha256",
+              "files": [
+                {
+                  "path": "scripts/rea-smoke.mjs",
+                  "bytes": 21603,
+                  "sha256": "7dc620eea987479df9f5886991769b64a8dfee75a46a8a7306b8d3c3695b0ec1"
+                },
+                {
+                  "path": "scripts/n09-contract.mjs",
+                  "bytes": 5484,
+                  "sha256": "24bfb63a72ccfc67cb37db68c9c10492c83b972f4426c490d214fd12e5b92a0e"
+                },
+                {
+                  "path": "scripts/n09-prepare.mjs",
+                  "bytes": 12924,
+                  "sha256": "5317feb6979663fee4272f6d3e7a2a4dd3dc656a5f6b71c03adfd57855d9d51f"
+                },
+                {
+                  "path": "scripts/n09-live.mjs",
+                  "bytes": 16955,
+                  "sha256": "dc8bf90b6626a13705d3a1bf16d999e193da3b80ed896a1efd5a605f5238f7f3"
+                },
+                {
+                  "path": "scripts/n09-check-pair.mjs",
+                  "bytes": 5799,
+                  "sha256": "940650cc230dfc5bf34e37272de5da9f7f163cb61851215ae4ac0f38d69e11f3"
+                },
+                {
+                  "path": "scripts/n09-source-state.mjs",
+                  "bytes": 893,
+                  "sha256": "ad870192603f081e9cc4539e24c4b9a7c1a8414131b020d23597dba85f0a0843"
+                },
+                {
+                  "path": "scripts/wire-spec.mjs",
+                  "bytes": 8276,
+                  "sha256": "65e72bda2f8f1e69fb25088ff8b249cd216cefe8a7fe6f143a3a480ef190acf3"
+                },
+                {
+                  "path": "scripts/n12-practice-bridge.mjs",
+                  "bytes": 5623,
+                  "sha256": "28bc8078bad3dba67e8af118aeb2dad22270874030890505fa0ccf9215966a6a"
+                },
+                {
+                  "path": "scripts/gemini-practice.mjs",
+                  "bytes": 4930,
+                  "sha256": "eede1abf09047948eddce1cb8020f78c8a36d4e9c965a9d7c43182aacb4d289b"
+                },
+                {
+                  "path": "scripts/gemini-pilot.mjs",
+                  "bytes": 1985,
+                  "sha256": "6f1113af571cd7055bfd21dc611c0f3b43fd39a0f89b53d6683d849644cf1e7a"
+                },
+                {
+                  "path": "scripts/pcap-tcp-streams.py",
+                  "bytes": 5452,
+                  "sha256": "1bc45040c6b3e5a67c1ea176854e2e0abbdcfaa5aa789dc1b4053131a40ec007"
+                },
+                {
+                  "path": "scripts/rea-detail.mjs",
+                  "bytes": 4410,
+                  "sha256": "b2e9de5e0b2618ad86b92e5a2f6f28e98798c16530e6ce697bd34a740866a4c9"
+                }
+              ],
+              "sha256": "6b2498cfea5a42d20a8396fc30a1526011f683b82db88895a7b9d69369544ca1"
+            },
+            "preparation_code_dirty": false
+          },
+          "model": {
+            "requested": "gemini-3.5-flash-lite",
+            "returned": "gemini-3.5-flash-lite",
+            "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+            "operator_confirmed": false
+          },
+          "budget": {
+            "model_calls": 2,
+            "max_output_tokens_per_call": 4096,
+            "model_timeout_ms": 120000,
+            "packet_evidence_bytes": 65536,
+            "binary_evidence_bytes": 24576,
+            "server_queries": 0
+          },
+          "usage": {
+            "api_requests": 1,
+            "reported": true,
+            "prompt_tokens": 8947,
+            "completion_tokens": 1203,
+            "total_tokens": 10150,
+            "provider": {
+              "completion_tokens": 1203,
+              "prompt_tokens": 8947,
+              "total_tokens": 10150
+            }
+          },
+          "input": {
+            "selected": [
+              {
+                "path": "/work/practice/n06/normal-sessions.pcap",
+                "sha256": "e9b5650cd8aab5f0480a1b99740af67e7713f5083f5a58c0acaa5535207bd698"
+              },
+              {
+                "path": "/work/runs/gemini/2026-11-17T06-51-02-946Z/practice-server",
+                "sha256": "d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067"
+              }
+            ],
+            "raw_evidence": [
+              {
+                "path": "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-prepare.json.artifacts-4730f34c-4fb8-47fe-8270-50e3332dbbec/packet.streams.json",
+                "sha256": "afa81b79ed091d63d4d334a489dfca0ea3968bcb48e0cb1389cb2db1d703c0f6"
+              },
+              {
+                "path": "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-prepare.json.artifacts-4730f34c-4fb8-47fe-8270-50e3332dbbec/binary.bundle.json",
+                "sha256": "65f838b53d8c5ec3d4faf86ab9ec8b19bbd51473e091f02e929e8c3a2ceb62d4"
+              }
+            ]
+          },
+          "request_sha256": "1f0f1bf483bf8cf9a50888fcba8499a841252eeb15e554607a66ab535bd9ec93",
+          "system_prompt_sha256": "57c0c94824ccbf0249c6b2cea32bc6a29860b3d100236d46a757f3fc04d26b27",
+          "spec": {
+            "format": "wire-spec-v1",
+            "transport": "tcp",
+            "request": {
+              "fields": [
+                {
+                  "name": "magic1",
+                  "type": "const",
+                  "hex": "42"
+                },
+                {
+                  "name": "magic2",
+                  "type": "const",
+                  "hex": "42"
+                },
+                {
+                  "name": "version",
+                  "type": "const",
+                  "hex": "01"
+                },
+                {
+                  "name": "command",
+                  "type": "const",
+                  "hex": "01"
+                },
+                {
+                  "name": "payload_len",
+                  "type": "length",
+                  "bytes": 2,
+                  "endian": "big",
+                  "of": "data"
+                },
+                {
+                  "name": "data",
+                  "type": "uint_array",
+                  "bytes": 2,
+                  "endian": "big"
+                }
+              ]
+            },
+            "response": {
+              "fields": [
+                {
+                  "name": "magic1",
+                  "type": "const",
+                  "hex": "42"
+                },
+                {
+                  "name": "magic2",
+                  "type": "const",
+                  "hex": "42"
+                },
+                {
+                  "name": "version",
+                  "type": "const",
+                  "hex": "01"
+                },
+                {
+                  "name": "status",
+                  "type": "const",
+                  "hex": "81"
+                },
+                {
+                  "name": "resp_len",
+                  "type": "length",
+                  "bytes": 2,
+                  "endian": "big",
+                  "of": "result"
+                },
+                {
+                  "name": "result",
+                  "type": "uint",
+                  "bytes": 4,
+                  "endian": "big"
+                }
+              ]
+            },
+            "semantics": "The server reads a 6-byte header consisting of two magic bytes 'B' (0x42), version 0x01, command 0x01, and a 2-byte big-endian payload length. The payload length must be an even number strictly less than 0x41. The server then reads the payload as an array of 2-byte big-endian integers, sums them pairwise as 16-bit values, and returns a 10-byte response containing magic bytes 'B', 'B', version 0x01, status 0x81, a 2-byte length (0x0004), and a 4-byte big-endian sum result. Error conditions send an error response with error codes 1, 2, 3, or 4."
+          },
+          "observations": [
+            {
+              "claim": "The server receives a 6-byte header to begin parsing the request.",
+              "evidence_id": "binary-1",
+              "quote": "iVar1 = recv_exact(param_1,&local_68,6);"
+            },
+            {
+              "claim": "The first two bytes of the request must be 'B' and 'B'.",
+              "evidence_id": "binary-1",
+              "quote": "if ((local_68 == 'B') && (local_67 == 'B')) {"
+            },
+            {
+              "claim": "The payload length is retrieved as a 2-byte big-endian integer.",
+              "evidence_id": "binary-1",
+              "quote": "uVar2 = (ulong)CONCAT11(local_64,local_63);"
+            },
+            {
+              "claim": "The payload length must be even and less than 0x41.",
+              "evidence_id": "binary-1",
+              "quote": "if (((local_63 & 1) == 0) && (uVar2 < 0x41)) {"
+            },
+            {
+              "claim": "The server reads the payload data based on the length.",
+              "evidence_id": "binary-1",
+              "quote": "iVar1 = recv_exact(param_1,local_58,uVar2);"
+            },
+            {
+              "claim": "The server processes the payload in 2-byte chunks, summing them up.",
+              "evidence_id": "binary-1",
+              "quote": "for (local_78 = 0; local_78 < uVar2; local_78 = local_78 + 2) {"
+            },
+            {
+              "claim": "The server sends a 10-byte response back to the client.",
+              "evidence_id": "binary-1",
+              "quote": "send_all(param_1,&local_62,10);"
+            }
+          ],
+          "unknowns": [
+            "The exact protocol definition for error responses sent by send_error beyond their integer error codes 1, 2, 3, and 4."
+          ],
+          "verification": {
+            "exact_quotes": [
+              {
+                "evidence_id": "binary-1",
+                "source": "binary",
+                "quote_start_character": 11069,
+                "quote_end_character": 11109,
+                "exact_match": true,
+                "semantic_review": "pending"
+              },
+              {
+                "evidence_id": "binary-1",
+                "source": "binary",
+                "quote_start_character": 11136,
+                "quote_end_character": 11181,
+                "exact_match": true,
+                "semantic_review": "pending"
+              },
+              {
+                "evidence_id": "binary-1",
+                "source": "binary",
+                "quote_start_character": 11263,
+                "quote_end_character": 11306,
+                "exact_match": true,
+                "semantic_review": "pending"
+              },
+              {
+                "evidence_id": "binary-1",
+                "source": "binary",
+                "quote_start_character": 11318,
+                "quote_end_character": 11364,
+                "exact_match": true,
+                "semantic_review": "pending"
+              },
+              {
+                "evidence_id": "binary-1",
+                "source": "binary",
+                "quote_start_character": 11378,
+                "quote_end_character": 11421,
+                "exact_match": true,
+                "semantic_review": "pending"
+              },
+              {
+                "evidence_id": "binary-1",
+                "source": "binary",
+                "quote_start_character": 11497,
+                "quote_end_character": 11560,
+                "exact_match": true,
+                "semantic_review": "pending"
+              },
+              {
+                "evidence_id": "binary-1",
+                "source": "binary",
+                "quote_start_character": 12111,
+                "quote_end_character": 12142,
+                "exact_match": true,
+                "semantic_review": "pending"
+              }
+            ],
+            "semantic_review": "pending",
+            "grading": "pending",
+            "executable_spec_compatibility": "pending",
+            "actual_protocol_reconstruction_confirmed": false
+          }
+        },
+        "packet_format": "tcp-streams-v1",
+        "rea_detail_profile": {
+          "version": "named-procedure-v1",
+          "max_additional_commands": 2,
+          "selected_procedure": {
+            "address": "0x1014e8",
+            "value": "handle_request",
+            "symbol": {
+              "primary": true,
+              "dynamic": false,
+              "external": false,
+              "type": "function",
+              "source": "imported"
+            }
+          },
+          "commands": [
+            {
+              "argv": [
+                "rea",
+                "search",
+                "/work/runs/gemini/2026-11-17T06-51-02-946Z/practice-server",
+                "main|handle|process|parse|request",
+                "--kind",
+                "procedures",
+                "--mode",
+                "regex",
+                "--provider",
+                "ghidra",
+                "--format",
+                "json"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "stdout": "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-prepare.json.artifacts-4730f34c-4fb8-47fe-8270-50e3332dbbec/rea-procedure-search.json",
+              "stderr": "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-prepare.json.artifacts-4730f34c-4fb8-47fe-8270-50e3332dbbec/rea-procedure-search.stderr"
+            },
+            {
+              "argv": [
+                "rea",
+                "decompile",
+                "/work/runs/gemini/2026-11-17T06-51-02-946Z/practice-server",
+                "0x1014e8",
+                "--provider",
+                "ghidra",
+                "--format",
+                "json"
+              ],
+              "exit_code": 0,
+              "timed_out": false,
+              "stdout": "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-prepare.json.artifacts-4730f34c-4fb8-47fe-8270-50e3332dbbec/rea-procedure-code.json",
+              "stderr": "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-prepare.json.artifacts-4730f34c-4fb8-47fe-8270-50e3332dbbec/rea-procedure-code.stderr"
+            }
+          ]
+        },
+        "request": {
+          "file": "runs/gemini/2026-11-17T06-51-02-946Z/B-analysis.json.artifacts-e2bfb2be-be7d-4d2d-a6bd-471828f15741/request.json",
+          "bytes": 28329,
+          "sha256": "9bfa1f73e37e56ec18e9063642599d430ac8713f216fbacab9086b8f07770ed1"
+        },
+        "response": {
+          "file": "runs/gemini/2026-11-17T06-51-02-946Z/B-analysis.json.artifacts-e2bfb2be-be7d-4d2d-a6bd-471828f15741/response.txt",
+          "bytes": 4467,
+          "sha256": "5578db5f3e2c47d4c479ec297e370e7e2410c586d95ba4d630969e783aa8b064"
+        },
+        "client": {
+          "task": "N12-reference",
+          "classification": "public-practice-recovered-wire-client",
+          "experiment_score": false,
+          "success": true,
+          "started_at": "2026-11-17T06:51:42.500Z",
+          "analysis_run_id": "80ea5edf-7d05-4cd1-b58b-0af8162e300d",
+          "analysis_sha256": "093b332195639e984e3cb6a2db37eb7505103dcabc5c2fa9296cee506d424cf6",
+          "condition": "B",
+          "oracle_sha256": "9ab50aefbc7f7865a214af9879756f5e349c67eeb0e82c479d0aad10727c6fbf",
+          "spec_sha256": "3180c54fcedb11aca174d252e6d4a9c68a5573bbaf9d8849d138a08b6caeff63",
+          "generated_cases_file": "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-client.json.cases.json",
+          "evaluation_file": "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-client.json.evaluation.json",
+          "summary": {
+            "total": 15,
+            "pass": 15,
+            "fail": 0,
+            "error": 0,
+            "pass_rate": 1,
+            "all_pass": true
+          },
+          "server_stopped": true,
+          "runtime": {
+            "exit_code": 0,
+            "timed_out": false
+          },
+          "decoded_responses": [
+            {
+              "case_id": "new-values-whole",
+              "complete": true,
+              "values": {
+                "result": 14
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "new-values-byte-split",
+              "complete": true,
+              "values": {
+                "result": 14
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "new-values-split-three",
+              "complete": true,
+              "values": {
+                "result": 14
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "zero-items-whole",
+              "complete": true,
+              "values": {
+                "result": 0
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "zero-items-byte-split",
+              "complete": true,
+              "values": {
+                "result": 0
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "zero-items-split-three",
+              "complete": true,
+              "values": {
+                "result": 0
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "mixed-boundary-whole",
+              "complete": true,
+              "values": {
+                "result": 65552
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "mixed-boundary-byte-split",
+              "complete": true,
+              "values": {
+                "result": 65552
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "mixed-boundary-split-three",
+              "complete": true,
+              "values": {
+                "result": 65552
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "single-value-whole",
+              "complete": true,
+              "values": {
+                "result": 12345
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "single-value-byte-split",
+              "complete": true,
+              "values": {
+                "result": 12345
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "single-value-split-three",
+              "complete": true,
+              "values": {
+                "result": 12345
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "maximum-count-whole",
+              "complete": true,
+              "values": {
+                "result": 2097120
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "maximum-count-byte-split",
+              "complete": true,
+              "values": {
+                "result": 2097120
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            },
+            {
+              "case_id": "maximum-count-split-three",
+              "complete": true,
+              "values": {
+                "result": 2097120
+              },
+              "bytes_consumed": 10,
+              "remaining_hex": ""
+            }
+          ],
+          "finished_at": "2026-11-17T06:51:43.133Z"
+        },
+        "client_raw": {
+          "file": "runs/gemini/2026-11-17T06-51-02-946Z/B-client.json",
+          "bytes": 3759,
+          "sha256": "396c15111489f40161fe03c4589f8a079797c27f9962c1e19154d90d08dc1e65"
+        },
+        "generated_cases": {
+          "name": "n12-public-recovered-client",
+          "description": "Actual model wire layout; public oracle values excluded from model input",
+          "spec_source": "model candidate wire-spec-v1",
+          "defaults": {
+            "timeout_s": 3,
+            "chunk_delay_ms": 2
+          },
+          "cases": [
+            {
+              "id": "new-values-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201010006000200040008"
+              ],
+              "expect_hex": "4242018100040000000e"
+            },
+            {
+              "id": "new-values-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "06",
+                "00",
+                "02",
+                "00",
+                "04",
+                "00",
+                "08"
+              ],
+              "expect_hex": "4242018100040000000e"
+            },
+            {
+              "id": "new-values-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201",
+                "010006000200040008"
+              ],
+              "expect_hex": "4242018100040000000e"
+            },
+            {
+              "id": "zero-items-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201010000"
+              ],
+              "expect_hex": "42420181000400000000"
+            },
+            {
+              "id": "zero-items-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "00"
+              ],
+              "expect_hex": "42420181000400000000"
+            },
+            {
+              "id": "zero-items-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201",
+                "010000"
+              ],
+              "expect_hex": "42420181000400000000"
+            },
+            {
+              "id": "mixed-boundary-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "4242010100060000ffff0011"
+              ],
+              "expect_hex": "42420181000400010010"
+            },
+            {
+              "id": "mixed-boundary-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "06",
+                "00",
+                "00",
+                "ff",
+                "ff",
+                "00",
+                "11"
+              ],
+              "expect_hex": "42420181000400010010"
+            },
+            {
+              "id": "mixed-boundary-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201",
+                "0100060000ffff0011"
+              ],
+              "expect_hex": "42420181000400010010"
+            },
+            {
+              "id": "single-value-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "4242010100023039"
+              ],
+              "expect_hex": "42420181000400003039"
+            },
+            {
+              "id": "single-value-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "02",
+                "30",
+                "39"
+              ],
+              "expect_hex": "42420181000400003039"
+            },
+            {
+              "id": "single-value-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201",
+                "0100023039"
+              ],
+              "expect_hex": "42420181000400003039"
+            },
+            {
+              "id": "maximum-count-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201010040ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+              ],
+              "expect_hex": "424201810004001fffe0"
+            },
+            {
+              "id": "maximum-count-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "40",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff"
+              ],
+              "expect_hex": "424201810004001fffe0"
+            },
+            {
+              "id": "maximum-count-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "send_hex": [
+                "424201",
+                "010040ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+              ],
+              "expect_hex": "424201810004001fffe0"
+            }
+          ]
+        },
+        "evaluation": {
+          "task": "N07",
+          "classification": "practice evaluation (known public spec)",
+          "experiment_score": false,
+          "started_at": "2026-11-17T06:51:42.875133+00:00",
+          "stage": "complete",
+          "success": true,
+          "argv": [
+            "scripts/n07-evaluate.py",
+            "--cases",
+            "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-client.json.cases.json",
+            "--binary",
+            "/work/runs/gemini/2026-11-17T06-51-02-946Z/practice-server",
+            "--out",
+            "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-client.json.evaluation.json"
+          ],
+          "python": "3.12.3",
+          "platform": "Linux-6.18.58.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "code_commit": "4ed5aff154d39e7b6c6b3594da31d3c6b00c577d",
+          "code_dirty": false,
+          "cases_file": {
+            "path": "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-client.json.cases.json",
+            "sha256": "53658030a780a6e54425af9c2661232dd8c889eb8ec98f3167f170a2956222a8",
+            "name": "n12-public-recovered-client",
+            "description": "Actual model wire layout; public oracle values excluded from model input",
+            "spec_source": "model candidate wire-spec-v1"
+          },
+          "input": {
+            "path": "/work/runs/gemini/2026-11-17T06-51-02-946Z/practice-server",
+            "sha256": "d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067"
+          },
+          "server_command": [
+            "/work/runs/gemini/2026-11-17T06-51-02-946Z/practice-server",
+            "51797"
+          ],
+          "server_exit_code_during_eval": null,
+          "target": {
+            "host": "127.0.0.1",
+            "port": 51797
+          },
+          "summary": {
+            "total": 15,
+            "pass": 15,
+            "fail": 0,
+            "error": 0,
+            "pass_rate": 1,
+            "all_pass": true
+          },
+          "results": [
+            {
+              "case_id": "new-values-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201010006000200040008"
+              ],
+              "half_close": false,
+              "expected_hex": "4242018100040000000e",
+              "actual_hex": "4242018100040000000e",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x0e",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x0e",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 0.2
+            },
+            {
+              "case_id": "new-values-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "06",
+                "00",
+                "02",
+                "00",
+                "04",
+                "00",
+                "08"
+              ],
+              "half_close": false,
+              "expected_hex": "4242018100040000000e",
+              "actual_hex": "4242018100040000000e",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x0e",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x0e",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 23.4
+            },
+            {
+              "case_id": "new-values-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201",
+                "010006000200040008"
+              ],
+              "half_close": false,
+              "expected_hex": "4242018100040000000e",
+              "actual_hex": "4242018100040000000e",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x0e",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x0e",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 2.3
+            },
+            {
+              "case_id": "zero-items-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201010000"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400000000",
+              "actual_hex": "42420181000400000000",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x00",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x00",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 0.1
+            },
+            {
+              "case_id": "zero-items-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "00"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400000000",
+              "actual_hex": "42420181000400000000",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x00",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x00",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 10.7
+            },
+            {
+              "case_id": "zero-items-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201",
+                "010000"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400000000",
+              "actual_hex": "42420181000400000000",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x00",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x00\\x00\\x00",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 2.3
+            },
+            {
+              "case_id": "mixed-boundary-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "4242010100060000ffff0011"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400010010",
+              "actual_hex": "42420181000400010010",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x01\\x00\\x10",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x01\\x00\\x10",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 0.1
+            },
+            {
+              "case_id": "mixed-boundary-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "06",
+                "00",
+                "00",
+                "ff",
+                "ff",
+                "00",
+                "11"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400010010",
+              "actual_hex": "42420181000400010010",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x01\\x00\\x10",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x01\\x00\\x10",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 23.7
+            },
+            {
+              "case_id": "mixed-boundary-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201",
+                "0100060000ffff0011"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400010010",
+              "actual_hex": "42420181000400010010",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x01\\x00\\x10",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x01\\x00\\x10",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 2.3
+            },
+            {
+              "case_id": "single-value-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "4242010100023039"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400003039",
+              "actual_hex": "42420181000400003039",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x0009",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x0009",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 0.1
+            },
+            {
+              "case_id": "single-value-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "02",
+                "30",
+                "39"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400003039",
+              "actual_hex": "42420181000400003039",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x0009",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x0009",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 14.9
+            },
+            {
+              "case_id": "single-value-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201",
+                "0100023039"
+              ],
+              "half_close": false,
+              "expected_hex": "42420181000400003039",
+              "actual_hex": "42420181000400003039",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x0009",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x0009",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 2.3
+            },
+            {
+              "case_id": "maximum-count-whole",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201010040ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+              ],
+              "half_close": false,
+              "expected_hex": "424201810004001fffe0",
+              "actual_hex": "424201810004001fffe0",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x1f\\xff\\xe0",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x1f\\xff\\xe0",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 0.1
+            },
+            {
+              "case_id": "maximum-count-byte-split",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "42",
+                "42",
+                "01",
+                "01",
+                "00",
+                "40",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff",
+                "ff"
+              ],
+              "half_close": false,
+              "expected_hex": "424201810004001fffe0",
+              "actual_hex": "424201810004001fffe0",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x1f\\xff\\xe0",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x1f\\xff\\xe0",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 146.4
+            },
+            {
+              "case_id": "maximum-count-split-three",
+              "description": "Recovered frame layout with independent public application oracle",
+              "verdict": "pass",
+              "request_chunks_hex": [
+                "424201",
+                "010040ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+              ],
+              "half_close": false,
+              "expected_hex": "424201810004001fffe0",
+              "actual_hex": "424201810004001fffe0",
+              "expected_text": "BB\\x01\\x81\\x00\\x04\\x00\\x1f\\xff\\xe0",
+              "actual_text": "BB\\x01\\x81\\x00\\x04\\x00\\x1f\\xff\\xe0",
+              "first_diff_offset": null,
+              "server_closed": true,
+              "error": null,
+              "elapsed_ms": 2.3
+            }
+          ],
+          "csv": "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-client.json.evaluation.csv",
+          "server_stopped": true,
+          "finished_at": "2026-11-17T06:51:43.121724+00:00"
+        }
+      }
+    ]
+  },
+  "all_local_attempts": [
+    {
+      "directory": "runs/gemini/2026-11-17T06-22-44-772Z",
+      "summary_file": {
+        "file": "runs/gemini/2026-11-17T06-22-44-772Z/summary.json",
+        "bytes": 1039,
+        "sha256": "992cddc3e40748271c58fcdab1338286f2cf6fc976a1fcbf6036cae1d2864321"
+      },
+      "started_at": "2026-11-17T06:22:45.221Z",
+      "finished_at": "2026-11-17T06:22:59.372Z",
+      "success": true,
+      "model_requests": 2,
+      "results": [
+        {
+          "label": "N05",
+          "file": "runs/gemini/2026-11-17T06-22-44-772Z/n05.json",
+          "success": true,
+          "usage": {
+            "api_requests": 2,
+            "calls": [
+              {
+                "round": 1,
+                "status": 200,
+                "usage": {
+                  "completion_tokens": 12,
+                  "prompt_tokens": 196,
+                  "total_tokens": 208
+                }
+              },
+              {
+                "round": 2,
+                "status": 200,
+                "usage": {
+                  "completion_tokens": 243,
+                  "prompt_tokens": 3886,
+                  "total_tokens": 4129
+                }
+              }
+            ],
+            "prompt_tokens": 4082,
+            "completion_tokens": 255,
+            "total_tokens": 4337
+          },
+          "error": null,
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-22-44-772Z/n05.json",
+            "bytes": 32538,
+            "sha256": "3ece7e53ca1e6c290de8cd1ff644c5eb1d3bb174cb5e76ee9b6a448fdfb0f53e"
+          }
+        }
+      ]
+    },
+    {
+      "directory": "runs/gemini/2026-11-17T06-26-43-116Z",
+      "summary_file": {
+        "file": "runs/gemini/2026-11-17T06-26-43-116Z/summary.json",
+        "bytes": 4557,
+        "sha256": "8962432fb0a4405d7a9d7c71e29cdae811a6163d4ad15707be1661f1f9086f77"
+      },
+      "started_at": "2026-11-17T06:26:43.780Z",
+      "finished_at": "2026-11-17T06:27:15.828Z",
+      "success": false,
+      "code_commit": "62b4be94173c8fea0fa8647ee074fb38940cea5e",
+      "code_dirty": false,
+      "source_fingerprint": {
+        "algorithm": "sha256",
+        "files": [
+          {
+            "path": "scripts/rea-smoke.mjs",
+            "bytes": 21603,
+            "sha256": "7dc620eea987479df9f5886991769b64a8dfee75a46a8a7306b8d3c3695b0ec1"
+          },
+          {
+            "path": "scripts/n09-contract.mjs",
+            "bytes": 4510,
+            "sha256": "db9238e1bab4a44a68a743d26cb321a8ab5c4ca99d2f83a70603b9deca66dc44"
+          },
+          {
+            "path": "scripts/n09-prepare.mjs",
+            "bytes": 10781,
+            "sha256": "2d522d75e6a5200e13d8e58821b0322933fa29bf1242d61501faed1b99d5bcfb"
+          },
+          {
+            "path": "scripts/n09-live.mjs",
+            "bytes": 16784,
+            "sha256": "441d0300b56cab2ea18f1a98ebfba61d9c51bdce1c7f60f6d235dc1994718db7"
+          },
+          {
+            "path": "scripts/n09-check-pair.mjs",
+            "bytes": 5404,
+            "sha256": "99fc83c336d54a3d2dc1df4ea89abdaa33fbb1bc8dd1b1806893ed0c5a2faec2"
+          },
+          {
+            "path": "scripts/n09-source-state.mjs",
+            "bytes": 848,
+            "sha256": "c21ff3f17966249f7edbf97519b1b9f16233241d1d28d4d35068fa9c4c274eab"
+          },
+          {
+            "path": "scripts/wire-spec.mjs",
+            "bytes": 7541,
+            "sha256": "2b6216238b119baf03c3524f0c555ec61249fe1b245fd6e56c77a78985ed11c6"
+          },
+          {
+            "path": "scripts/n12-practice-bridge.mjs",
+            "bytes": 5623,
+            "sha256": "28bc8078bad3dba67e8af118aeb2dad22270874030890505fa0ccf9215966a6a"
+          },
+          {
+            "path": "scripts/gemini-practice.mjs",
+            "bytes": 4870,
+            "sha256": "afbdd1e72c06f99fa0b1962960d1f9d10d7d008fba8a19bd47b74e3921468237"
+          },
+          {
+            "path": "scripts/gemini-pilot.mjs",
+            "bytes": 1985,
+            "sha256": "6f1113af571cd7055bfd21dc611c0f3b43fd39a0f89b53d6683d849644cf1e7a"
+          }
+        ],
+        "sha256": "cc0339990a026f9f2b9112a3d76e5bbffe70d5fe51dec9c3c2361f82fdf7d875"
+      },
+      "model": "gemini-3.5-flash-lite",
+      "model_requests": 4,
+      "results": [
+        {
+          "label": "N05",
+          "file": "runs/gemini/2026-11-17T06-26-43-116Z/n05.json",
+          "success": true,
+          "usage": {
+            "api_requests": 2,
+            "calls": [
+              {
+                "round": 1,
+                "status": 200,
+                "usage": {
+                  "completion_tokens": 12,
+                  "prompt_tokens": 196,
+                  "total_tokens": 208
+                }
+              },
+              {
+                "round": 2,
+                "status": 200,
+                "usage": {
+                  "completion_tokens": 266,
+                  "prompt_tokens": 3884,
+                  "total_tokens": 4150
+                }
+              }
+            ],
+            "prompt_tokens": 4080,
+            "completion_tokens": 278,
+            "total_tokens": 4358
+          },
+          "error": null,
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-26-43-116Z/n05.json",
+            "bytes": 31743,
+            "sha256": "a4a24103179741a4d40333de40b849911235177daf905fe9aaa0e4d4adc6f0d5"
+          }
+        },
+        {
+          "label": "N09-A",
+          "file": "runs/gemini/2026-11-17T06-26-43-116Z/A-analysis.json",
+          "success": true,
+          "usage": {
+            "api_requests": 1,
+            "reported": true,
+            "prompt_tokens": 18133,
+            "completion_tokens": 800,
+            "total_tokens": 18933,
+            "provider": {
+              "completion_tokens": 800,
+              "prompt_tokens": 18133,
+              "total_tokens": 18933
+            }
+          },
+          "error": null,
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-26-43-116Z/A-analysis.json",
+            "bytes": 12138,
+            "sha256": "bf4029076c79e7b528c77240e20c51c923c6fb42cd2d10ba224c73379b07db80"
+          }
+        },
+        {
+          "label": "N12-reference-A",
+          "file": "runs/gemini/2026-11-17T06-26-43-116Z/A-client.json",
+          "success": false,
+          "error": {
+            "code": "Error",
+            "message": "Public N06 bridge needs exactly one recovered integer-array input and one integer output"
+          },
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-26-43-116Z/A-client.json",
+            "bytes": 716,
+            "sha256": "9bf2a11291a354317b56ae6263e19966ec1c7d64b6d00c96a4970030e42a0fb2"
+          }
+        },
+        {
+          "label": "N09-B",
+          "file": "runs/gemini/2026-11-17T06-26-43-116Z/B-analysis.json",
+          "success": true,
+          "usage": {
+            "api_requests": 1,
+            "reported": true,
+            "prompt_tokens": 21492,
+            "completion_tokens": 772,
+            "total_tokens": 22264,
+            "provider": {
+              "completion_tokens": 772,
+              "prompt_tokens": 21492,
+              "total_tokens": 22264
+            }
+          },
+          "error": null,
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-26-43-116Z/B-analysis.json",
+            "bytes": 12289,
+            "sha256": "d3f8c4d9d63f5eb8c0e9430f219bd248265dd5f7235a1eb533f8ebe7d753acd3"
+          }
+        },
+        {
+          "label": "N12-reference-B",
+          "file": "runs/gemini/2026-11-17T06-26-43-116Z/B-client.json",
+          "success": false,
+          "error": {
+            "code": "Error",
+            "message": "Public N06 bridge needs exactly one recovered integer-array input and one integer output"
+          },
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-26-43-116Z/B-client.json",
+            "bytes": 716,
+            "sha256": "6d43e593fa3361d6bf1e489b6eefaa33cd35c3b611daad3c9cc76fabdd7d2f8a"
+          }
+        }
+      ]
+    },
+    {
+      "directory": "runs/gemini/2026-11-17T06-31-05-688Z",
+      "summary_file": {
+        "file": "runs/gemini/2026-11-17T06-31-05-688Z/summary.json",
+        "bytes": 3957,
+        "sha256": "71b662ef42da87e492ba13d75d39457d360b780de961024f41b754c14c5dab40"
+      },
+      "started_at": "2026-11-17T06:31:06.338Z",
+      "finished_at": "2026-11-17T06:31:26.528Z",
+      "success": false,
+      "code_commit": "3da8dad511eec02d870450255de5977b1754de53",
+      "code_dirty": false,
+      "source_fingerprint": {
+        "algorithm": "sha256",
+        "files": [
+          {
+            "path": "scripts/rea-smoke.mjs",
+            "bytes": 21603,
+            "sha256": "7dc620eea987479df9f5886991769b64a8dfee75a46a8a7306b8d3c3695b0ec1"
+          },
+          {
+            "path": "scripts/n09-contract.mjs",
+            "bytes": 4510,
+            "sha256": "db9238e1bab4a44a68a743d26cb321a8ab5c4ca99d2f83a70603b9deca66dc44"
+          },
+          {
+            "path": "scripts/n09-prepare.mjs",
+            "bytes": 12399,
+            "sha256": "def30d932c4d8f582eac47f55f0b5cc0631d6978cd646dc02db5b75c054aca33"
+          },
+          {
+            "path": "scripts/n09-live.mjs",
+            "bytes": 16784,
+            "sha256": "441d0300b56cab2ea18f1a98ebfba61d9c51bdce1c7f60f6d235dc1994718db7"
+          },
+          {
+            "path": "scripts/n09-check-pair.mjs",
+            "bytes": 5404,
+            "sha256": "99fc83c336d54a3d2dc1df4ea89abdaa33fbb1bc8dd1b1806893ed0c5a2faec2"
+          },
+          {
+            "path": "scripts/n09-source-state.mjs",
+            "bytes": 873,
+            "sha256": "54a1799cb271e9ef15e7ba7d6a3cf92a6b12670ce1a3c4bd2d79004c58d66f33"
+          },
+          {
+            "path": "scripts/wire-spec.mjs",
+            "bytes": 7541,
+            "sha256": "2b6216238b119baf03c3524f0c555ec61249fe1b245fd6e56c77a78985ed11c6"
+          },
+          {
+            "path": "scripts/n12-practice-bridge.mjs",
+            "bytes": 5623,
+            "sha256": "28bc8078bad3dba67e8af118aeb2dad22270874030890505fa0ccf9215966a6a"
+          },
+          {
+            "path": "scripts/gemini-practice.mjs",
+            "bytes": 4900,
+            "sha256": "5902cb7b6c4832afeaa5edfb14506d67fee893331e445a52eb31c3bf65879727"
+          },
+          {
+            "path": "scripts/gemini-pilot.mjs",
+            "bytes": 1985,
+            "sha256": "6f1113af571cd7055bfd21dc611c0f3b43fd39a0f89b53d6683d849644cf1e7a"
+          },
+          {
+            "path": "scripts/pcap-tcp-streams.py",
+            "bytes": 5452,
+            "sha256": "1bc45040c6b3e5a67c1ea176854e2e0abbdcfaa5aa789dc1b4053131a40ec007"
+          }
+        ],
+        "sha256": "3d22eccd3c9346b3ee4e939835a1493a61e023bb0e0fb47e700a5a4e76d907cb"
+      },
+      "model": "gemini-3.5-flash-lite",
+      "model_requests": 2,
+      "results": [
+        {
+          "label": "N09-A",
+          "file": "runs/gemini/2026-11-17T06-31-05-688Z/A-analysis.json",
+          "success": true,
+          "usage": {
+            "api_requests": 1,
+            "reported": true,
+            "prompt_tokens": 1934,
+            "completion_tokens": 895,
+            "total_tokens": 2829,
+            "provider": {
+              "completion_tokens": 895,
+              "prompt_tokens": 1934,
+              "total_tokens": 2829
+            }
+          },
+          "error": null,
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-31-05-688Z/A-analysis.json",
+            "bytes": 13145,
+            "sha256": "d4dd9ce79bb237e616702a9fc0130a497589b5c54d52f814758cd7e3db8167e1"
+          }
+        },
+        {
+          "label": "N12-reference-A",
+          "file": "runs/gemini/2026-11-17T06-31-05-688Z/A-client.json",
+          "success": false,
+          "error": {
+            "code": "Error",
+            "message": "Public N06 bridge needs exactly one recovered integer-array input and one integer output"
+          },
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-31-05-688Z/A-client.json",
+            "bytes": 716,
+            "sha256": "4c2c31907a031f3cc247e3aa85c6431b2927c30874ac286e8cb043bf3ca0cf3f"
+          }
+        },
+        {
+          "label": "N09-B",
+          "file": "runs/gemini/2026-11-17T06-31-05-688Z/B-analysis.json",
+          "success": true,
+          "usage": {
+            "api_requests": 1,
+            "reported": true,
+            "prompt_tokens": 5293,
+            "completion_tokens": 1539,
+            "total_tokens": 6832,
+            "provider": {
+              "completion_tokens": 1539,
+              "prompt_tokens": 5293,
+              "total_tokens": 6832
+            }
+          },
+          "error": null,
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-31-05-688Z/B-analysis.json",
+            "bytes": 18409,
+            "sha256": "5e07381c084244197d232cc3b24c88eb85a3b0281629362abdb14dffc4f54148"
+          }
+        },
+        {
+          "label": "N12-reference-B",
+          "file": "runs/gemini/2026-11-17T06-31-05-688Z/B-client.json",
+          "success": false,
+          "error": {
+            "code": "Error",
+            "message": "Public N06 bridge needs exactly one recovered integer-array input and one integer output"
+          },
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-31-05-688Z/B-client.json",
+            "bytes": 716,
+            "sha256": "0265d7a202c6110e55fde273e7794f4e23999ced74a676f77b0474deeb9121ae"
+          }
+        }
+      ]
+    },
+    {
+      "directory": "runs/gemini/2026-11-17T06-33-34-136Z",
+      "summary_file": {
+        "file": "runs/gemini/2026-11-17T06-33-34-136Z/summary.json",
+        "bytes": 3343,
+        "sha256": "ae5202909f9bdc17b2be5880ea98cf5459ec986df672f3aaba78fcc2166e3f03"
+      },
+      "started_at": "2026-11-17T06:33:34.783Z",
+      "finished_at": "2026-11-17T06:35:48.271Z",
+      "success": false,
+      "code_commit": "3da8dad511eec02d870450255de5977b1754de53",
+      "code_dirty": false,
+      "source_fingerprint": {
+        "algorithm": "sha256",
+        "files": [
+          {
+            "path": "scripts/rea-smoke.mjs",
+            "bytes": 21603,
+            "sha256": "7dc620eea987479df9f5886991769b64a8dfee75a46a8a7306b8d3c3695b0ec1"
+          },
+          {
+            "path": "scripts/n09-contract.mjs",
+            "bytes": 4510,
+            "sha256": "db9238e1bab4a44a68a743d26cb321a8ab5c4ca99d2f83a70603b9deca66dc44"
+          },
+          {
+            "path": "scripts/n09-prepare.mjs",
+            "bytes": 12399,
+            "sha256": "def30d932c4d8f582eac47f55f0b5cc0631d6978cd646dc02db5b75c054aca33"
+          },
+          {
+            "path": "scripts/n09-live.mjs",
+            "bytes": 16784,
+            "sha256": "441d0300b56cab2ea18f1a98ebfba61d9c51bdce1c7f60f6d235dc1994718db7"
+          },
+          {
+            "path": "scripts/n09-check-pair.mjs",
+            "bytes": 5404,
+            "sha256": "99fc83c336d54a3d2dc1df4ea89abdaa33fbb1bc8dd1b1806893ed0c5a2faec2"
+          },
+          {
+            "path": "scripts/n09-source-state.mjs",
+            "bytes": 873,
+            "sha256": "54a1799cb271e9ef15e7ba7d6a3cf92a6b12670ce1a3c4bd2d79004c58d66f33"
+          },
+          {
+            "path": "scripts/wire-spec.mjs",
+            "bytes": 7541,
+            "sha256": "2b6216238b119baf03c3524f0c555ec61249fe1b245fd6e56c77a78985ed11c6"
+          },
+          {
+            "path": "scripts/n12-practice-bridge.mjs",
+            "bytes": 5623,
+            "sha256": "28bc8078bad3dba67e8af118aeb2dad22270874030890505fa0ccf9215966a6a"
+          },
+          {
+            "path": "scripts/gemini-practice.mjs",
+            "bytes": 4900,
+            "sha256": "5902cb7b6c4832afeaa5edfb14506d67fee893331e445a52eb31c3bf65879727"
+          },
+          {
+            "path": "scripts/gemini-pilot.mjs",
+            "bytes": 1985,
+            "sha256": "6f1113af571cd7055bfd21dc611c0f3b43fd39a0f89b53d6683d849644cf1e7a"
+          },
+          {
+            "path": "scripts/pcap-tcp-streams.py",
+            "bytes": 5452,
+            "sha256": "1bc45040c6b3e5a67c1ea176854e2e0abbdcfaa5aa789dc1b4053131a40ec007"
+          }
+        ],
+        "sha256": "3d22eccd3c9346b3ee4e939835a1493a61e023bb0e0fb47e700a5a4e76d907cb"
+      },
+      "model": "gemini-3.8-flash",
+      "model_requests": 2,
+      "results": [
+        {
+          "label": "N09-A",
+          "file": "runs/gemini/2026-11-17T06-33-34-136Z/A-analysis.json",
+          "success": false,
+          "usage": {
+            "api_requests": 1,
+            "reported": false,
+            "prompt_tokens": null,
+            "completion_tokens": null,
+            "total_tokens": null
+          },
+          "error": {
+            "stage": "model_request",
+            "code": "MODEL_TIMEOUT",
+            "message": "Model request exceeded its timeout"
+          },
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-33-34-136Z/A-analysis.json",
+            "bytes": 6197,
+            "sha256": "0dd097c9b09a2eddabd364f37c707a56e9873ff02e1851e6416ca11a4fb5603b"
+          }
+        },
+        {
+          "label": "N09-B",
+          "file": "runs/gemini/2026-11-17T06-33-34-136Z/B-analysis.json",
+          "success": false,
+          "usage": {
+            "api_requests": 1,
+            "reported": false,
+            "prompt_tokens": null,
+            "completion_tokens": null,
+            "total_tokens": null
+          },
+          "error": {
+            "stage": "model_request",
+            "code": "API_HTTP_ERROR",
+            "message": "API returned HTTP 503; response retained"
+          },
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-33-34-136Z/B-analysis.json",
+            "bytes": 6916,
+            "sha256": "530c440d4aa23a84c7205cf62f9156a95a0118a0f9c92458abf77cf6543e9753"
+          }
+        }
+      ]
+    },
+    {
+      "directory": "runs/gemini/2026-11-17T06-40-29-490Z",
+      "summary_file": {
+        "file": "runs/gemini/2026-11-17T06-40-29-490Z/summary.json",
+        "bytes": 3994,
+        "sha256": "8fee3936a27b79e6694163ab1817c16d19e69dcdadd9ca1d6d1a040aaccefcb1"
+      },
+      "started_at": "2026-11-17T06:40:30.207Z",
+      "finished_at": "2026-11-17T06:41:05.701Z",
+      "success": false,
+      "code_commit": "0ad5527c8f4a4bf65a95d5b4a16c7354e6080cbb",
+      "code_dirty": false,
+      "source_fingerprint": {
+        "algorithm": "sha256",
+        "files": [
+          {
+            "path": "scripts/rea-smoke.mjs",
+            "bytes": 21603,
+            "sha256": "7dc620eea987479df9f5886991769b64a8dfee75a46a8a7306b8d3c3695b0ec1"
+          },
+          {
+            "path": "scripts/n09-contract.mjs",
+            "bytes": 4510,
+            "sha256": "db9238e1bab4a44a68a743d26cb321a8ab5c4ca99d2f83a70603b9deca66dc44"
+          },
+          {
+            "path": "scripts/n09-prepare.mjs",
+            "bytes": 12924,
+            "sha256": "5317feb6979663fee4272f6d3e7a2a4dd3dc656a5f6b71c03adfd57855d9d51f"
+          },
+          {
+            "path": "scripts/n09-live.mjs",
+            "bytes": 16955,
+            "sha256": "dc8bf90b6626a13705d3a1bf16d999e193da3b80ed896a1efd5a605f5238f7f3"
+          },
+          {
+            "path": "scripts/n09-check-pair.mjs",
+            "bytes": 5799,
+            "sha256": "940650cc230dfc5bf34e37272de5da9f7f163cb61851215ae4ac0f38d69e11f3"
+          },
+          {
+            "path": "scripts/n09-source-state.mjs",
+            "bytes": 893,
+            "sha256": "ad870192603f081e9cc4539e24c4b9a7c1a8414131b020d23597dba85f0a0843"
+          },
+          {
+            "path": "scripts/wire-spec.mjs",
+            "bytes": 7541,
+            "sha256": "2b6216238b119baf03c3524f0c555ec61249fe1b245fd6e56c77a78985ed11c6"
+          },
+          {
+            "path": "scripts/n12-practice-bridge.mjs",
+            "bytes": 5623,
+            "sha256": "28bc8078bad3dba67e8af118aeb2dad22270874030890505fa0ccf9215966a6a"
+          },
+          {
+            "path": "scripts/gemini-practice.mjs",
+            "bytes": 4930,
+            "sha256": "eede1abf09047948eddce1cb8020f78c8a36d4e9c965a9d7c43182aacb4d289b"
+          },
+          {
+            "path": "scripts/gemini-pilot.mjs",
+            "bytes": 1985,
+            "sha256": "6f1113af571cd7055bfd21dc611c0f3b43fd39a0f89b53d6683d849644cf1e7a"
+          },
+          {
+            "path": "scripts/pcap-tcp-streams.py",
+            "bytes": 5452,
+            "sha256": "1bc45040c6b3e5a67c1ea176854e2e0abbdcfaa5aa789dc1b4053131a40ec007"
+          },
+          {
+            "path": "scripts/rea-detail.mjs",
+            "bytes": 4410,
+            "sha256": "b2e9de5e0b2618ad86b92e5a2f6f28e98798c16530e6ce697bd34a740866a4c9"
+          }
+        ],
+        "sha256": "6b31f027ca0e5b9405648f2c54dd9b91ed6a4e6899823150246d9b9bec00e365"
+      },
+      "model": "gemini-3.5-flash-lite",
+      "model_requests": 2,
+      "results": [
+        {
+          "label": "N09-A",
+          "file": "runs/gemini/2026-11-17T06-40-29-490Z/A-analysis.json",
+          "success": true,
+          "usage": {
+            "api_requests": 1,
+            "reported": true,
+            "prompt_tokens": 1934,
+            "completion_tokens": 825,
+            "total_tokens": 2759,
+            "provider": {
+              "completion_tokens": 825,
+              "prompt_tokens": 1934,
+              "total_tokens": 2759
+            }
+          },
+          "error": null,
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-40-29-490Z/A-analysis.json",
+            "bytes": 12831,
+            "sha256": "9de1c3466a76537e48368175064accd4fcb16b7103030e46a32b7a82f70f2aa5"
+          }
+        },
+        {
+          "label": "N12-reference-A",
+          "file": "runs/gemini/2026-11-17T06-40-29-490Z/A-client.json",
+          "success": false,
+          "error": {
+            "code": "Error",
+            "message": "Public N06 bridge needs exactly one recovered integer-array input and one integer output"
+          },
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-40-29-490Z/A-client.json",
+            "bytes": 716,
+            "sha256": "94f993753250b0f84480c99d50377c9f34e4aad66f35a07d013dcddc00416bbc"
+          }
+        },
+        {
+          "label": "N09-B",
+          "file": "runs/gemini/2026-11-17T06-40-29-490Z/B-analysis.json",
+          "success": false,
+          "usage": {
+            "api_requests": 1,
+            "reported": true,
+            "prompt_tokens": 8025,
+            "completion_tokens": 1224,
+            "total_tokens": 9249,
+            "provider": {
+              "completion_tokens": 1224,
+              "prompt_tokens": 8025,
+              "total_tokens": 9249
+            }
+          },
+          "error": {
+            "stage": "candidate_validation",
+            "code": "QUOTE_MISMATCH",
+            "message": "A quote is absent from the named evidence actually supplied to the model"
+          },
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-40-29-490Z/B-analysis.json",
+            "bytes": 10846,
+            "sha256": "ec35f41bbda01d36a6dc0b6260c185f88d87fca7ec6f4933f452a36598dbf714"
+          }
+        }
+      ]
+    },
+    {
+      "directory": "runs/gemini/2026-11-17T06-44-36-097Z",
+      "summary_file": {
+        "file": "runs/gemini/2026-11-17T06-44-36-097Z/summary.json",
+        "bytes": 4122,
+        "sha256": "2ed4316d7fe9eda83178f5fbb94cb8d8f1e967fca0064d790269b69a8d05b5cf"
+      },
+      "started_at": "2026-11-17T06:44:36.757Z",
+      "finished_at": "2026-11-17T06:45:14.933Z",
+      "success": false,
+      "code_commit": "b1f9afeb4b49ebcd83f119bc31beec939362e8d7",
+      "code_dirty": false,
+      "source_fingerprint": {
+        "algorithm": "sha256",
+        "files": [
+          {
+            "path": "scripts/rea-smoke.mjs",
+            "bytes": 21603,
+            "sha256": "7dc620eea987479df9f5886991769b64a8dfee75a46a8a7306b8d3c3695b0ec1"
+          },
+          {
+            "path": "scripts/n09-contract.mjs",
+            "bytes": 5484,
+            "sha256": "24bfb63a72ccfc67cb37db68c9c10492c83b972f4426c490d214fd12e5b92a0e"
+          },
+          {
+            "path": "scripts/n09-prepare.mjs",
+            "bytes": 12924,
+            "sha256": "5317feb6979663fee4272f6d3e7a2a4dd3dc656a5f6b71c03adfd57855d9d51f"
+          },
+          {
+            "path": "scripts/n09-live.mjs",
+            "bytes": 16955,
+            "sha256": "dc8bf90b6626a13705d3a1bf16d999e193da3b80ed896a1efd5a605f5238f7f3"
+          },
+          {
+            "path": "scripts/n09-check-pair.mjs",
+            "bytes": 5799,
+            "sha256": "940650cc230dfc5bf34e37272de5da9f7f163cb61851215ae4ac0f38d69e11f3"
+          },
+          {
+            "path": "scripts/n09-source-state.mjs",
+            "bytes": 893,
+            "sha256": "ad870192603f081e9cc4539e24c4b9a7c1a8414131b020d23597dba85f0a0843"
+          },
+          {
+            "path": "scripts/wire-spec.mjs",
+            "bytes": 7541,
+            "sha256": "2b6216238b119baf03c3524f0c555ec61249fe1b245fd6e56c77a78985ed11c6"
+          },
+          {
+            "path": "scripts/n12-practice-bridge.mjs",
+            "bytes": 5623,
+            "sha256": "28bc8078bad3dba67e8af118aeb2dad22270874030890505fa0ccf9215966a6a"
+          },
+          {
+            "path": "scripts/gemini-practice.mjs",
+            "bytes": 4930,
+            "sha256": "eede1abf09047948eddce1cb8020f78c8a36d4e9c965a9d7c43182aacb4d289b"
+          },
+          {
+            "path": "scripts/gemini-pilot.mjs",
+            "bytes": 1985,
+            "sha256": "6f1113af571cd7055bfd21dc611c0f3b43fd39a0f89b53d6683d849644cf1e7a"
+          },
+          {
+            "path": "scripts/pcap-tcp-streams.py",
+            "bytes": 5452,
+            "sha256": "1bc45040c6b3e5a67c1ea176854e2e0abbdcfaa5aa789dc1b4053131a40ec007"
+          },
+          {
+            "path": "scripts/rea-detail.mjs",
+            "bytes": 4410,
+            "sha256": "b2e9de5e0b2618ad86b92e5a2f6f28e98798c16530e6ce697bd34a740866a4c9"
+          }
+        ],
+        "sha256": "4f799a3dc81ba386382b206ef6d0864e57c5836df449a910df1364ad9100f6a3"
+      },
+      "model": "gemini-3.5-flash-lite",
+      "model_requests": 2,
+      "results": [
+        {
+          "label": "N09-A",
+          "file": "runs/gemini/2026-11-17T06-44-36-097Z/A-analysis.json",
+          "success": true,
+          "usage": {
+            "api_requests": 1,
+            "reported": true,
+            "prompt_tokens": 2310,
+            "completion_tokens": 827,
+            "total_tokens": 3137,
+            "provider": {
+              "completion_tokens": 827,
+              "prompt_tokens": 2310,
+              "total_tokens": 3137
+            }
+          },
+          "error": null,
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-44-36-097Z/A-analysis.json",
+            "bytes": 12741,
+            "sha256": "1ebea62e8b16eed8a860033caec207971006d23c372f7bf6f8131e906bde8989"
+          }
+        },
+        {
+          "label": "N12-reference-A",
+          "file": "runs/gemini/2026-11-17T06-44-36-097Z/A-client.json",
+          "success": false,
+          "error": {
+            "code": "Error",
+            "message": "Public N06 bridge needs exactly one recovered integer-array input and one integer output"
+          },
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-44-36-097Z/A-client.json",
+            "bytes": 716,
+            "sha256": "edeb1f255836e3576e301539ca663c7173d0866c6df7127fb0eda8c4bd48a02b"
+          }
+        },
+        {
+          "label": "N09-B",
+          "file": "runs/gemini/2026-11-17T06-44-36-097Z/B-analysis.json",
+          "success": true,
+          "usage": {
+            "api_requests": 1,
+            "reported": true,
+            "prompt_tokens": 8819,
+            "completion_tokens": 998,
+            "total_tokens": 9817,
+            "provider": {
+              "completion_tokens": 998,
+              "prompt_tokens": 8819,
+              "total_tokens": 9817
+            }
+          },
+          "error": null,
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-44-36-097Z/B-analysis.json",
+            "bytes": 14690,
+            "sha256": "2d269b3315a3be459c24437071cdde2b795f6a6375de8c214ae51d71c2826572"
+          }
+        },
+        {
+          "label": "N12-reference-B",
+          "file": "runs/gemini/2026-11-17T06-44-36-097Z/B-client.json",
+          "success": false,
+          "error": {
+            "code": "Error",
+            "message": "Public N06 bridge needs exactly one recovered integer-array input and one integer output"
+          },
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-44-36-097Z/B-client.json",
+            "bytes": 716,
+            "sha256": "8a9158cc693948dcd0334e033a65da007fc063f40bb7267109df0f7f55cb60e2"
+          }
+        }
+      ]
+    },
+    {
+      "directory": "runs/gemini/2026-11-17T06-51-02-946Z",
+      "summary_file": {
+        "file": "runs/gemini/2026-11-17T06-51-02-946Z/summary.json",
+        "bytes": 4157,
+        "sha256": "c87039d3cd63c95574f63b28c7f66e6cb4c6cd779d815b18a83a9aa673bc52f7"
+      },
+      "started_at": "2026-11-17T06:51:03.517Z",
+      "finished_at": "2026-11-17T06:51:43.137Z",
+      "success": true,
+      "code_commit": "4ed5aff154d39e7b6c6b3594da31d3c6b00c577d",
+      "code_dirty": false,
+      "source_fingerprint": {
+        "algorithm": "sha256",
+        "files": [
+          {
+            "path": "scripts/rea-smoke.mjs",
+            "bytes": 21603,
+            "sha256": "7dc620eea987479df9f5886991769b64a8dfee75a46a8a7306b8d3c3695b0ec1"
+          },
+          {
+            "path": "scripts/n09-contract.mjs",
+            "bytes": 5484,
+            "sha256": "24bfb63a72ccfc67cb37db68c9c10492c83b972f4426c490d214fd12e5b92a0e"
+          },
+          {
+            "path": "scripts/n09-prepare.mjs",
+            "bytes": 12924,
+            "sha256": "5317feb6979663fee4272f6d3e7a2a4dd3dc656a5f6b71c03adfd57855d9d51f"
+          },
+          {
+            "path": "scripts/n09-live.mjs",
+            "bytes": 16955,
+            "sha256": "dc8bf90b6626a13705d3a1bf16d999e193da3b80ed896a1efd5a605f5238f7f3"
+          },
+          {
+            "path": "scripts/n09-check-pair.mjs",
+            "bytes": 5799,
+            "sha256": "940650cc230dfc5bf34e37272de5da9f7f163cb61851215ae4ac0f38d69e11f3"
+          },
+          {
+            "path": "scripts/n09-source-state.mjs",
+            "bytes": 893,
+            "sha256": "ad870192603f081e9cc4539e24c4b9a7c1a8414131b020d23597dba85f0a0843"
+          },
+          {
+            "path": "scripts/wire-spec.mjs",
+            "bytes": 8276,
+            "sha256": "65e72bda2f8f1e69fb25088ff8b249cd216cefe8a7fe6f143a3a480ef190acf3"
+          },
+          {
+            "path": "scripts/n12-practice-bridge.mjs",
+            "bytes": 5623,
+            "sha256": "28bc8078bad3dba67e8af118aeb2dad22270874030890505fa0ccf9215966a6a"
+          },
+          {
+            "path": "scripts/gemini-practice.mjs",
+            "bytes": 4930,
+            "sha256": "eede1abf09047948eddce1cb8020f78c8a36d4e9c965a9d7c43182aacb4d289b"
+          },
+          {
+            "path": "scripts/gemini-pilot.mjs",
+            "bytes": 1985,
+            "sha256": "6f1113af571cd7055bfd21dc611c0f3b43fd39a0f89b53d6683d849644cf1e7a"
+          },
+          {
+            "path": "scripts/pcap-tcp-streams.py",
+            "bytes": 5452,
+            "sha256": "1bc45040c6b3e5a67c1ea176854e2e0abbdcfaa5aa789dc1b4053131a40ec007"
+          },
+          {
+            "path": "scripts/rea-detail.mjs",
+            "bytes": 4410,
+            "sha256": "b2e9de5e0b2618ad86b92e5a2f6f28e98798c16530e6ce697bd34a740866a4c9"
+          }
+        ],
+        "sha256": "6b2498cfea5a42d20a8396fc30a1526011f683b82db88895a7b9d69369544ca1"
+      },
+      "model": "gemini-3.5-flash-lite",
+      "model_requests": 2,
+      "results": [
+        {
+          "label": "N09-A",
+          "file": "runs/gemini/2026-11-17T06-51-02-946Z/A-analysis.json",
+          "success": true,
+          "usage": {
+            "api_requests": 1,
+            "reported": true,
+            "prompt_tokens": 2436,
+            "completion_tokens": 858,
+            "total_tokens": 3294,
+            "provider": {
+              "completion_tokens": 858,
+              "prompt_tokens": 2436,
+              "total_tokens": 3294
+            }
+          },
+          "error": null,
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-51-02-946Z/A-analysis.json",
+            "bytes": 12903,
+            "sha256": "481e3e0eaa70a4841619d78a979b13ade49c0cd13edda845d0ebedd3ad7498b9"
+          }
+        },
+        {
+          "label": "N12-reference-A",
+          "file": "runs/gemini/2026-11-17T06-51-02-946Z/A-client.json",
+          "success": true,
+          "summary": {
+            "total": 15,
+            "pass": 15,
+            "fail": 0,
+            "error": 0,
+            "pass_rate": 1,
+            "all_pass": true
+          },
+          "error": null,
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-51-02-946Z/A-client.json",
+            "bytes": 3849,
+            "sha256": "2d9e7abe5eb344560124e6726a576a764bb8ab0e557d91fdb583e7512c934748"
+          }
+        },
+        {
+          "label": "N09-B",
+          "file": "runs/gemini/2026-11-17T06-51-02-946Z/B-analysis.json",
+          "success": true,
+          "usage": {
+            "api_requests": 1,
+            "reported": true,
+            "prompt_tokens": 8947,
+            "completion_tokens": 1203,
+            "total_tokens": 10150,
+            "provider": {
+              "completion_tokens": 1203,
+              "prompt_tokens": 8947,
+              "total_tokens": 10150
+            }
+          },
+          "error": null,
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-51-02-946Z/B-analysis.json",
+            "bytes": 16344,
+            "sha256": "093b332195639e984e3cb6a2db37eb7505103dcabc5c2fa9296cee506d424cf6"
+          }
+        },
+        {
+          "label": "N12-reference-B",
+          "file": "runs/gemini/2026-11-17T06-51-02-946Z/B-client.json",
+          "success": true,
+          "summary": {
+            "total": 15,
+            "pass": 15,
+            "fail": 0,
+            "error": 0,
+            "pass_rate": 1,
+            "all_pass": true
+          },
+          "error": null,
+          "raw": {
+            "file": "runs/gemini/2026-11-17T06-51-02-946Z/B-client.json",
+            "bytes": 3759,
+            "sha256": "396c15111489f40161fe03c4589f8a079797c27f9962c1e19154d90d08dc1e65"
+          }
+        }
+      ]
+    }
+  ],
+  "earlier_local_live_attempts": [
+    {
+      "raw": {
+        "file": "runs/gemini/A-live-2026-11-17T06-03-41-296Z.json",
+        "bytes": 4231,
+        "sha256": "1e53f12e48ccfcd8e5f2a2a300499e704faeb2bec415867b35d238922952577b"
+      },
+      "condition": "A",
+      "started_at": "2026-11-17T06:03:55.522Z",
+      "success": false,
+      "model_called": false,
+      "model": {
+        "requested": "gemini-3.5-flash-lite",
+        "returned": null,
+        "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+        "operator_confirmed": false
+      },
+      "usage": {
+        "api_requests": 1,
+        "reported": false,
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null
+      },
+      "runtime": {
+        "node": "v24.22.1",
+        "platform": "linux",
+        "arch": "x64",
+        "timeout_ms": 120000,
+        "execution_backend": "real",
+        "runner_sha256": "4db9f05871466dd100c5d2c355ae6553f3341641a58d0af1b06d6ca62b676386"
+      },
+      "error": {
+        "stage": "model_request",
+        "code": "API_HTTP_ERROR",
+        "message": "API returned HTTP 503; response retained"
+      }
+    },
+    {
+      "raw": {
+        "file": "runs/gemini/A-live-2026-11-17T06-11-38-645Z.json",
+        "bytes": 8341,
+        "sha256": "dd5b5f664ea5964ff2d767a5612f20d7b6950fa39a75154af8a933e52c0ee819"
+      },
+      "condition": "A",
+      "started_at": "2026-11-17T06:11:52.640Z",
+      "success": true,
+      "model_called": true,
+      "model": {
+        "requested": "gemini-3.5-flash-lite",
+        "returned": "gemini-3.5-flash-lite",
+        "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+        "operator_confirmed": false
+      },
+      "usage": {
+        "api_requests": 1,
+        "reported": true,
+        "prompt_tokens": 17794,
+        "completion_tokens": 351,
+        "total_tokens": 18145,
+        "provider": {
+          "completion_tokens": 351,
+          "prompt_tokens": 17794,
+          "total_tokens": 18145
+        }
+      },
+      "runtime": {
+        "node": "v24.22.1",
+        "platform": "linux",
+        "arch": "x64",
+        "timeout_ms": 120000,
+        "execution_backend": "real",
+        "runner_sha256": "441d0300b56cab2ea18f1a98ebfba61d9c51bdce1c7f60f6d235dc1994718db7",
+        "source_fingerprint": {
+          "algorithm": "sha256",
+          "files": [
+            {
+              "path": "scripts/rea-smoke.mjs",
+              "bytes": 20421,
+              "sha256": "b055fc274d1ec4bbbc4a6444ee210d99245881bb15924d12330b9665735f11e2"
+            },
+            {
+              "path": "scripts/n09-contract.mjs",
+              "bytes": 4434,
+              "sha256": "c535853965996b3446f2b40a01ac41dc4a3a1f259ab33ebd186b7f99160145af"
+            },
+            {
+              "path": "scripts/n09-prepare.mjs",
+              "bytes": 10781,
+              "sha256": "2d522d75e6a5200e13d8e58821b0322933fa29bf1242d61501faed1b99d5bcfb"
+            },
+            {
+              "path": "scripts/n09-live.mjs",
+              "bytes": 16784,
+              "sha256": "441d0300b56cab2ea18f1a98ebfba61d9c51bdce1c7f60f6d235dc1994718db7"
+            },
+            {
+              "path": "scripts/n09-check-pair.mjs",
+              "bytes": 5404,
+              "sha256": "99fc83c336d54a3d2dc1df4ea89abdaa33fbb1bc8dd1b1806893ed0c5a2faec2"
+            },
+            {
+              "path": "scripts/n09-source-state.mjs",
+              "bytes": 759,
+              "sha256": "28f84c5c7135e8622a34c06bd5992edaeccaedc76d3bdaad8b4ef8ad05795043"
+            }
+          ],
+          "sha256": "806519b67b0178c07f19afb4ac17ae383e08a65b8757023bfb32c770444530bb"
+        },
+        "preparation_code_dirty": true
+      }
+    },
+    {
+      "raw": {
+        "file": "runs/gemini/B-live-2026-11-17T06-11-38-645Z.json",
+        "bytes": 7415,
+        "sha256": "684c441ee94eb4b471612aae91182938d9faeb7665ef3545665dce9c776614cb"
+      },
+      "condition": "B",
+      "started_at": "2026-11-17T06:11:56.804Z",
+      "success": false,
+      "model_called": true,
+      "model": {
+        "requested": "gemini-3.5-flash-lite",
+        "returned": "gemini-3.5-flash-lite",
+        "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+        "operator_confirmed": false
+      },
+      "usage": {
+        "api_requests": 1,
+        "reported": true,
+        "prompt_tokens": 21103,
+        "completion_tokens": 420,
+        "total_tokens": 21523,
+        "provider": {
+          "completion_tokens": 420,
+          "prompt_tokens": 21103,
+          "total_tokens": 21523
+        }
+      },
+      "runtime": {
+        "node": "v24.22.1",
+        "platform": "linux",
+        "arch": "x64",
+        "timeout_ms": 120000,
+        "execution_backend": "real",
+        "runner_sha256": "441d0300b56cab2ea18f1a98ebfba61d9c51bdce1c7f60f6d235dc1994718db7",
+        "source_fingerprint": {
+          "algorithm": "sha256",
+          "files": [
+            {
+              "path": "scripts/rea-smoke.mjs",
+              "bytes": 20421,
+              "sha256": "b055fc274d1ec4bbbc4a6444ee210d99245881bb15924d12330b9665735f11e2"
+            },
+            {
+              "path": "scripts/n09-contract.mjs",
+              "bytes": 4434,
+              "sha256": "c535853965996b3446f2b40a01ac41dc4a3a1f259ab33ebd186b7f99160145af"
+            },
+            {
+              "path": "scripts/n09-prepare.mjs",
+              "bytes": 10781,
+              "sha256": "2d522d75e6a5200e13d8e58821b0322933fa29bf1242d61501faed1b99d5bcfb"
+            },
+            {
+              "path": "scripts/n09-live.mjs",
+              "bytes": 16784,
+              "sha256": "441d0300b56cab2ea18f1a98ebfba61d9c51bdce1c7f60f6d235dc1994718db7"
+            },
+            {
+              "path": "scripts/n09-check-pair.mjs",
+              "bytes": 5404,
+              "sha256": "99fc83c336d54a3d2dc1df4ea89abdaa33fbb1bc8dd1b1806893ed0c5a2faec2"
+            },
+            {
+              "path": "scripts/n09-source-state.mjs",
+              "bytes": 759,
+              "sha256": "28f84c5c7135e8622a34c06bd5992edaeccaedc76d3bdaad8b4ef8ad05795043"
+            }
+          ],
+          "sha256": "806519b67b0178c07f19afb4ac17ae383e08a65b8757023bfb32c770444530bb"
+        },
+        "preparation_code_dirty": true
+      },
+      "error": {
+        "stage": "candidate_validation",
+        "code": "QUOTE_MISMATCH",
+        "message": "A quote is absent from the named evidence actually supplied to the model"
+      }
+    }
+  ],
+  "usage_inventory": {
+    "scope": "All local timestamped launcher summaries plus earlier A/B live result files; missing provider usage remains unknown",
+    "api_requests": 19,
+    "prompt_tokens_reported": 126382,
+    "completion_tokens_reported": 11245,
+    "total_tokens_reported": 137627,
+    "requests_with_unknown_usage": 3
+  },
+  "regression": {
+    "node": {
+      "pass": 97,
+      "fail": 0,
+      "raw": {
+        "file": "runs/gemini/final-node-tests.log",
+        "bytes": 15060,
+        "sha256": "3b4624368a6a7f746ef789df420ebb2a4cb067e32d8026dab33b5d5269d0ad42"
+      }
+    },
+    "python": {
+      "pass": 25,
+      "fail": 0,
+      "raw": {
+        "file": "runs/gemini/final-python-tests.log",
+        "bytes": 6000,
+        "sha256": "3cf48ff34e7d85bee318b25a1b020166df648aadd512a2d8ca32a65bff039ff3"
+      }
+    }
+  },
+  "pr7_public_verification": {
+    "task": "N10-review",
+    "classification": "AI cross-PC public-input verification only",
+    "source_commit": "caa61d1a58ec32548c4a407869eb505d81ff120d",
+    "success": true,
+    "binary_sha256": "3bb7aaeefdc786b543c3a13d8af14096a1cde128debbe3372ec4b7e00a1859a6",
+    "pcap_sha256": "c4e826ac40d7ca8f320000104de288710b77ca84eeca0824e7b8b434637b41b1",
+    "hidden_answers_read": false,
+    "hash_match": true,
+    "connect_ok": true,
+    "port": 42955,
+    "server_stopped": true,
+    "hash_unchanged": true
+  },
+  "pr9_committed_checkout": {
+    "source_commit": "745a89121aedb27274195d2f566f90c1177f6e93",
+    "startup_success": false,
+    "error": "ERR_MODULE_NOT_FOUND: web/lib/app.mjs absent from committed tree",
+    "raw": {
+      "file": "runs/pr9-review/startup.log",
+      "bytes": 3178,
+      "sha256": "a03f297de8af972fdd76cbdd10038923f3e9247b18ba8a3e7946e35841c622d6"
+    }
+  },
+  "limitations": [
+    "Public N06 normal command only; five independent public input vectors each with three application write patterns.",
+    "Application write splitting is not proof of TCP segment boundaries. No delay, loss, combined frames or load result is claimed.",
+    "A/B are independently generated once per version; these development attempts are not five frozen blind repetitions.",
+    "N09 success validates envelope and exact quotes. Semantic review remains pending; A prose contains an unsupported negative/error interpretation despite passing the executable normal-frame subset.",
+    "N11 private grading and N12 web integration remain team dependencies. No manual candidate corrections or promotion of failed candidates."
+  ],
+  "ci": {
+    "run_id": 44034971195,
+    "url": "https://github.com/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/runs/44034971195",
+    "source_commit": "473f05a534e375dff9307e96faad851d5b4cc4d3",
+    "conclusion": "success",
+    "model_requests": 0,
+    "jobs": [
+      {
+        "id": 133875546921,
+        "name": "keyless-rea-pair",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 44034971195,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Build pinned REA and Ghidra environment",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Real A and B preparation on the same public N06 capture",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Tracked Gemini launcher without model requests",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Give the uploader ownership of generated evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Retain real REA preparation evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          }
+        ]
+      },
+      {
+        "id": 133875547225,
+        "name": "keyless",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 44034971195,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Prepare key-free environment",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Node mock regressions",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Python evaluator regressions",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Actual public PCAP preparation, condition A",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Offline model request audit on actual public PCAP preparation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Actual public N06 TCP evaluation",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Retain key-free evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Post Run actions/setup-node@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Post Run actions/checkout@v4",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          }
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "id": 14307271103,
+        "name": "keyless-evidence",
+        "size_in_bytes": 83898,
+        "url": "https://api.github.com/repos/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/artifacts/14307271103",
+        "archive_download_url": "https://api.github.com/repos/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/artifacts/14307271103/zip",
+        "expired": false,
+        "created_at": "2026-11-17T06:57:38Z",
+        "expires_at": "2026-12-17T06:57:38Z",
+        "updated_at": "2026-11-17T06:57:38Z",
+        "digest": "sha256:30de0aa8d9bdd3b5d0a4dd2678859720fad653094559f03c97347ef7d79db0aa",
+        "workflow_run": {
+          "id": 44034971195,
+          "repository_id": 1438597500,
+          "head_repository_id": 1438597500,
+          "head_branch": "n09-live-api-20261117",
+          "head_sha": "473f05a534e375dff9307e96faad851d5b4cc4d3"
+        }
+      },
+      {
+        "id": 14306463519,
+        "name": "keyless-rea-pair-evidence",
+        "size_in_bytes": 106249,
+        "url": "https://api.github.com/repos/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/artifacts/14306463519",
+        "archive_download_url": "https://api.github.com/repos/jeonguijong67-hub/byte-by-byte-protocol-agent/actions/artifacts/14306463519/zip",
+        "expired": false,
+        "created_at": "2026-11-17T06:58:24Z",
+        "expires_at": "2026-12-17T06:58:23Z",
+        "updated_at": "2026-11-17T06:58:24Z",
+        "digest": "sha256:d8e09b80899d8b956b569a81a8033c4bdab938d2168620795dddfad8c8d1a79c",
+        "workflow_run": {
+          "id": 44034971195,
+          "repository_id": 1438597500,
+          "head_repository_id": 1438597500,
+          "head_branch": "n09-live-api-20261117",
+          "head_sha": "473f05a534e375dff9307e96faad851d5b4cc4d3"
+        }
+      }
+    ]
+  },
+  "manual_confirmation": {
+    "date_kst": "2026-11-17",
+    "tested_commit": "ee10e08be35dce810cdd682a5d3ac35775e8f5ae",
+    "record": "docs/evidence/N09-manual-2026-11-17.json",
+    "scope": "Output inspection; not acceptance of every semantic claim",
+    "node_pass": 97,
+    "python_pass": 25,
+    "client_A_pass": 15,
+    "client_B_pass": 15,
+    "new_model_requests": 0,
+    "n05_live_manual_rerun": "not-performed",
+    "semantic_acceptance_of_all_claims": false
+  }
+}

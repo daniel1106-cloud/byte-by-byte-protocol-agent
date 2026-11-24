@@ -28,7 +28,7 @@ docker compose -f compose.n05.yaml run --rm n05 gcc -O0 -fno-inline -Wall -Wextr
 `--execution mock`을 붙이면 같은 준비 과정을 실행한 뒤 **빈 spec의 모의 결과**를 추가한다.
 모의 모드도 A에서 tcpdump, B에서 tcpdump와 REA가 설치돼 있어야 한다.
 설치 없이 검증하는 것은 위의 Node 모의 테스트다.
-`--experiment E1`은 대상 구분용이고 점수를 만들지 않는다.
+E1 준비에는 A와 B 모두 `--experiment E1`을 지정한다. `n09-check-pair.mjs`는 두 준비 결과의 실험 라벨이 같은지 확인해 요약에 기록한다. E1은 두 준비 결과가 모두 깨끗한 체크아웃에서 나와야 하며 `--allow-dirty`를 사용할 수 없다. 준비와 쌍 검사는 모델 호출이나 점수 산출 없이 진행한다.
 본 실험 입력은 N10 PR #7의 버전을 확정한 후에만 교체하며, 여기서는 분석하지 않았다.
 
 기대 결과: `success:true`는 준비 절차 성공이다.
@@ -79,6 +79,23 @@ REA의 `binary_overview`는 전체 역공학이 아니다. 실제 프로토콜 �
 본 실험 A/B 5회씩의 점수, 클라이언트 자동 생성, 부하 측정은 아직 수행하지 않았다.
 
 본인 확인: 의종이 위 명령으로 A/B 실제 준비 결과와 해시를 확인한 뒤 `docs/ai-usage.md`를 갱신한다.
+
+## 미커밋 변경이 있는 로컬 연습
+
+쌍 검증기는 기본적으로 `code_dirty:false`인 실행만 허용한다. 미커밋 문서가 있어도
+`Uncommitted changes`로 중단될 수 있다. CI와 기준 실행에서는 변경을 커밋한 상태를 사용한다.
+
+로컬 공개 연습은 새 A/B 준비 결과를 만든 뒤 다음처럼 명시적으로 허용할 수 있다.
+
+```powershell
+node scripts/n09-check-pair.mjs runs/n09/A.json runs/n09/B.json runs/n09/new-pair.json --allow-dirty
+```
+
+이 옵션은 `experiment:practice`에만 적용되며 `code_dirty:true`를 그대로 남긴다.
+양쪽의 커밋·작업 상태·실제 실행 코드 파일 SHA-256이 같아야 하고 현재 코드와도 일치해야 한다.
+실행 도중 또는 준비 이후 코드가 바뀌면 다시 준비해야 한다. 과거 결과에 코드 해시가 없으면
+dirty 허용 대상으로 사용할 수 없다. 키·분석 바이너리·정답은 코드 해시 수집 대상이 아니다.
+요약의 `reference_run_eligible:false`는 이 실행을 깨끗한 체크아웃의 기준 실행으로 사용하지 않는다는 뜻이다.
 
 ## 이번 실행과 직접 확인
 

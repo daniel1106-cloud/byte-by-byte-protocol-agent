@@ -1,10 +1,25 @@
 // Contract-only tests: no real model, TCP service or REA invocation.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { BUDGET, PROMPT, makeRequest, mockOutput, validateOutput, validateSelection } from './n09-contract.mjs';
+import { BUDGET, PROMPT, makeRequest, mockOutput, validateOutput, validateSelection, citationCandidates } from './n09-contract.mjs';
 const packet = { id: 'packet-1', source: 'packet', text: 'Explicit mock packet evidence: bytes 01 02 03.' };
 const binary = { id: 'binary-1', source: 'binary', text: 'Explicit mock binary evidence: example function record.' };
 const request = condition => makeRequest({ condition, packet, binary: condition === 'B' ? binary : null });
+
+test('citation candidates are bounded exact excerpts with only top-level source IDs', () => {
+  const item={id:'binary-1',text:'{"payload_hex": "424201010006000100020003"}\n'+
+    'iVar1 = recv_exact(param_1,local_58,uVar2);\\nif (count < 32) {'};
+  const candidates=citationCandidates([item]);
+  assert.ok(candidates.length>=2&&candidates.length<=16);
+  assert.ok(candidates.every(c=>c.evidence_id==='binary-1'&&item.text.includes(c.quote)));
+  assert.ok(candidates.some(c=>c.quote==='424201010006000100020003'));
+});
+
+test('supplied citation candidates cannot make a fabricated quote pass validation', () => {
+  const r=request('A'),output=mockOutput(r);
+  output.observations[0].evidence_id='ev_nested';
+  assert.throws(()=>validateOutput(output,r),{code:'QUOTE_MISMATCH'});
+});
 
 test('A receives packet evidence only; no binary evidence is serialized', () => {
   const a = request('A');

@@ -128,6 +128,8 @@ export async function runSmoke({ binaryPath, resultPath, mode = 'full', env = pr
     model: { requested: mode === 'mock' ? 'mock-fixture' : env.LLM_MODEL || null,
       endpoint: null, returned: [], course_model_confirmed_by_operator: false },
     artifacts, stages: [], tool_call: null, evidence: null, summary: null,
+    budget: {model_calls:2,max_output_tokens_per_call:4096,automatic_retries:0},
+    usage: {api_requests:0,calls:[],prompt_tokens:null,completion_tokens:null,total_tokens:null},
     verification: null, n05_complete: false };
   const save = () => writeFile(output, redact(JSON.stringify(result, null, 2)) + '\n', { mode: 0o600 });
   const record = async (stage, action) => {
@@ -164,7 +166,13 @@ export async function runSmoke({ binaryPath, resultPath, mode = 'full', env = pr
   };
   let apiRound = 0;
   const chat = async body => {
+    if (apiRound >= 2) throw fail('MODEL_CALL_BUDGET', 'N05 permits at most two model calls');
     apiRound++;
+    const tokenParameter = env.LLM_MAX_TOKENS_PARAM || 'max_tokens';
+    if (!['max_tokens','max_completion_tokens'].includes(tokenParameter))
+      throw fail('TOKEN_PARAMETER', 'Use max_tokens or max_completion_tokens');
+    body = {...body,[tokenParameter]:4096};
+    if (apiRound === 2 && env.LLM_JSON_MODE === 'on') body.response_format = {type:'json_object'};
     await write(`api-${apiRound}.request.json`, JSON.stringify(body, null, 2));
     let raw, status = 200;
     if (mode === 'mock') raw = JSON.stringify({ model: 'mock-fixture', choices: [{ message: apiRound === 1 ?
@@ -173,6 +181,7 @@ export async function runSmoke({ binaryPath, resultPath, mode = 'full', env = pr
       { role: 'assistant', content: JSON.stringify({ claims: [{ claim: 'This is a mock fixture, not a real binary observation.',
         quote: 'Mock fixture only: practice binary returns PONG for PING.' }], unknowns: ['Actual binary behavior is untested.'] }) } }] });
     else {
+      result.usage.api_requests++;
       const response = await fetchImpl(env.LLM_CHAT_COMPLETIONS_URL, {
         method: 'POST', redirect: 'error', signal: AbortSignal.timeout(120000),
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` }, body: JSON.stringify(body) });
@@ -183,6 +192,12 @@ export async function runSmoke({ binaryPath, resultPath, mode = 'full', env = pr
     if (status < 200 || status >= 300) throw fail('API_HTTP_ERROR', `Chat completions API returned HTTP ${status}; response saved locally`);
     let json;
     try { json = JSON.parse(raw); } catch { throw fail('API_JSON_ERROR', 'API response was not JSON'); }
+    result.usage.calls.push({round:apiRound,status,usage:json.usage || null});
+    for (const field of ['prompt_tokens','completion_tokens','total_tokens']) {
+      const values=result.usage.calls.map(call=>call.usage?.[field]);
+      result.usage[field]=values.every(value=>Number.isSafeInteger(value)&&value>=0)?values.reduce((a,b)=>a+b,0):null;
+    }
+    if (json.choices?.[0]?.finish_reason === 'length') throw fail('OUTPUT_TRUNCATED', 'Model output reached its token limit');
     const message = json.choices?.[0]?.message;
     if (!message || message.role !== 'assistant') throw fail('API_MESSAGE_ERROR', 'API did not return an assistant message');
     result.model.returned.push(json.model || null);
@@ -224,7 +239,8 @@ export async function runSmoke({ binaryPath, resultPath, mode = 'full', env = pr
       try { args = JSON.parse(call.function.arguments); } catch { throw fail('TOOL_ARGUMENTS_INVALID', 'Tool arguments must be JSON {}'); }
       if (!args || typeof args !== 'object' || Array.isArray(args) || Object.keys(args).length)
         throw fail('TOOL_ARGUMENTS_INVALID', 'Tool accepts no arguments; operator file selection cannot be overridden');
-      messages.push({ role: 'assistant', content: first.content ?? null, tool_calls: calls });
+      // Preserve provider extensions, including Gemini thought signatures.
+      messages.push(structuredClone(first));
     });
     // Doctor is a separate explicit precondition, also saved when it fails.
     await record('rea_version', async () => { result.runtime.rea_version = (await command('rea-version', ['--version'])).trim(); });

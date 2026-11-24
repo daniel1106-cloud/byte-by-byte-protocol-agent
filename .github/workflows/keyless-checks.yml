@@ -25,13 +25,17 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y tcpdump
       - name: Node mock regressions
-        run: node --test scripts/rea-smoke.test.mjs scripts/n09-contract.test.mjs scripts/n09-prepare.test.mjs | tee runs/n09/node-tests.log
+        run: node --test scripts/rea-smoke.test.mjs scripts/rea-detail.test.mjs scripts/n09-contract.test.mjs scripts/n09-prepare.test.mjs scripts/n09-live.test.mjs scripts/n09-check-pair.test.mjs scripts/wire-spec.test.mjs | tee runs/n09/node-tests.log
       - name: Python evaluator regressions
-        run: python3 -m unittest discover -s scripts -p 'test_n07*.py' 2>&1 | tee runs/n09/python-tests.log
+        run: python3 -m unittest discover -s scripts -p 'test_*.py' 2>&1 | tee runs/n09/python-tests.log
       - name: Actual public PCAP preparation, condition A
         run: |
-          node scripts/n09-prepare.mjs --condition A --pcap practice/n06/normal-sessions.pcap --out runs/n09/A-public-practice.json
+          node scripts/n09-prepare.mjs --condition A --pcap practice/n06/normal-sessions.pcap --packet-format tcp-streams-v1 --out runs/n09/A-public-practice.json
           node -e "const r=require('./runs/n09/A-public-practice.json'); if(!r.success || r.model_called || r.experiment_score || r.input.binary) process.exit(1)"
+      - name: Offline model request audit on actual public PCAP preparation
+        run: |
+          node scripts/n09-live.mjs --prepared runs/n09/A-public-practice.json --out runs/n09/A-model-request-audit.json
+          node -e "const r=require('./runs/n09/A-model-request-audit.json'); if(!r.success || r.model_called || r.usage.api_requests!==0) process.exit(1)"
       - name: Actual public N06 TCP evaluation
         run: |
           gcc -O0 -fno-inline -Wall -Wextra -o runs/n09/practice-server practice/n06/server.c
@@ -66,14 +70,23 @@ jobs:
             node scripts/n09-prepare.mjs --condition A --pcap practice/n06/normal-sessions.pcap --out runs/n09/A-rea-practice.json
             node scripts/n09-prepare.mjs --condition B --pcap practice/n06/normal-sessions.pcap --binary runs/n09/practice-server --out runs/n09/B-rea-practice.json
             node scripts/n09-check-pair.mjs runs/n09/A-rea-practice.json runs/n09/B-rea-practice.json runs/n09/pair-summary.json
+            node scripts/n09-live.mjs --prepared runs/n09/A-rea-practice.json --out runs/n09/A-model-request-audit.json
+            node scripts/n09-live.mjs --prepared runs/n09/B-rea-practice.json --out runs/n09/B-model-request-audit.json
           ' 2>&1 | tee runs/n09/rea-pair.log
+      - name: Tracked Gemini launcher without model requests
+        run: |
+          node scripts/gemini-pilot.mjs --execution dry-run --phase smoke
+          sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE/runs/gemini"
+          node -e "const fs=require('node:fs'); const dirs=fs.readdirSync('runs/gemini'); if(!dirs.length)process.exit(1); for(const dir of dirs){const r=JSON.parse(fs.readFileSync('runs/gemini/'+dir+'/summary.json'));if(!r.success||r.execution!=='dry-run'||r.model_requests!==0)process.exit(1)}"
       - name: Give the uploader ownership of generated evidence
         if: always()
-        run: sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE/runs/n09"
+        run: sudo chown -R "$(id -u):$(id -g)" "$GITHUB_WORKSPACE/runs"
       - name: Retain real REA preparation evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: keyless-rea-pair-evidence
-          path: runs/n09/
+          path: |
+            runs/n09/
+            runs/gemini/
           retention-days: 30

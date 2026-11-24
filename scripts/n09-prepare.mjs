@@ -6,6 +6,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defaultRunCommand, runSmoke } from './rea-smoke.mjs';
 import { BUDGET, makeRequest, mockOutput, validateOutput, validateSelection } from './n09-contract.mjs';
+import { fingerprintSources } from './n09-source-state.mjs';
+import { detailBundle } from './rea-detail.mjs';
 
 const sha = value => createHash('sha256').update(value).digest('hex');
 const now = () => new Date().toISOString();
@@ -28,9 +30,10 @@ function excerpt(text, limit) {
 }
 export async function prepareRun({ condition, pcapPath, binaryPath, resultPath,
   execution = 'prepare', experiment = 'practice', env = process.env,
-  runCommand = defaultRunCommand } = {}) {
+  runCommand = defaultRunCommand, packetFormat = 'tcpdump', binaryDetails = false } = {}) {
   // Reject A+binary before reading any input or creating a result.
   validateSelection({ condition, binaryPath, execution, experiment });
+  if (!['tcpdump','tcp-streams-v1'].includes(packetFormat)) throw fault('PACKET_FORMAT', 'Use tcpdump or tcp-streams-v1');
   if (!pcapPath || !resultPath) throw fault('USAGE', 'PCAP and a new output JSON path are required');
   const output = path.resolve(resultPath);
   if ([pcapPath, binaryPath].filter(Boolean).some(x => path.resolve(x) === output))
@@ -71,6 +74,7 @@ export async function prepareRun({ condition, pcapPath, binaryPath, resultPath,
   };
   try {
     await stage('input', async () => {
+      result.runtime.source_fingerprint = await fingerprintSources();
       result.input.pcap = await snapshot(pcapPath);
       // Snapshot the selected binary only in B. No directory scan, README or hidden-answer lookup.
       if (condition === 'B') result.input.binary = await snapshot(binaryPath);
@@ -97,9 +101,25 @@ export async function prepareRun({ condition, pcapPath, binaryPath, resultPath,
         throw fault('PACKET_COMMAND_FAILED', 'tcpdump failed; inspect retained artifacts');
       if ((await stat(filename)).size > MAX_INPUT_BYTES) throw fault('PACKET_OUTPUT_LIMIT', 'Packet dump exceeded 16 MiB; raw file retained');
       if ((await snapshot(pcapPath)).sha256 !== result.input.pcap.sha256) throw fault('INPUT_CHANGED', 'PCAP changed during extraction');
-      const raw = await readFile(filename, 'utf8');
+      let raw = await readFile(filename, 'utf8'), rawFile = filename;
+      if (packetFormat === 'tcp-streams-v1') {
+        const streamPath = path.join(artifacts,'packet.streams.json'), streamError = path.join(artifacts,'packet.streams.stderr');
+        const streamArgs = ['scripts/pcap-tcp-streams.py','--pcap',result.input.pcap.path];
+        const streams = await runCommand('python3',streamArgs,{env:safeEnv,timeoutMs:30000,stdoutPath:streamPath,stderrPath:streamError});
+        for (const [target,value] of [[streamPath,streams.stdout],[streamError,streams.stderr]]) {
+          try {await saveText(target,value||'');}catch(error){if(error.code!=='EEXIST')throw error;}
+        }
+        if (streams.exitCode!==0||streams.timedOut||streams.spawnError)throw fault('STREAM_EXTRACTION_FAILED','TCP stream extraction failed; raw evidence retained');
+        if ((await stat(streamPath)).size>MAX_INPUT_BYTES)throw fault('PACKET_OUTPUT_LIMIT','Stream output exceeded 16 MiB');
+        raw = await readFile(streamPath,'utf8');rawFile = streamPath;
+        const parsed = JSON.parse(raw);
+        if (parsed.pcap_sha256!==result.input.pcap.sha256 || (await snapshot(pcapPath)).sha256!==result.input.pcap.sha256)
+          throw fault('INPUT_CHANGED','PCAP changed during stream extraction');
+        result.runtime.stream_command={argv:['python3',...streamArgs],exit_code:streams.exitCode,stdout:streamPath,stderr:streamError};
+      }
+      result.runtime.packet_format=packetFormat;
       packet = { id: 'packet-1', source: 'packet', ...excerpt(raw, BUDGET.packet_evidence_bytes) };
-      result.evidence.push({ ...packet, raw_file: filename });
+      result.evidence.push({ ...packet, raw_file: rawFile });
     });
     let binary = null;
     if (condition === 'B') await stage('binary_evidence', async () => {
@@ -112,10 +132,16 @@ export async function prepareRun({ condition, pcapPath, binaryPath, resultPath,
           (await snapshot(binaryPath)).sha256 !== result.input.binary.sha256)
         throw fault('INPUT_CHANGED', 'Binary changed during preparation');
       // N05 validates the Ghidra Evidence envelope and its subject digest against the selected binary.
-      const raw = await readFile(rea.evidence.raw_file, 'utf8');
+      let raw = await readFile(rea.evidence.raw_file, 'utf8'), rawFile=rea.evidence.raw_file;
+      if(binaryDetails) {
+        const bundle=await detailBundle({binaryPath:result.input.binary.path,binarySha:rea.input.sha256,
+          overviewPath:rea.evidence.raw_file,artifacts,runCommand,env:safeEnv});
+        raw=JSON.stringify(bundle,null,2);rawFile=path.join(artifacts,'binary.bundle.json');
+        await saveText(rawFile,raw);result.runtime.rea_detail_profile=bundle.profile;
+      }
       binary = { id: 'binary-1', source: 'binary', ...excerpt(raw, BUDGET.binary_evidence_bytes) };
-      result.evidence.push({ ...binary, raw_file: rea.evidence.raw_file,
-        subject_sha256: rea.input.sha256, operation: rea.evidence.validation.operation });
+      result.evidence.push({ ...binary, raw_file: rawFile,
+        subject_sha256: rea.input.sha256, operation: binaryDetails?'rea-evidence-bundle-v1':rea.evidence.validation.operation });
     });
     let request;
     await stage('request_template', async () => {
@@ -131,6 +157,10 @@ export async function prepareRun({ condition, pcapPath, binaryPath, resultPath,
       result.spec = mock.spec; result.observations = mock.observations; result.unknowns = mock.unknowns;
       result.verification = { exact_quotes: matches, semantic_review: 'pending', actual_protocol_reconstruction: false };
     });
+    await stage('source_verification', async () => {
+      if ((await fingerprintSources()).sha256 !== result.runtime.source_fingerprint.sha256)
+        throw fault('CODE_CHANGED', 'Runner source files changed during preparation; start a new run');
+    });
     result.stage = 'complete'; result.success = true;
   } catch (error) {
     result.error = { stage: result.stage, code: error.code || error.name, message: redact(error.message) };
@@ -141,7 +171,7 @@ export async function prepareRun({ condition, pcapPath, binaryPath, resultPath,
 }
 export function parseArgs(argv) {
   const names = { '--condition': 'condition', '--pcap': 'pcapPath', '--binary': 'binaryPath',
-    '--out': 'resultPath', '--execution': 'execution', '--experiment': 'experiment' };
+    '--out': 'resultPath', '--execution': 'execution', '--experiment': 'experiment', '--packet-format': 'packetFormat' };
   const options = {};
   for (let index = 0; index < argv.length; index += 2) {
     const key = names[argv[index]], value = argv[index + 1];
