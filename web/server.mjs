@@ -6,6 +6,7 @@ import { resolve } from "node:path";
 import { createApp } from "./lib/app.mjs";
 import { createPracticeServer } from "./lib/practice-server.mjs";
 import { loadSpec } from "./lib/protocol.mjs";
+import { DEFAULT_ANALYSES, loadAnalyses } from "./lib/recovered.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const spec = loadSpec(resolve(root, "web/spec/n06-practice.json"));
@@ -28,8 +29,13 @@ const practiceServer = createPracticeServer({
 const started = await practiceServer.start();
 log({ level: started.state === "running" ? "info" : "error", message: "practice server", server: practiceServer.snapshot() });
 
+// N12: 복원 명세 목록. N12_ANALYSES에 저장소 기준 경로를 쉼표로 적으면 바꿀 수 있다(서버 시작 때만).
+const analysisFiles = process.env.N12_ANALYSES ? process.env.N12_ANALYSES.split(",").map((p) => p.trim()).filter(Boolean) : DEFAULT_ANALYSES;
+const analyses = loadAnalyses(root, analysisFiles);
+log({ level: "info", message: "N12 analyses", analyses: analyses.map((a) => ({ id: a.id, file: a.file, runnable: a.runnable, problems: a.problems })) });
+
 const app = createApp({
-  root, spec, practiceServer, log,
+  root, spec, practiceServer, log, analyses,
   target: { host: "127.0.0.1", port: serverPort }, // 요청으로 바꿀 수 없다
   publicDir: resolve(root, "web/public"),
 });

@@ -1,0 +1,249 @@
+{
+  "n12_fixture": {
+    "purpose": "N12 web: public practice recovered specification (copied, not edited)",
+    "source_file": "docs/evidence/N05-N09-Gemini-integration-2026-11-17.json",
+    "source_sha256": "f42507befce56a8937f011ff338751d2dbf78b2d7cff97dcbeb568140713f084",
+    "json_path": "final_pilot.conditions[0].analysis",
+    "condition": "A",
+    "recorded_spec_sha256": "c8cfc850d27e28bdf0084e634407efe31551acead8c168ed69e0966dd4e2c844",
+    "recorded_bridge_success": true
+  },
+  "analysis": {
+    "analysis_run_id": "aa60c508-96bb-4213-82cb-9220cbbeaf0c",
+    "preparation_run_id": "679ed3af-fe34-43a1-a120-ee0298ae25b7",
+    "started_at": "2026-11-17T06:51:34.612Z",
+    "finished_at": "2026-11-17T06:51:38.080Z",
+    "success": true,
+    "model_called": true,
+    "experiment_score": false,
+    "runtime": {
+      "node": "v24.22.1",
+      "platform": "linux",
+      "arch": "x64",
+      "timeout_ms": 120000,
+      "execution_backend": "real",
+      "runner_sha256": "dc8bf90b6626a13705d3a1bf16d999e193da3b80ed896a1efd5a605f5238f7f3",
+      "source_fingerprint": {
+        "algorithm": "sha256",
+        "files": [
+          {
+            "path": "scripts/rea-smoke.mjs",
+            "bytes": 21603,
+            "sha256": "7dc620eea987479df9f5886991769b64a8dfee75a46a8a7306b8d3c3695b0ec1"
+          },
+          {
+            "path": "scripts/n09-contract.mjs",
+            "bytes": 5484,
+            "sha256": "24bfb63a72ccfc67cb37db68c9c10492c83b972f4426c490d214fd12e5b92a0e"
+          },
+          {
+            "path": "scripts/n09-prepare.mjs",
+            "bytes": 12924,
+            "sha256": "5317feb6979663fee4272f6d3e7a2a4dd3dc656a5f6b71c03adfd57855d9d51f"
+          },
+          {
+            "path": "scripts/n09-live.mjs",
+            "bytes": 16955,
+            "sha256": "dc8bf90b6626a13705d3a1bf16d999e193da3b80ed896a1efd5a605f5238f7f3"
+          },
+          {
+            "path": "scripts/n09-check-pair.mjs",
+            "bytes": 5799,
+            "sha256": "940650cc230dfc5bf34e37272de5da9f7f163cb61851215ae4ac0f38d69e11f3"
+          },
+          {
+            "path": "scripts/n09-source-state.mjs",
+            "bytes": 893,
+            "sha256": "ad870192603f081e9cc4539e24c4b9a7c1a8414131b020d23597dba85f0a0843"
+          },
+          {
+            "path": "scripts/wire-spec.mjs",
+            "bytes": 8276,
+            "sha256": "65e72bda2f8f1e69fb25088ff8b249cd216cefe8a7fe6f143a3a480ef190acf3"
+          },
+          {
+            "path": "scripts/n12-practice-bridge.mjs",
+            "bytes": 5623,
+            "sha256": "28bc8078bad3dba67e8af118aeb2dad22270874030890505fa0ccf9215966a6a"
+          },
+          {
+            "path": "scripts/gemini-practice.mjs",
+            "bytes": 4930,
+            "sha256": "eede1abf09047948eddce1cb8020f78c8a36d4e9c965a9d7c43182aacb4d289b"
+          },
+          {
+            "path": "scripts/gemini-pilot.mjs",
+            "bytes": 1985,
+            "sha256": "6f1113af571cd7055bfd21dc611c0f3b43fd39a0f89b53d6683d849644cf1e7a"
+          },
+          {
+            "path": "scripts/pcap-tcp-streams.py",
+            "bytes": 5452,
+            "sha256": "1bc45040c6b3e5a67c1ea176854e2e0abbdcfaa5aa789dc1b4053131a40ec007"
+          },
+          {
+            "path": "scripts/rea-detail.mjs",
+            "bytes": 4410,
+            "sha256": "b2e9de5e0b2618ad86b92e5a2f6f28e98798c16530e6ce697bd34a740866a4c9"
+          }
+        ],
+        "sha256": "6b2498cfea5a42d20a8396fc30a1526011f683b82db88895a7b9d69369544ca1"
+      },
+      "preparation_code_dirty": false
+    },
+    "model": {
+      "requested": "gemini-3.5-flash-lite",
+      "returned": "gemini-3.5-flash-lite",
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+      "operator_confirmed": false
+    },
+    "budget": {
+      "model_calls": 2,
+      "max_output_tokens_per_call": 4096,
+      "model_timeout_ms": 120000,
+      "packet_evidence_bytes": 65536,
+      "binary_evidence_bytes": 24576,
+      "server_queries": 0
+    },
+    "usage": {
+      "api_requests": 1,
+      "reported": true,
+      "prompt_tokens": 2436,
+      "completion_tokens": 858,
+      "total_tokens": 3294,
+      "provider": {
+        "completion_tokens": 858,
+        "prompt_tokens": 2436,
+        "total_tokens": 3294
+      }
+    },
+    "input": {
+      "selected": [
+        {
+          "path": "/work/practice/n06/normal-sessions.pcap",
+          "sha256": "e9b5650cd8aab5f0480a1b99740af67e7713f5083f5a58c0acaa5535207bd698"
+        }
+      ],
+      "raw_evidence": [
+        {
+          "path": "/work/runs/gemini/2026-11-17T06-51-02-946Z/A-prepare.json.artifacts-68bbdada-afbb-4ddc-9bf8-cff536d218bb/packet.streams.json",
+          "sha256": "afa81b79ed091d63d4d334a489dfca0ea3968bcb48e0cb1389cb2db1d703c0f6"
+        }
+      ]
+    },
+    "request_sha256": "06c5e9e8c12c052d6ac37f896596299d5ab645c2bf99c81e2d75e405d5bd4d3e",
+    "system_prompt_sha256": "57c0c94824ccbf0249c6b2cea32bc6a29860b3d100236d46a757f3fc04d26b27",
+    "spec": {
+      "format": "wire-spec-v1",
+      "transport": "tcp",
+      "request": {
+        "fields": [
+          {
+            "name": "magic",
+            "type": "const",
+            "hex": "4242"
+          },
+          {
+            "name": "version_or_type",
+            "type": "const",
+            "hex": "0101"
+          },
+          {
+            "name": "arg_length",
+            "type": "length",
+            "bytes": 2,
+            "endian": "big",
+            "of": "arguments"
+          },
+          {
+            "name": "arguments",
+            "type": "uint_array",
+            "bytes": 2,
+            "endian": "big"
+          }
+        ]
+      },
+      "response": {
+        "fields": [
+          {
+            "name": "magic",
+            "type": "const",
+            "hex": "4242"
+          },
+          {
+            "name": "version_or_type",
+            "type": "const",
+            "hex": "0181"
+          },
+          {
+            "name": "result_length",
+            "type": "length",
+            "bytes": 2,
+            "endian": "big",
+            "of": "result_value"
+          },
+          {
+            "name": "result_value",
+            "type": "uint",
+            "bytes": 4,
+            "endian": "big"
+          }
+        ]
+      },
+      "semantics": "Clients send requests with magic 0x4242, command/version 0x0101, a 16-bit big-endian byte length, and an array of 16-bit big-endian integer arguments. The server responds with magic 0x4242, status/response header 0x0181, a 16-bit big-endian length (0x0004), and a 32-bit big-endian integer result. In session 3, an error status code 0x0001 is observed in the response result field alongside a negative result value, whereas successful requests show 0x0000."
+    },
+    "observations": [
+      {
+        "claim": "Session 1 client request payload starts with magic 4242 and version/command 0101 followed by length and arguments.",
+        "evidence_id": "packet-1",
+        "quote": "424201010006000100020003"
+      },
+      {
+        "claim": "Session 1 server response payload starts with magic 4242 and response header 0181.",
+        "evidence_id": "packet-1",
+        "quote": "42420181000400000006"
+      },
+      {
+        "claim": "Session 3 server response exhibits an error status code 0001 in the upper 16 bits of the 4-byte result field.",
+        "evidence_id": "packet-1",
+        "quote": "4242018100040001fffe"
+      }
+    ],
+    "unknowns": [
+      "The exact mathematical operation performed by the server on the input arguments to produce the result value.",
+      "The full enumeration of possible command codes and error codes beyond 0x0101 and status codes 0x0000/0x0001."
+    ],
+    "verification": {
+      "exact_quotes": [
+        {
+          "evidence_id": "packet-1",
+          "source": "packet",
+          "quote_start_character": 338,
+          "quote_end_character": 362,
+          "exact_match": true,
+          "semantic_review": "pending"
+        },
+        {
+          "evidence_id": "packet-1",
+          "source": "packet",
+          "quote_start_character": 564,
+          "quote_end_character": 584,
+          "exact_match": true,
+          "semantic_review": "pending"
+        },
+        {
+          "evidence_id": "packet-1",
+          "source": "packet",
+          "quote_start_character": 1770,
+          "quote_end_character": 1790,
+          "exact_match": true,
+          "semantic_review": "pending"
+        }
+      ],
+      "semantic_review": "pending",
+      "grading": "pending",
+      "executable_spec_compatibility": "pending",
+      "actual_protocol_reconstruction_confirmed": false
+    }
+  }
+}

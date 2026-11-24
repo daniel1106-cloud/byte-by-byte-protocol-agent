@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Byte by Byte · N04·N08 웹 클라이언트</title>
+  <title>Byte by Byte · N04·N08·N12 웹 클라이언트</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <header class="top">
-    <h1>Byte by Byte <span class="muted">· N04·N08 웹 클라이언트</span></h1>
+    <h1>Byte by Byte <span class="muted">· N04·N08·N12 웹 클라이언트</span></h1>
     <p class="banner" id="practice-banner">연습용 명세(<code>practice/n06</code>) · 연습 결과이며 본 실험 점수가 아닙니다.</p>
     <div id="server-status" class="status" role="status">서버 상태를 확인하는 중…</div>
   </header>
@@ -63,6 +63,80 @@
             </thead>
             <tbody></tbody>
           </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="n12-title">
+      <h2 id="n12-title">3. 복원 명세로 통신 (N12)</h2>
+      <p class="banner" id="n12-banner">공개 연습 · LLM이 복원한 명세(wire-spec-v1) · 본 실험 점수가 아닙니다.</p>
+      <p>위 1·2번은 사람이 README에서 옮긴 명세를 씁니다. 여기서는 <strong>모델이 패킷(A) 또는 패킷+바이너리(B)만 보고 복원한 명세</strong>로 같은 서버와 통신합니다. 분석 파일 목록은 서버 시작 때 정해지며 화면에서 경로를 바꿀 수 없습니다.</p>
+      <div class="chips" id="n12-list" role="radiogroup" aria-label="분석 선택"></div>
+      <p class="hint" id="n12-empty" hidden>불러온 분석이 없습니다.</p>
+
+      <div id="n12-detail" hidden>
+        <dl class="facts" id="n12-meta"></dl>
+        <ul class="problems" id="n12-problems" hidden></ul>
+        <h4>복원 명세 필드</h4>
+        <div class="table-wrap">
+          <table id="n12-fields">
+            <thead><tr><th>방향</th><th>이름</th><th>종류</th><th>바이트</th><th>엔디안</th><th>상수 hex / 길이 대상</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <details>
+          <summary>모델의 설명·모르는 것·근거 인용</summary>
+          <h4>semantics</h4>
+          <p id="n12-semantics"></p>
+          <h4>unknowns (모델이 모른다고 한 것)</h4>
+          <ul id="n12-unknowns"></ul>
+          <h4>observations (주장 · 근거 id · 원문 인용)</h4>
+          <ul class="observations" id="n12-observations"></ul>
+        </details>
+
+        <form id="n12-form" autocomplete="off">
+          <label for="n12-numbers" id="n12-label">입력 숫자</label>
+          <div class="row">
+            <input id="n12-numbers" name="n12-numbers" type="text" value="1 2 3" inputmode="numeric" spellcheck="false">
+            <button type="submit" id="n12-send">복원 명세로 전송</button>
+          </div>
+          <p class="hint" id="n12-limit"></p>
+          <p class="hint" id="n12-error" role="alert" hidden></p>
+        </form>
+
+        <div id="n12-result" hidden>
+          <h3>결과</h3>
+          <div class="outcome" id="n12-outcome"></div>
+          <div class="big" id="n12-headline"></div>
+          <dl class="facts" id="n12-facts"></dl>
+          <h4>요청 (hex, 복원 명세 필드별)</h4>
+          <div class="bytes" id="n12-request-bytes"></div>
+          <h4>응답 (hex)</h4>
+          <div class="bytes" id="n12-response-bytes"></div>
+          <div class="outside" id="n12-outside" hidden>
+            <p><strong>복원 명세로 해석할 수 없는 응답입니다.</strong> 네트워크 실패가 아니라, 서버가 보낸 바이트가 모델이 복원한 형식과 다릅니다. 서버 오류 응답처럼 명세에 없는 메시지일 수 있습니다.</p>
+            <p class="hint" id="n12-outside-reason"></p>
+            <p class="hint">모델이 모른다고 한 것:</p>
+            <ul id="n12-outside-unknowns"></ul>
+          </div>
+          <ul class="notes" id="n12-notes"></ul>
+        </div>
+
+        <h3>공개 연습 오라클로 평가</h3>
+        <p>모델 입력에 포함되지 않은 <code>practice/n06/client-vectors.json</code>의 새 입력 5개를 복원 명세로 만들고, 한 번에·바이트별·3바이트 뒤 분할 전송해 15개 케이스를 N07로 평가합니다(<code>scripts/n12-practice-bridge.mjs</code>와 같은 케이스). 같은 서버(<code>--target 127.0.0.1:19006</code>)를 씁니다.</p>
+        <div class="row">
+          <button type="button" id="n12-eval">평가 실행 (15개 케이스)</button>
+          <span class="muted" id="n12-eval-progress"></span>
+        </div>
+        <div id="n12-eval-result" hidden>
+          <div class="chips" id="n12-eval-summary"></div>
+          <dl class="facts" id="n12-eval-facts"></dl>
+          <div class="table-wrap">
+            <table id="n12-eval-table">
+              <thead><tr><th>케이스</th><th>verdict</th><th>기대 hex</th><th>실제 hex</th><th>복원 명세로 해석</th><th>오류</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>

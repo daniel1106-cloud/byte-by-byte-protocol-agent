@@ -1,0 +1,328 @@
+{
+  "n12_fixture": {
+    "purpose": "N12 web: public practice recovered specification (copied, not edited)",
+    "source_file": "docs/evidence/N05-N09-Gemini-integration-2026-11-17.json",
+    "source_sha256": "f42507befce56a8937f011ff338751d2dbf78b2d7cff97dcbeb568140713f084",
+    "json_path": "final_pilot.conditions[1].analysis",
+    "condition": "B",
+    "recorded_spec_sha256": "3180c54fcedb11aca174d252e6d4a9c68a5573bbaf9d8849d138a08b6caeff63",
+    "recorded_bridge_success": true
+  },
+  "analysis": {
+    "analysis_run_id": "80ea5edf-7d05-4cd1-b58b-0af8162e300d",
+    "preparation_run_id": "a6149d0b-9090-4dea-8460-6f74e40f35a0",
+    "started_at": "2026-11-17T06:51:38.730Z",
+    "finished_at": "2026-11-17T06:51:42.486Z",
+    "success": true,
+    "model_called": true,
+    "experiment_score": false,
+    "runtime": {
+      "node": "v24.22.1",
+      "platform": "linux",
+      "arch": "x64",
+      "timeout_ms": 120000,
+      "execution_backend": "real",
+      "runner_sha256": "dc8bf90b6626a13705d3a1bf16d999e193da3b80ed896a1efd5a605f5238f7f3",
+      "source_fingerprint": {
+        "algorithm": "sha256",
+        "files": [
+          {
+            "path": "scripts/rea-smoke.mjs",
+            "bytes": 21603,
+            "sha256": "7dc620eea987479df9f5886991769b64a8dfee75a46a8a7306b8d3c3695b0ec1"
+          },
+          {
+            "path": "scripts/n09-contract.mjs",
+            "bytes": 5484,
+            "sha256": "24bfb63a72ccfc67cb37db68c9c10492c83b972f4426c490d214fd12e5b92a0e"
+          },
+          {
+            "path": "scripts/n09-prepare.mjs",
+            "bytes": 12924,
+            "sha256": "5317feb6979663fee4272f6d3e7a2a4dd3dc656a5f6b71c03adfd57855d9d51f"
+          },
+          {
+            "path": "scripts/n09-live.mjs",
+            "bytes": 16955,
+            "sha256": "dc8bf90b6626a13705d3a1bf16d999e193da3b80ed896a1efd5a605f5238f7f3"
+          },
+          {
+            "path": "scripts/n09-check-pair.mjs",
+            "bytes": 5799,
+            "sha256": "940650cc230dfc5bf34e37272de5da9f7f163cb61851215ae4ac0f38d69e11f3"
+          },
+          {
+            "path": "scripts/n09-source-state.mjs",
+            "bytes": 893,
+            "sha256": "ad870192603f081e9cc4539e24c4b9a7c1a8414131b020d23597dba85f0a0843"
+          },
+          {
+            "path": "scripts/wire-spec.mjs",
+            "bytes": 8276,
+            "sha256": "65e72bda2f8f1e69fb25088ff8b249cd216cefe8a7fe6f143a3a480ef190acf3"
+          },
+          {
+            "path": "scripts/n12-practice-bridge.mjs",
+            "bytes": 5623,
+            "sha256": "28bc8078bad3dba67e8af118aeb2dad22270874030890505fa0ccf9215966a6a"
+          },
+          {
+            "path": "scripts/gemini-practice.mjs",
+            "bytes": 4930,
+            "sha256": "eede1abf09047948eddce1cb8020f78c8a36d4e9c965a9d7c43182aacb4d289b"
+          },
+          {
+            "path": "scripts/gemini-pilot.mjs",
+            "bytes": 1985,
+            "sha256": "6f1113af571cd7055bfd21dc611c0f3b43fd39a0f89b53d6683d849644cf1e7a"
+          },
+          {
+            "path": "scripts/pcap-tcp-streams.py",
+            "bytes": 5452,
+            "sha256": "1bc45040c6b3e5a67c1ea176854e2e0abbdcfaa5aa789dc1b4053131a40ec007"
+          },
+          {
+            "path": "scripts/rea-detail.mjs",
+            "bytes": 4410,
+            "sha256": "b2e9de5e0b2618ad86b92e5a2f6f28e98798c16530e6ce697bd34a740866a4c9"
+          }
+        ],
+        "sha256": "6b2498cfea5a42d20a8396fc30a1526011f683b82db88895a7b9d69369544ca1"
+      },
+      "preparation_code_dirty": false
+    },
+    "model": {
+      "requested": "gemini-3.5-flash-lite",
+      "returned": "gemini-3.5-flash-lite",
+      "endpoint": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+      "operator_confirmed": false
+    },
+    "budget": {
+      "model_calls": 2,
+      "max_output_tokens_per_call": 4096,
+      "model_timeout_ms": 120000,
+      "packet_evidence_bytes": 65536,
+      "binary_evidence_bytes": 24576,
+      "server_queries": 0
+    },
+    "usage": {
+      "api_requests": 1,
+      "reported": true,
+      "prompt_tokens": 8947,
+      "completion_tokens": 1203,
+      "total_tokens": 10150,
+      "provider": {
+        "completion_tokens": 1203,
+        "prompt_tokens": 8947,
+        "total_tokens": 10150
+      }
+    },
+    "input": {
+      "selected": [
+        {
+          "path": "/work/practice/n06/normal-sessions.pcap",
+          "sha256": "e9b5650cd8aab5f0480a1b99740af67e7713f5083f5a58c0acaa5535207bd698"
+        },
+        {
+          "path": "/work/runs/gemini/2026-11-17T06-51-02-946Z/practice-server",
+          "sha256": "d6cd6d971030e34601c2953fd71eceef7ac4fab0c8f0dde285a51a04ab040067"
+        }
+      ],
+      "raw_evidence": [
+        {
+          "path": "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-prepare.json.artifacts-4730f34c-4fb8-47fe-8270-50e3332dbbec/packet.streams.json",
+          "sha256": "afa81b79ed091d63d4d334a489dfca0ea3968bcb48e0cb1389cb2db1d703c0f6"
+        },
+        {
+          "path": "/work/runs/gemini/2026-11-17T06-51-02-946Z/B-prepare.json.artifacts-4730f34c-4fb8-47fe-8270-50e3332dbbec/binary.bundle.json",
+          "sha256": "65f838b53d8c5ec3d4faf86ab9ec8b19bbd51473e091f02e929e8c3a2ceb62d4"
+        }
+      ]
+    },
+    "request_sha256": "1f0f1bf483bf8cf9a50888fcba8499a841252eeb15e554607a66ab535bd9ec93",
+    "system_prompt_sha256": "57c0c94824ccbf0249c6b2cea32bc6a29860b3d100236d46a757f3fc04d26b27",
+    "spec": {
+      "format": "wire-spec-v1",
+      "transport": "tcp",
+      "request": {
+        "fields": [
+          {
+            "name": "magic1",
+            "type": "const",
+            "hex": "42"
+          },
+          {
+            "name": "magic2",
+            "type": "const",
+            "hex": "42"
+          },
+          {
+            "name": "version",
+            "type": "const",
+            "hex": "01"
+          },
+          {
+            "name": "command",
+            "type": "const",
+            "hex": "01"
+          },
+          {
+            "name": "payload_len",
+            "type": "length",
+            "bytes": 2,
+            "endian": "big",
+            "of": "data"
+          },
+          {
+            "name": "data",
+            "type": "uint_array",
+            "bytes": 2,
+            "endian": "big"
+          }
+        ]
+      },
+      "response": {
+        "fields": [
+          {
+            "name": "magic1",
+            "type": "const",
+            "hex": "42"
+          },
+          {
+            "name": "magic2",
+            "type": "const",
+            "hex": "42"
+          },
+          {
+            "name": "version",
+            "type": "const",
+            "hex": "01"
+          },
+          {
+            "name": "status",
+            "type": "const",
+            "hex": "81"
+          },
+          {
+            "name": "resp_len",
+            "type": "length",
+            "bytes": 2,
+            "endian": "big",
+            "of": "result"
+          },
+          {
+            "name": "result",
+            "type": "uint",
+            "bytes": 4,
+            "endian": "big"
+          }
+        ]
+      },
+      "semantics": "The server reads a 6-byte header consisting of two magic bytes 'B' (0x42), version 0x01, command 0x01, and a 2-byte big-endian payload length. The payload length must be an even number strictly less than 0x41. The server then reads the payload as an array of 2-byte big-endian integers, sums them pairwise as 16-bit values, and returns a 10-byte response containing magic bytes 'B', 'B', version 0x01, status 0x81, a 2-byte length (0x0004), and a 4-byte big-endian sum result. Error conditions send an error response with error codes 1, 2, 3, or 4."
+    },
+    "observations": [
+      {
+        "claim": "The server receives a 6-byte header to begin parsing the request.",
+        "evidence_id": "binary-1",
+        "quote": "iVar1 = recv_exact(param_1,&local_68,6);"
+      },
+      {
+        "claim": "The first two bytes of the request must be 'B' and 'B'.",
+        "evidence_id": "binary-1",
+        "quote": "if ((local_68 == 'B') && (local_67 == 'B')) {"
+      },
+      {
+        "claim": "The payload length is retrieved as a 2-byte big-endian integer.",
+        "evidence_id": "binary-1",
+        "quote": "uVar2 = (ulong)CONCAT11(local_64,local_63);"
+      },
+      {
+        "claim": "The payload length must be even and less than 0x41.",
+        "evidence_id": "binary-1",
+        "quote": "if (((local_63 & 1) == 0) && (uVar2 < 0x41)) {"
+      },
+      {
+        "claim": "The server reads the payload data based on the length.",
+        "evidence_id": "binary-1",
+        "quote": "iVar1 = recv_exact(param_1,local_58,uVar2);"
+      },
+      {
+        "claim": "The server processes the payload in 2-byte chunks, summing them up.",
+        "evidence_id": "binary-1",
+        "quote": "for (local_78 = 0; local_78 < uVar2; local_78 = local_78 + 2) {"
+      },
+      {
+        "claim": "The server sends a 10-byte response back to the client.",
+        "evidence_id": "binary-1",
+        "quote": "send_all(param_1,&local_62,10);"
+      }
+    ],
+    "unknowns": [
+      "The exact protocol definition for error responses sent by send_error beyond their integer error codes 1, 2, 3, and 4."
+    ],
+    "verification": {
+      "exact_quotes": [
+        {
+          "evidence_id": "binary-1",
+          "source": "binary",
+          "quote_start_character": 11069,
+          "quote_end_character": 11109,
+          "exact_match": true,
+          "semantic_review": "pending"
+        },
+        {
+          "evidence_id": "binary-1",
+          "source": "binary",
+          "quote_start_character": 11136,
+          "quote_end_character": 11181,
+          "exact_match": true,
+          "semantic_review": "pending"
+        },
+        {
+          "evidence_id": "binary-1",
+          "source": "binary",
+          "quote_start_character": 11263,
+          "quote_end_character": 11306,
+          "exact_match": true,
+          "semantic_review": "pending"
+        },
+        {
+          "evidence_id": "binary-1",
+          "source": "binary",
+          "quote_start_character": 11318,
+          "quote_end_character": 11364,
+          "exact_match": true,
+          "semantic_review": "pending"
+        },
+        {
+          "evidence_id": "binary-1",
+          "source": "binary",
+          "quote_start_character": 11378,
+          "quote_end_character": 11421,
+          "exact_match": true,
+          "semantic_review": "pending"
+        },
+        {
+          "evidence_id": "binary-1",
+          "source": "binary",
+          "quote_start_character": 11497,
+          "quote_end_character": 11560,
+          "exact_match": true,
+          "semantic_review": "pending"
+        },
+        {
+          "evidence_id": "binary-1",
+          "source": "binary",
+          "quote_start_character": 12111,
+          "quote_end_character": 12142,
+          "exact_match": true,
+          "semantic_review": "pending"
+        }
+      ],
+      "semantic_review": "pending",
+      "grading": "pending",
+      "executable_spec_compatibility": "pending",
+      "actual_protocol_reconstruction_confirmed": false
+    }
+  }
+}

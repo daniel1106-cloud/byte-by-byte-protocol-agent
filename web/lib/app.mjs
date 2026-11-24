@@ -7,6 +7,7 @@ import { sendRequest } from "./client.mjs";
 import { DEFAULT_CASES, DEFAULT_EVALUATOR, runEvaluation } from "./evaluate.mjs";
 import { InputError } from "./protocol.mjs";
 import { BusyError, createSerialQueue } from "./queue.mjs";
+import { evaluateRecovered, oracleInfo, sendRecovered } from "./recovered.mjs";
 
 const MAX_BODY_BYTES = 4096;
 const WEB_MIN_COUNT = 1; // 웹 입력은 숫자 1~32개 (명세는 0개도 허용하지만 참고 클라이언트처럼 1개 이상)
@@ -83,10 +84,16 @@ function rejectUnknownKeys(body, allowed) {
  * options.practiceServer snapshot()을 가진 객체 (실행 상태)
  * options.publicDir     정적 파일 폴더
  * options.evaluator     테스트에서만 바꾸는 평가기 명령 배열 (요청으로는 바뀌지 않음)
+ * options.analyses      N12: 서버 시작 때 읽어 둔 복원 명세 목록(loadAnalyses 결과). 요청은 id만 고른다.
  */
-export function createApp({ root, spec, target, practiceServer, publicDir, evaluator = DEFAULT_EVALUATOR, evaluationTimeoutMs, sendTimeoutMs = 3000, log = () => {} }) {
+export function createApp({ root, spec, target, practiceServer, publicDir, evaluator = DEFAULT_EVALUATOR, evaluationTimeoutMs, sendTimeoutMs = 3000, analyses = [], log = () => {} }) {
   const queue = createSerialQueue({ maxPending: 8 });
-  const state = { latestEvaluation: null };
+  const state = { latestEvaluation: null, latestRecovered: {} };
+  const analysisById = new Map(analyses.map((entry) => [entry.id, entry]));
+  const findAnalysis = (id) => {
+    if (typeof id !== "string" || !analysisById.has(id)) throw new HttpError(404, "unknown_analysis", "목록에 없는 분석 id입니다. 분석 파일은 서버 시작 때 정해집니다.");
+    return analysisById.get(id);
+  };
 
   const specSummary = {
     name: spec.name, format: spec.format, classification: spec.classification,
@@ -153,6 +160,15 @@ export function createApp({ root, spec, target, practiceServer, publicDir, evalu
         });
       }
       if (path === "/api/evaluate/latest") return sendJson(res, 200, { evaluation: state.latestEvaluation });
+      if (path === "/api/n12") {
+        return sendJson(res, 200, {
+          classification: "public-practice-recovered-wire-client",
+          experiment_score: false,
+          oracle: oracleInfo(root),
+          analyses,
+          latest_evaluations: state.latestRecovered,
+        });
+      }
       throw new HttpError(404, "not_found", "없는 경로입니다.");
     }
 
@@ -190,6 +206,39 @@ export function createApp({ root, spec, target, practiceServer, publicDir, evalu
         }
         evaluation = { ...evaluation, server: serverInfo(snap), finished_at: new Date().toISOString() };
         state.latestEvaluation = evaluation;
+        return sendJson(res, 200, { evaluation });
+      }
+      if (path === "/api/n12/send") {
+        rejectUnknownKeys(body, ["analysis_id", "numbers"]);
+        const entry = findAnalysis(body.analysis_id);
+        const snap = requireServer();
+        let result;
+        try {
+          result = await queue.run(() => sendRecovered({ entry, numbers: body.numbers, host: target.host, port: target.port, timeoutMs: sendTimeoutMs }));
+        } catch (error) {
+          if (error instanceof InputError) throw new HttpError(400, "invalid_input", error.message);
+          if (error instanceof BusyError) throw new HttpError(429, "busy", error.message);
+          throw error;
+        }
+        return sendJson(res, 200, { result, server: serverInfo(snap) });
+      }
+
+      if (path === "/api/n12/evaluate") {
+        rejectUnknownKeys(body, ["analysis_id"]);
+        const entry = findAnalysis(body.analysis_id);
+        const snap = requireServer();
+        let evaluation;
+        try {
+          evaluation = await queue.run(() => evaluateRecovered({
+            root, entry, host: target.host, port: target.port, command: evaluator, timeoutMs: evaluationTimeoutMs,
+          }));
+        } catch (error) {
+          if (error instanceof InputError) throw new HttpError(400, "invalid_input", error.message);
+          if (error instanceof BusyError) throw new HttpError(429, "busy", error.message);
+          throw error;
+        }
+        evaluation = { ...evaluation, server: serverInfo(snap), finished_at: new Date().toISOString() };
+        state.latestRecovered[entry.id] = evaluation;
         return sendJson(res, 200, { evaluation });
       }
       throw new HttpError(404, "not_found", "없는 경로입니다.");
